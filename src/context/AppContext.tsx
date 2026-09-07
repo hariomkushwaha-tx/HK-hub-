@@ -71,7 +71,24 @@ const DEFAULT_PROFILE: UserProfile = {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [activeTab, setActiveTab] = useState<NavigationTab>('home');
+  const [activeTab, setActiveTab] = useState<NavigationTab>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const tabParam = params.get('tab') as NavigationTab | null;
+        const validTabs: NavigationTab[] = [
+          'home', 'technology', 'tech', 'ai', 'tools', 'ebooks', 
+          'students', 'coding', 'guides', 'updates', 'projects', 'myspace'
+        ];
+        if (tabParam && validTabs.includes(tabParam)) {
+          return tabParam;
+        }
+      } catch (e) {
+        // Fallback to default
+      }
+    }
+    return 'home';
+  });
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [activeToolId, setActiveToolId] = useState<string | null>('word-counter');
   const [activeGuideId, setActiveGuideId] = useState<string | null>(null);

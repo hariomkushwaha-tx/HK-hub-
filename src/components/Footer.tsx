@@ -266,10 +266,26 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          <p>© {new Date().getFullYear()} HK HUB. Learn. Explore. Create. Use. All rights reserved.</p>
-          <div className="flex items-center gap-4 text-slate-500">
+          <div className="flex flex-col gap-1.5 text-center sm:text-left">
+            <p className="text-slate-300 font-medium flex items-center justify-center sm:justify-start gap-1.5">
+              <span>Created with</span>
+              <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline shrink-0" />
+              <span>in India by <strong className="text-white font-semibold">Hariom Kushwaha</strong> (HK Tech World).</span>
+            </p>
+            <p className="text-slate-400 text-[11px] flex items-center justify-center sm:justify-start gap-1">
+              <span>Powered by <strong className="text-indigo-400 font-semibold">HK Tech World</strong></span>
+              <span>|</span>
+              <span>Developed with</span>
+              <Heart className="w-3 h-3 text-rose-500 fill-rose-500 inline shrink-0" />
+              <span>in India by <strong className="text-slate-300">Hariom Kushwaha</strong>.</span>
+            </p>
+            <p className="text-slate-500 text-[11px]">
+              © {new Date().getFullYear()} HK HUB. Learn. Explore. Create. Use. All rights reserved.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row items-center gap-3 text-slate-500 text-[11px]">
             <span>Client-Side In-Memory Processing</span>
-            <span>•</span>
+            <span className="hidden sm:inline">•</span>
             <span className="flex items-center gap-1 text-indigo-400">
               <ShieldCheck className="w-3.5 h-3.5" />
               Secure & Educational

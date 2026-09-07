@@ -90,9 +90,14 @@ export const LegalModals: React.FC = () => {
                 <li>Use 30+ free high-performance browser tools with zero server tracking</li>
                 <li>Showcase student and developer engineering projects to the community</li>
               </ul>
-              <p className="text-xs text-slate-400 pt-2 border-t border-slate-800">
-                Created with high craft and passion for the global student and developer community.
-              </p>
+              <div className="pt-3 border-t border-slate-800 space-y-1 text-xs">
+                <p className="text-slate-200 font-medium">
+                  Created with ❤️ in India by <strong>Hariom Kushwaha</strong> (HK Tech World).
+                </p>
+                <p className="text-slate-400">
+                  Powered by <strong>HK Tech World</strong> | Developed with ❤️ in India by Hariom Kushwaha.
+                </p>
+              </div>
             </div>
           )}
 
