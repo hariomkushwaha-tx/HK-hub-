@@ -2,6 +2,21 @@ import { ProjectItem } from '../types';
 
 export const INITIAL_PROJECTS: ProjectItem[] = [
   {
+    id: 'proj-hk-nexus-ai',
+    title: 'HK Nexus AI - Multimodal Intelligent Assistant',
+    description: 'All-in-one multimodal AI platform with AI Chat, Vision recognition, Image & Video generation, code debugging, math solver, and Hindi translation.',
+    authorName: 'Hariom Kushwaha',
+    authorUsername: 'hkdeveloperh',
+    category: 'AI Project',
+    technologies: ['Next.js', 'React', 'Generative AI', 'Tailwind CSS', 'Vercel'],
+    demoUrl: 'https://hk-nexus-ai.vercel.app',
+    liveDemoUrl: 'https://hk-nexus-ai.vercel.app',
+    repoUrl: 'https://github.com/hkdeveloperh',
+    likes: 142,
+    featured: true,
+    createdAt: 'Featured'
+  },
+  {
     id: 'proj-campus-tracker',
     title: 'Campus GPA & Attendance Forecaster',
     description: 'A web app for university students to track minimum attendance thresholds, calculate aggregate SGPA, and set automated study reminders.',

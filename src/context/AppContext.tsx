@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { NavigationTab, ProjectItem, UserProfile, BookOrder, ReadingProgress } from '../types';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { NavigationTab, ProjectItem, UserProfile, BookOrder, ReadingProgress, SupportedLanguage } from '../types';
 import { INITIAL_PROJECTS } from '../data/sampleProjects';
+import { t as translateFn } from '../utils/translations';
+import { initGoogleTranslate, triggerGoogleTranslate, resetGoogleTranslate } from '../utils/googleTranslate';
 
 interface AppContextType {
   activeTab: NavigationTab;
@@ -52,8 +54,16 @@ interface AppContextType {
   userProfile: UserProfile;
   updateUserProfile: (profile: Partial<UserProfile>) => void;
   updateProfile: (profile: Partial<UserProfile>) => void;
-  activeComplianceModal: 'privacy' | 'terms' | 'cookie' | 'disclaimer' | 'community' | 'about' | 'contact' | null;
-  setActiveComplianceModal: (modal: 'privacy' | 'terms' | 'cookie' | 'disclaimer' | 'community' | 'about' | 'contact' | null) => void;
+  activeComplianceModal: 'privacy' | 'terms' | 'cookie' | 'disclaimer' | 'community' | 'about' | 'contact' | 'security' | null;
+  setActiveComplianceModal: (modal: 'privacy' | 'terms' | 'cookie' | 'disclaimer' | 'community' | 'about' | 'contact' | 'security' | null) => void;
+  // Multi-Language Support
+  currentLanguage: SupportedLanguage;
+  setLanguage: (lang: SupportedLanguage) => void;
+  languageModalOpen: boolean;
+  setLanguageModalOpen: (open: boolean) => void;
+  fullPageTranslateActive: boolean;
+  setFullPageTranslateActive: (active: boolean) => void;
+  t: (key: string) => string;
 }
 
 const DEFAULT_PROFILE: UserProfile = {
@@ -96,7 +106,57 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeTechCategory, setActiveTechCategory] = useState<string>('smartphones');
   const [globalSearchOpen, setGlobalSearchOpen] = useState<boolean>(false);
   const [userModalOpen, setUserModalOpen] = useState<boolean>(false);
-  const [activeComplianceModal, setActiveComplianceModal] = useState<'privacy' | 'terms' | 'cookie' | 'disclaimer' | 'community' | 'about' | 'contact' | null>(null);
+  const [activeComplianceModal, setActiveComplianceModal] = useState<'privacy' | 'terms' | 'cookie' | 'disclaimer' | 'community' | 'about' | 'contact' | 'security' | null>(null);
+
+  // Multi-Language State
+  const [currentLanguage, setCurrentLanguageState] = useState<SupportedLanguage>(() => {
+    try {
+      const saved = localStorage.getItem('hkhub_language') as SupportedLanguage | null;
+      if (saved) return saved;
+    } catch {}
+    return 'hi'; // Default to Hindi as per user request
+  });
+
+  const [languageModalOpen, setLanguageModalOpen] = useState<boolean>(false);
+  const [fullPageTranslateActive, setFullPageTranslateActive] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('hkhub_fullpage_translate') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  // On mount, initialize Google Translate element
+  useEffect(() => {
+    initGoogleTranslate();
+  }, []);
+
+  const setLanguage = useCallback((lang: SupportedLanguage) => {
+    setCurrentLanguageState(lang);
+    try {
+      localStorage.setItem('hkhub_language', lang);
+    } catch (e) {}
+
+    // Synchronize Google Translate if active
+    if (fullPageTranslateActive || lang !== 'en') {
+      triggerGoogleTranslate(lang);
+    } else {
+      resetGoogleTranslate();
+    }
+  }, [fullPageTranslateActive]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('hkhub_fullpage_translate', fullPageTranslateActive ? 'true' : 'false');
+    } catch (e) {}
+    if (fullPageTranslateActive) {
+      triggerGoogleTranslate(currentLanguage);
+    }
+  }, [fullPageTranslateActive, currentLanguage]);
+
+  const t = useCallback((key: string) => {
+    return translateFn(key, currentLanguage);
+  }, [currentLanguage]);
 
   // Unified bookmarks in localStorage
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(() => {
@@ -361,7 +421,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const newOrder: BookOrder = {
         id: order.id || `ORD-${Math.floor(10000 + Math.random() * 90000)}`,
         bookId,
-        bookTitle: order.bookTitle || 'HK HUB Digital Book',
+        bookTitle: order.bookTitle || 'HK VELORA Digital Book',
         amount: order.amount,
         date: order.date || 'Just now',
         status: 'Paid',
@@ -460,7 +520,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         updateUserProfile,
         updateProfile: updateUserProfile,
         activeComplianceModal,
-        setActiveComplianceModal
+        setActiveComplianceModal,
+        currentLanguage,
+        setLanguage,
+        languageModalOpen,
+        setLanguageModalOpen,
+        fullPageTranslateActive,
+        setFullPageTranslateActive,
+        t
       }}
     >
       {children}

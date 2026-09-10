@@ -121,7 +121,7 @@ export const ToolsHub: React.FC = () => {
               <span>30+ Functional Free Utilities</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-slate-100 tracking-tight">
-              HK HUB Free Tools Suite
+              HK VELORA Free Tools Suite
             </h1>
             <p className="text-sm text-slate-400 leading-relaxed">
               Fast, high-performance web utilities for students, coders, and everyday users. All tools run directly in your browser with zero latency and 100% privacy.

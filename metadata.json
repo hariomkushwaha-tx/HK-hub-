@@ -1,6 +1,6 @@
 {
-  "name": "HK HUB — Technology & Student Platform",
-  "description": "Next-generation Technology and Digital Platform for Students & Developers — Everything Technology. One Smart Hub. Learn, Explore, Create, Use.",
+  "name": "HK VELORA — Technology & Student Platform",
+  "description": "Next-generation Technology and Digital Platform for Students & Developers — Everything Technology. One Smart Platform. Learn, Explore, Create, Use.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

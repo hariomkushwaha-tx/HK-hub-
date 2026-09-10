@@ -6,7 +6,7 @@ export const TECH_UPDATES_DATA: TechUpdate[] = [
     title: 'W3C Advances WebGPU Standardization for Next-Gen Browser Computing',
     summary: 'WebGPU brings low-overhead graphics and high-performance machine learning acceleration directly to web browsers across modern hardware.',
     category: 'Web',
-    source: 'HK HUB Tech Desk',
+    source: 'HK VELORA Tech Desk',
     date: 'September 2026',
     tag: 'Web Standards',
     readTime: '2 min read',

@@ -132,19 +132,32 @@ export const BookCard: React.FC<BookCardProps> = ({
           </h4>
 
           <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-            {book.shortDescription || book.description}
+            {book.shortDescription || book.description || book.subtitle}
           </p>
 
-          {/* Topics Chips */}
-          {book.topics && book.topics.length > 0 && (
-            <div className="flex flex-wrap gap-1 pt-1">
-              {book.topics.slice(0, 3).map((topic, i) => (
-                <span key={i} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-slate-800/80 text-slate-300 border border-slate-700/60">
-                  {topic}
-                </span>
-              ))}
-            </div>
-          )}
+          {/* Topics Chips & Educational Class Badge */}
+          <div className="flex flex-wrap items-center gap-1 pt-1">
+            {book.schoolClass && (
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                {book.schoolClass}{book.subject ? ` • ${book.subject}` : ''}
+              </span>
+            )}
+            {book.puzzleCount && (
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                🧩 {book.puzzleCount} Challenges
+              </span>
+            )}
+            {book.literatureGenre && (
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                📜 {book.literatureGenre}
+              </span>
+            )}
+            {book.topics && book.topics.length > 0 && book.topics.slice(0, 2).map((topic, i) => (
+              <span key={i} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-slate-800/80 text-slate-300 border border-slate-700/60">
+                {topic}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 

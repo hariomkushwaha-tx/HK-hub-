@@ -87,7 +87,7 @@ export const StudentZone: React.FC = () => {
         title: 'Smart Lecture Audio Summarizer & Study Flashcards',
         desc: 'An AI assistant that ingests lecture transcripts, extracts high-yield definitions, and auto-generates Spaced Repetition flashcards for exam review.',
         features: ['Audio to text transcription', 'Key summary points with citations', 'Interactive flip card practice mode'],
-        tech: ['Python', 'Gemini API', 'FastAPI', 'React Frontend']
+        tech: ['Python', 'AI Study API', 'FastAPI', 'React Frontend']
       },
       'Python & Automation': {
         title: 'Automated Academic Schedule & Assignment Deadline Tracker',

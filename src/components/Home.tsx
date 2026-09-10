@@ -29,13 +29,14 @@ import {
 export const Home: React.FC = () => {
   const { 
     setActiveTab, 
-    setSearchModalOpen, 
+    setGlobalSearchOpen, 
     openTool, 
     openGuide, 
     openBook,
     setActiveTechCategory, 
     projects,
-    toggleLikeProject
+    toggleLikeProject,
+    t
   } = useApp();
 
   // Curated popular tools for quick launch
@@ -53,30 +54,30 @@ export const Home: React.FC = () => {
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 text-xs font-semibold shadow-xs">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Next-Generation Technology & Student Digital Platform</span>
+            <span>{t('hero.badge')}</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-black text-slate-100 tracking-tight leading-[1.1]">
-            Everything Technology. <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-indigo-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">
-              One Smart Hub.
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-100 tracking-tight leading-[1.15]">
+            {t('hero.title1')}{' '}
+            <span className="bg-gradient-to-r from-indigo-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent block sm:inline">
+              {t('hero.title2')}
             </span>
           </h1>
 
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-400 leading-relaxed">
-            Understand modern technology, explore AI models, master programming fundamentals, run 30+ free browser utilities, and showcase student engineering projects.
+            {t('hero.desc')}
           </p>
 
           {/* Quick Search Action Bar */}
           <div className="max-w-xl mx-auto pt-2">
             <div
               id="hero-quick-search-trigger"
-              onClick={() => setSearchModalOpen(true)}
+              onClick={() => setGlobalSearchOpen(true)}
               className="flex items-center gap-3 w-full px-5 py-3.5 rounded-2xl bg-slate-900/90 hover:bg-slate-900 border border-slate-700/80 hover:border-indigo-500/60 shadow-xl shadow-slate-950/50 cursor-pointer transition-all duration-200 group"
             >
               <Search className="w-5 h-5 text-indigo-400 group-hover:scale-110 transition-transform shrink-0" />
-              <span className="text-slate-400 text-sm flex-1 text-left">
-                Search 30+ free tools, tech guides, AI topics, code lessons...
+              <span className="text-slate-400 text-sm flex-1 text-left line-clamp-1">
+                {t('hero.search_placeholder')}
               </span>
               <kbd className="hidden sm:inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md bg-slate-800 text-[11px] font-mono text-slate-400 border border-slate-700">
                 ⌘K
@@ -85,18 +86,18 @@ export const Home: React.FC = () => {
           </div>
 
           {/* Quick Value Metrics */}
-          <div className="flex flex-wrap items-center justify-center gap-6 pt-4 text-xs font-medium text-slate-400">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-4 text-xs font-medium text-slate-400">
             <span className="flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              100% Free & Client-Side Privacy
+              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>{t('hero.metric1')}</span>
             </span>
             <span className="flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-cyan-400" />
-              No Login Required For Tools
+              <Zap className="w-4 h-4 text-cyan-400 shrink-0" />
+              <span>{t('hero.metric2')}</span>
             </span>
             <span className="flex items-center gap-1.5">
-              <GraduationCap className="w-4 h-4 text-indigo-400" />
-              Engineered for Students & Devs
+              <GraduationCap className="w-4 h-4 text-indigo-400 shrink-0" />
+              <span>{t('hero.metric3')}</span>
             </span>
           </div>
         </div>
@@ -108,15 +109,15 @@ export const Home: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 text-indigo-400 text-xs font-bold uppercase tracking-wider">
               <Wrench className="w-4 h-4" />
-              <span>Instant Browser Utilities</span>
+              <span>{t('sec.popular_tools_tag')}</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-slate-100 mt-1">Popular Free Tools</h2>
+            <h2 className="text-xl sm:text-2xl font-black text-slate-100 mt-1">{t('sec.popular_tools_title')}</h2>
           </div>
           <button
             onClick={() => setActiveTab('tools')}
             className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1"
           >
-            <span>Explore all 30+ tools</span>
+            <span>{t('sec.popular_tools_action')}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -215,7 +216,7 @@ export const Home: React.FC = () => {
 
             <div>
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-400">
-                Gemini-Powered Knowledge
+                HK VELORA AI Knowledge Engine
               </span>
               <h3 className="text-2xl font-black text-slate-100 mt-1">
                 Artificial Intelligence Hub
@@ -266,9 +267,9 @@ export const Home: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 text-indigo-400 text-xs font-bold uppercase tracking-wider">
               <BookMarked className="w-4 h-4" />
-              <span>Free Academic & Developer Library</span>
+              <span>{t('sec.ebooks_tag')}</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-slate-100 mt-1">Featured Digital Books & Library</h2>
+            <h2 className="text-xl sm:text-2xl font-black text-slate-100 mt-1">{t('sec.ebooks_title')}</h2>
           </div>
           <button
             onClick={() => setActiveTab('ebooks')}

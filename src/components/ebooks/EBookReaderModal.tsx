@@ -40,7 +40,7 @@ interface EBookReaderModalProps {
   onClose: () => void;
 }
 
-type ReaderTab = 'study-guide' | 'ai-tutor' | 'quiz' | 'external-source';
+type ReaderTab = 'study-guide' | 'ai-tutor' | 'quiz' | 'external-source' | 'puzzles';
 
 export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClose }) => {
   const { isBookmarked, toggleBookmark, saveReadingProgress, getReadingProgress } = useApp();
@@ -57,6 +57,11 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
   const [showMobileToc, setShowMobileToc] = useState(false);
   const [searchInsideQuery, setSearchInsideQuery] = useState('');
   const [showSearchInput, setShowSearchInput] = useState(false);
+
+  // Puzzle Solver State
+  const [revealedHints, setRevealedHints] = useState<Record<string, boolean>>({});
+  const [revealedSolutions, setRevealedSolutions] = useState<Record<string, boolean>>({});
+  const [solvedPuzzles, setSolvedPuzzles] = useState<Record<string, boolean>>({});
 
   // AI Tutor State
   const [aiQuestion, setAiQuestion] = useState('');
@@ -123,7 +128,7 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
   };
 
   const handleShareBook = async () => {
-    const shareText = `Check out "${book.title}" by ${book.author} on HK HUB!\nFree access & AI chapter tutor: ${window.location.href}`;
+    const shareText = `Check out "${book.title}" by ${book.author} on HK VELORA!\nFree access & AI chapter tutor: ${window.location.href}`;
     await copyToClipboard(shareText);
     setShareSuccess(true);
     setTimeout(() => setShareSuccess(false), 2000);
@@ -156,7 +161,7 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
         ...prev, 
         { 
           role: 'assistant', 
-          text: `⚠️ AI Tutor Note: ${err.message || 'Unable to connect to live AI service. Please review the high-yield study notes and code examples in the Study Guide tab!'}` 
+          text: `⚠️ HK VELORA AI: Unable to connect to learning engine. Please review the high-yield study notes and code examples in the Study Guide tab!` 
         }
       ]);
     } finally {
@@ -473,6 +478,20 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
               <Globe className="w-3.5 h-3.5 text-emerald-400" />
               <span>Official Web / PDF Link</span>
             </button>
+
+            {book.puzzleItems && book.puzzleItems.length > 0 && (
+              <button
+                onClick={() => setActiveTab('puzzles')}
+                className={`px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1.5 whitespace-nowrap transition-colors ${
+                  activeTab === 'puzzles'
+                    ? 'bg-purple-600 text-white shadow-xs'
+                    : 'text-purple-300 hover:text-purple-100 hover:bg-purple-950/40'
+                }`}
+              >
+                <Lightbulb className="w-3.5 h-3.5 text-yellow-300" />
+                <span>Interactive Puzzles ({book.puzzleItems.length})</span>
+              </button>
+            )}
           </div>
 
           <span className="text-[11px] font-mono text-slate-400 hidden lg:inline">
@@ -705,13 +724,13 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
                 <div className="p-6 rounded-2xl bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-slate-900 border border-indigo-500/30 space-y-3">
                   <div className="flex items-center gap-2 text-indigo-400 text-xs font-bold uppercase">
                     <Sparkles className="w-4 h-4" />
-                    <span>Gemini AI Tutor — {currentChapter.title}</span>
+                    <span>HK VELORA AI TUTOR — {currentChapter.title}</span>
                   </div>
                   <h3 className="text-lg sm:text-xl font-bold text-white">
                     Ask doubts about this chapter in English or Hindi
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    Have trouble understanding a concept, mathematical formula, or algorithm? Ask our AI Tutor to break it down using everyday analogies or step-by-step proofs.
+                    Have trouble understanding a concept, mathematical formula, or algorithm? Ask HK VELORA AI Tutor to break it down using everyday analogies or step-by-step proofs.
                   </p>
 
                   {/* Quick Prompt Chips */}
@@ -752,7 +771,7 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
                       >
                         <div className="flex items-center justify-between mb-1.5">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">
-                            {msg.role === 'user' ? 'You' : 'AI Academic Tutor'}
+                            {msg.role === 'user' ? 'You' : 'HK VELORA AI Tutor'}
                           </span>
                           {msg.role === 'assistant' && (
                             <button
@@ -773,7 +792,7 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
                   {aiLoading && (
                     <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 mr-8 flex items-center gap-3 text-xs text-indigo-300">
                       <div className="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin shrink-0" />
-                      <span>AI Tutor is formulating your answer...</span>
+                      <span>HK VELORA AI is formulating your answer...</span>
                     </div>
                   )}
                 </div>
@@ -985,6 +1004,121 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
                       <strong className="text-slate-200">{book.difficulty}</strong>
                     </div>
                   </div>
+                </div>
+              </div>
+            )}
+
+            {/* 5. INTERACTIVE PUZZLES & BRAIN GYM TAB */}
+            {activeTab === 'puzzles' && book.puzzleItems && (
+              <div className="space-y-6">
+                <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-950/50 via-slate-900 to-indigo-950/40 border border-purple-500/30 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
+                      <Lightbulb className="w-4 h-4 text-yellow-400" />
+                      <span>Interactive Brain Gym • {book.puzzleItems.length} Puzzles Included</span>
+                    </div>
+                    <span className="text-xs font-mono text-purple-300">
+                      Solved: {Object.keys(solvedPuzzles).length}/{book.puzzleItems.length}
+                    </span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-100">
+                    Step-by-Step Logic, Riddles & Thinking Challenges
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    Test your problem-solving abilities without peeking at answers immediately! Reveal hints when stuck and review thorough mathematical and conceptual explanations.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  {book.puzzleItems.map((puzzle, pIdx) => {
+                    const isHintOpen = !!revealedHints[puzzle.id];
+                    const isSolutionOpen = !!revealedSolutions[puzzle.id];
+                    const isSolved = !!solvedPuzzles[puzzle.id];
+
+                    return (
+                      <div
+                        key={puzzle.id || pIdx}
+                        className={`p-5 rounded-2xl border transition-all ${
+                          isSolved
+                            ? 'bg-purple-950/20 border-purple-500/40'
+                            : 'bg-slate-900/90 border-slate-800'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-3 mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="w-6 h-6 rounded-full bg-purple-600/30 border border-purple-500/40 text-purple-300 text-xs font-bold flex items-center justify-center">
+                              {pIdx + 1}
+                            </span>
+                            <span className="text-xs font-bold text-slate-300">Puzzle #{pIdx + 1}</span>
+                            {puzzle.difficulty && (
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-800 text-slate-400 border border-slate-700">
+                                {puzzle.difficulty}
+                              </span>
+                            )}
+                          </div>
+
+                          <button
+                            onClick={() => setSolvedPuzzles(prev => ({ ...prev, [puzzle.id]: !isSolved }))}
+                            className={`px-3 py-1 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors ${
+                              isSolved
+                                ? 'bg-emerald-600 text-white'
+                                : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+                            }`}
+                          >
+                            <Check className="w-3.5 h-3.5" />
+                            <span>{isSolved ? 'Solved! 🎉' : 'Mark Solved'}</span>
+                          </button>
+                        </div>
+
+                        <p className="text-sm font-medium text-slate-100 py-2 leading-relaxed">
+                          {puzzle.question}
+                        </p>
+
+                        {/* Hint Section */}
+                        {puzzle.hint && (
+                          <div className="mt-3">
+                            <button
+                              onClick={() => setRevealedHints(prev => ({ ...prev, [puzzle.id]: !isHintOpen }))}
+                              className="text-xs font-semibold text-amber-400 hover:text-amber-300 flex items-center gap-1.5"
+                            >
+                              <Lightbulb className="w-3.5 h-3.5" />
+                              <span>{isHintOpen ? 'Hide Clue' : '💡 Need a Clue / Hint?'}</span>
+                            </button>
+                            {isHintOpen && (
+                              <div className="mt-2 p-3 rounded-xl bg-amber-950/30 border border-amber-500/30 text-xs text-amber-200 animate-fadeIn">
+                                <strong>Hint:</strong> {puzzle.hint}
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Solution & Explanation */}
+                        <div className="mt-4 pt-3 border-t border-slate-800/80">
+                          <button
+                            onClick={() => setRevealedSolutions(prev => ({ ...prev, [puzzle.id]: !isSolutionOpen }))}
+                            className="text-xs font-semibold text-purple-400 hover:text-purple-300 flex items-center gap-1.5"
+                          >
+                            <Sparkles className="w-3.5 h-3.5" />
+                            <span>{isSolutionOpen ? 'Hide Solution' : '🔍 Reveal Answer & Explanation'}</span>
+                          </button>
+
+                          {isSolutionOpen && (
+                            <div className="mt-3 p-4 rounded-xl bg-slate-950 border border-purple-500/30 space-y-2 animate-fadeIn">
+                              <div className="flex items-center gap-2 text-xs font-bold text-emerald-400">
+                                <CheckCircle2 className="w-4 h-4" />
+                                <span>Answer: {puzzle.answer}</span>
+                              </div>
+                              {puzzle.explanation && (
+                                <p className="text-xs text-slate-300 leading-relaxed pt-1">
+                                  <strong>How it works:</strong> {puzzle.explanation}
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}

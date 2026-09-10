@@ -2,6 +2,24 @@ import { AiTool } from '../types';
 
 export const AI_TOOLS_DIRECTORY: AiTool[] = [
   {
+    name: 'HK Nexus AI',
+    category: 'Productivity & Multimodal',
+    pricing: 'Free',
+    description: 'Free Multimodal AI Assistant by Hariom Kushwaha (HK Tech World). Features AI Chat, Image Generator, Vision OCR, Math Solver, Code Debugger, and Hindi translation.',
+    keyFeatures: [
+      'Vision OCR & Multimodal Analysis',
+      'AI Image & Video Generation',
+      'Math Solver & Code Creator',
+      'Instant Hindi & Multilingual translation'
+    ],
+    bestFor: 'Student study assistance, coding & debugging, math solving, vision OCR, daily AI tasks',
+    rating: 5.0,
+    website: 'https://hk-nexus-ai.vercel.app',
+    link: 'https://hk-nexus-ai.vercel.app',
+    featured: true,
+    badge: '★ HK Tech World Special'
+  },
+  {
     name: 'Gemini',
     category: 'Text & Writing',
     pricing: 'Freemium',

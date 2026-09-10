@@ -53,7 +53,7 @@ class GlobalErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBound
                 }}
                 className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-xs font-semibold text-white transition-colors"
               >
-                Reload HK HUB
+                Reload HK VELORA
               </button>
             </div>
           </div>

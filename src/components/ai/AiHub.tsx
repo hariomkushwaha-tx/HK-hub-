@@ -32,7 +32,7 @@ export const AiHub: React.FC = () => {
   const [chatHistory, setChatHistory] = useState<{ role: 'user' | 'assistant'; text: string; time: string }[]>([
     {
       role: 'assistant',
-      text: 'Hello! I am HK HUB\'s AI Study & Technology Assistant powered by Google Gemini. Ask me to explain complex programming concepts, analyze tech architecture, debug code snippets, or provide study frameworks!',
+      text: 'Hello! I am HK VELORA AI, your dedicated Study & Technology Assistant. Ask me to explain complex programming concepts, analyze tech architecture, debug code snippets, or provide study frameworks!',
       time: 'Just now'
     }
   ]);
@@ -47,12 +47,17 @@ export const AiHub: React.FC = () => {
 
   const filteredAiTools = useMemo(() => {
     return AI_TOOLS_DIRECTORY.filter(t => {
-      const matchCat = dirCategory === 'all' || t.category === dirCategory;
+      const matchCat = dirCategory === 'all' || 
+        t.category.toLowerCase().includes(dirCategory.toLowerCase()) ||
+        (dirCategory === 'Writing' && t.category.toLowerCase().includes('writing')) ||
+        (dirCategory === 'Coding' && (t.category.toLowerCase().includes('coding') || t.bestFor.toLowerCase().includes('coding') || t.keyFeatures?.some(f => f.toLowerCase().includes('code')))) ||
+        (dirCategory === 'Productivity' && (t.category.toLowerCase().includes('productivity') || t.bestFor.toLowerCase().includes('productivity') || t.category.toLowerCase().includes('multi')));
       const matchPrice = dirPricing === 'all' || t.pricing === dirPricing;
       const matchSearch = !dirSearch || 
         t.name.toLowerCase().includes(dirSearch.toLowerCase()) || 
         t.description.toLowerCase().includes(dirSearch.toLowerCase()) ||
-        t.bestFor.toLowerCase().includes(dirSearch.toLowerCase());
+        t.bestFor.toLowerCase().includes(dirSearch.toLowerCase()) ||
+        t.category.toLowerCase().includes(dirSearch.toLowerCase());
       return matchCat && matchPrice && matchSearch;
     });
   }, [dirCategory, dirPricing, dirSearch]);
@@ -97,7 +102,7 @@ export const AiHub: React.FC = () => {
         ...prev,
         {
           role: 'assistant',
-          text: `⚠️ ${err.message || 'Please check your connection and try again.'}`,
+          text: `⚠️ HK VELORA AI: Unable to complete request. Please check your connection and try again.`,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ]);
@@ -216,7 +221,7 @@ export const AiHub: React.FC = () => {
                   </div>
                   <div className="px-4 py-3 rounded-2xl bg-slate-950 border border-slate-800 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
-                    <span>Gemini is generating technological explanation...</span>
+                    <span>HK VELORA AI is generating explanation...</span>
                   </div>
                 </div>
               )}
@@ -300,14 +305,25 @@ export const AiHub: React.FC = () => {
             {filteredAiTools.map((tool, idx) => (
               <div
                 key={idx}
-                className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-3 flex flex-col justify-between hover:border-indigo-500/40 transition-colors"
+                className={`p-5 rounded-2xl border space-y-3 flex flex-col justify-between transition-all ${
+                  tool.featured
+                    ? 'bg-gradient-to-b from-indigo-950/40 via-slate-900/90 to-slate-900/95 border-indigo-500/60 ring-1 ring-indigo-500/30 shadow-lg shadow-indigo-950/40'
+                    : 'bg-slate-900/80 border-slate-800 hover:border-indigo-500/40'
+                }`}
               >
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-indigo-400 font-mono">
-                      {tool.category}
-                    </span>
-                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-xs font-bold uppercase tracking-wider text-indigo-400 font-mono">
+                        {tool.category}
+                      </span>
+                      {tool.badge && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                          {tool.badge}
+                        </span>
+                      )}
+                    </div>
+                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${
                       tool.pricing === 'Free'
                         ? 'bg-emerald-500/20 text-emerald-300'
                         : tool.pricing === 'Freemium'
@@ -318,22 +334,38 @@ export const AiHub: React.FC = () => {
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-slate-100 text-base">{tool.name}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">{tool.description}</p>
+                  <h3 className="font-bold text-slate-100 text-base flex items-center gap-2">
+                    <span>{tool.name}</span>
+                    {tool.featured && (
+                      <span className="inline-flex w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Live & Verified" />
+                    )}
+                  </h3>
+                  <p className="text-xs text-slate-300/90 leading-relaxed">{tool.description}</p>
+
+                  {tool.keyFeatures && tool.keyFeatures.length > 0 && (
+                    <div className="pt-1 flex flex-wrap gap-1">
+                      {tool.keyFeatures.slice(0, 2).map((feat, fIdx) => (
+                        <span key={fIdx} className="text-[10px] px-2 py-0.5 rounded-md bg-slate-800/80 text-slate-400 border border-slate-700/50">
+                          ✓ {feat}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
-                <div className="pt-3 border-t border-slate-800/80 text-xs flex items-center justify-between">
-                  <span className="text-[11px] text-slate-500">
-                    Best: <strong className="text-slate-300">{tool.bestFor}</strong>
+                <div className="pt-3 border-t border-slate-800/80 text-xs flex items-center justify-between gap-2">
+                  <span className="text-[11px] text-slate-400 line-clamp-1">
+                    Best for: <strong className="text-slate-200">{tool.bestFor}</strong>
                   </span>
                   <a
-                    href={tool.link}
+                    href={tool.link || tool.website}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-indigo-400 hover:text-indigo-300"
-                    title={`Visit ${tool.name}`}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-indigo-500/30 text-xs font-semibold transition-all group shrink-0"
+                    title={`Open ${tool.name}`}
                   >
-                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span>Launch</span>
+                    <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </a>
                 </div>
               </div>

@@ -29,7 +29,7 @@ export const AuthorModal: React.FC<AuthorModalProps> = ({
     id: authorId,
     name: 'Verified Technical Author',
     role: 'Editorial Contributor',
-    bio: 'Academic researcher, software practitioner, and open-source educator contributing to the HK HUB Digital Library.',
+    bio: 'Academic researcher, software practitioner, and open-source educator contributing to the HK VELORA Digital Library.',
     avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
     publishedBooksCount: 2,
     verified: true
@@ -104,7 +104,7 @@ export const AuthorModal: React.FC<AuthorModalProps> = ({
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                Published Works in HK HUB ({authorBooks.length})
+                Published Works in HK VELORA ({authorBooks.length})
               </h4>
             </div>
 

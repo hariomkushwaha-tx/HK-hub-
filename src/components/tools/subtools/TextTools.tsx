@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Copy, Check, Trash2, ArrowUpDown, Sparkles } from 'lucide-react';
 import { copyToClipboard } from '../../../utils/clipboard';
+import { UniversalTranslatorTool } from './UniversalTranslatorTool';
 
 interface SubToolProps {
   toolId: string;
@@ -9,7 +10,7 @@ interface SubToolProps {
 export const TextTools: React.FC<SubToolProps> = ({ toolId }) => {
   // Common states
   const [text, setText] = useState<string>(
-    'HK HUB is a next-generation technology and student digital platform.\nExplore powerful free tools, master coding, and learn modern AI technologies effortlessly!'
+    'HK VELORA is a next-generation technology and student digital platform.\nExplore powerful free tools, master coding, and learn modern AI technologies effortlessly!'
   );
   const [copied, setCopied] = useState<string | null>(null);
 
@@ -354,6 +355,11 @@ export const TextTools: React.FC<SubToolProps> = ({ toolId }) => {
             </div>
           )}
         </div>
+      )}
+
+      {/* 5. Universal Multi-Language Translator */}
+      {toolId === 'universal-translator' && (
+        <UniversalTranslatorTool />
       )}
     </div>
   );

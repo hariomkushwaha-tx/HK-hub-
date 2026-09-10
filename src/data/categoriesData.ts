@@ -160,7 +160,7 @@ When your Mac runs warm, launch Activity Monitor and sort by "% CPU" or "Energy 
         title: 'How the Internet Actually Works: DNS, IP & HTTP/HTTPS',
         summary: 'Step-by-step walkthrough of what happens from the millisecond you type a URL to when pixels render.',
         readTime: '8 min',
-        content: `When you enter a URL like "https://hkhub.app" into your browser:
+        content: `When you enter a URL like "https://hkvelora.app" into your browser:
 
 1. DNS Resolution:
 Your browser checks local DNS cache. If missed, it queries your recursive DNS resolver (e.g. 1.1.1.1). The DNS hierarchy maps the human-readable domain to an IPv4 (like 142.250.190.46) or IPv6 address.

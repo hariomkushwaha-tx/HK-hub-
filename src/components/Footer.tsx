@@ -36,7 +36,7 @@ export const Footer: React.FC = () => {
                 <span className="font-extrabold text-sm tracking-tight">HK</span>
               </div>
               <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-                HK HUB
+                HK VELORA
               </span>
             </div>
             
@@ -202,7 +202,7 @@ export const Footer: React.FC = () => {
                   onClick={() => setActiveComplianceModal('about')} 
                   className="hover:text-indigo-400 transition-colors"
                 >
-                  About HK HUB
+                  About HK VELORA
                 </button>
               </li>
               <li>
@@ -211,7 +211,17 @@ export const Footer: React.FC = () => {
                   onClick={() => setActiveComplianceModal('privacy')} 
                   className="hover:text-indigo-400 transition-colors"
                 >
-                  Privacy Policy
+                  Privacy Policy (प्राइवेसी पॉलिसी)
+                </button>
+              </li>
+              <li>
+                <button 
+                  id="footer-legal-security"
+                  onClick={() => setActiveComplianceModal('security')} 
+                  className="hover:text-emerald-400 transition-colors flex items-center gap-1 text-emerald-400/90 font-medium"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Security & Anti-Hacking (सुरक्षा गारंटी)
                 </button>
               </li>
               <li>
@@ -280,7 +290,7 @@ export const Footer: React.FC = () => {
               <span>in India by <strong className="text-slate-300">Hariom Kushwaha</strong>.</span>
             </p>
             <p className="text-slate-500 text-[11px]">
-              © {new Date().getFullYear()} HK HUB. Learn. Explore. Create. Use. All rights reserved.
+              © {new Date().getFullYear()} HK VELORA. Learn. Explore. Create. Use. All rights reserved.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-3 text-slate-500 text-[11px]">

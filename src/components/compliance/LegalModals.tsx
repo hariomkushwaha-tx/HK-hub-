@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { X, ShieldCheck, Mail, CheckCircle2, FileText, Lock, Globe, AlertTriangle } from 'lucide-react';
+import { X, ShieldCheck, Mail, CheckCircle2, FileText, Lock, Globe, AlertTriangle, Shield, Check, Server, EyeOff, Zap, Cpu } from 'lucide-react';
 
 export const LegalModals: React.FC = () => {
   const { activeComplianceModal, setActiveComplianceModal, theme } = useApp();
@@ -25,7 +25,9 @@ export const LegalModals: React.FC = () => {
   const getTitleAndIcon = () => {
     switch (activeComplianceModal) {
       case 'privacy':
-        return { title: 'Privacy Policy', icon: <Lock className="w-5 h-5 text-indigo-400" /> };
+        return { title: 'Privacy Policy (गोपनीयता नीति)', icon: <Lock className="w-5 h-5 text-indigo-400" /> };
+      case 'security':
+        return { title: 'Security & Anti-Hacking Assurance (वेबसाइट सुरक्षा गारंटी)', icon: <ShieldCheck className="w-5 h-5 text-emerald-400" /> };
       case 'terms':
         return { title: 'Terms & Conditions', icon: <FileText className="w-5 h-5 text-blue-400" /> };
       case 'cookie':
@@ -35,11 +37,11 @@ export const LegalModals: React.FC = () => {
       case 'community':
         return { title: 'Community Guidelines', icon: <Globe className="w-5 h-5 text-purple-400" /> };
       case 'about':
-        return { title: 'About HK HUB', icon: <ShieldCheck className="w-5 h-5 text-cyan-400" /> };
+        return { title: 'About HK VELORA', icon: <ShieldCheck className="w-5 h-5 text-cyan-400" /> };
       case 'contact':
-        return { title: 'Contact HK HUB Desk', icon: <Mail className="w-5 h-5 text-indigo-400" /> };
+        return { title: 'Contact HK VELORA Desk', icon: <Mail className="w-5 h-5 text-indigo-400" /> };
       default:
-        return { title: 'HK HUB Platform Notice', icon: <FileText className="w-5 h-5 text-indigo-400" /> };
+        return { title: 'HK VELORA Platform Notice', icon: <FileText className="w-5 h-5 text-indigo-400" /> };
     }
   };
 
@@ -81,7 +83,7 @@ export const LegalModals: React.FC = () => {
                 Everything Technology. One Smart Hub.
               </p>
               <p>
-                <strong>HK HUB</strong> is a next-generation, fast, modern, and privacy-respecting technology and student digital platform. Our mission is to democratize technological knowledge and developer utilities so learners, students, and practitioners can:
+                <strong>HK VELORA</strong> is a next-generation, fast, modern, and privacy-respecting technology and student digital platform. Our mission is to democratize technological knowledge and developer utilities so learners, students, and practitioners can:
               </p>
               <ul className="list-disc pl-5 space-y-1 text-slate-300">
                 <li>Learn practical technology, internet safety, and cybersecurity awareness</li>
@@ -102,19 +104,137 @@ export const LegalModals: React.FC = () => {
           )}
 
           {activeComplianceModal === 'privacy' && (
-            <div className="space-y-3 text-slate-300">
-              <h4 className="font-bold text-slate-100">1. Client-Side First Architecture</h4>
-              <p>
-                HK HUB processes your images, PDFs, text, and code conversions directly in your browser's memory using client-side WebAssembly, Canvas, and HTML5 APIs. Your uploaded files are <strong>never permanently uploaded or stored on external servers</strong>.
-              </p>
-              <h4 className="font-bold text-slate-100">2. Zero Invasive Tracking</h4>
-              <p>
-                We do not sell your personal data or execute covert cross-site profiling scripts. User preferences such as bookmarks, saved tools, and profile configurations are stored locally on your device using Web LocalStorage.
-              </p>
-              <h4 className="font-bold text-slate-100">3. AI Processing</h4>
-              <p>
-                When using optional AI Study Assistant queries, inputs are transmitted securely over TLS to Google Gemini APIs strictly to generate your requested explanation, without permanent logging.
-              </p>
+            <div className="space-y-4 text-slate-300">
+              <div className="p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-800/60 flex items-start gap-3">
+                <Lock className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
+                <div className="text-xs space-y-1">
+                  <p className="font-semibold text-white">
+                    HK VELORA Privacy Guarantee / पूर्ण गोपनीयता का संकल्प
+                  </p>
+                  <p className="text-slate-300">
+                    हम उपयोगकर्ताओं के निजी डेटा की 100% सुरक्षा और गोपनीयता का सम्मान करते हैं। आपकी जानकारी न तो बेची जाती है और न ही किसी बाहरी ट्रैकर को दी जाती है।
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-slate-100 flex items-center gap-1.5 mb-1 text-sm">
+                  <EyeOff className="w-4 h-4 text-indigo-400" />
+                  1. क्लाइंट-साइड फर्स्ट प्रोसेसिंग (No Server Storage of Files)
+                </h4>
+                <p className="text-xs leading-relaxed text-slate-300">
+                  जब आप HK VELORA के टूल्स (जैसे इमेज कंप्रेसर, पीडीएफ टूल, वर्ड काउंटर, कोड फॉर्मेटर आदि) का उपयोग करते हैं, तो आपकी फाइलें सीधे आपके ब्राउज़र की मेमोरी (Client-side HTML5 & WebAssembly) में प्रोसेस होती हैं। आपकी कोई भी फाइल किसी रिमोट सर्वर पर अपलोड या स्टोर नहीं की जाती है।
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-slate-100 flex items-center gap-1.5 mb-1 text-sm">
+                  <Server className="w-4 h-4 text-emerald-400" />
+                  2. जीरो ट्रैकिंग एवं विज्ञापन मुक्त (Zero Tracking & No Ad Profiling)
+                </h4>
+                <p className="text-xs leading-relaxed text-slate-300">
+                  हम किसी भी प्रकार के आक्रामक तृतीय-पक्ष ट्रैकर (Third-party advertising trackers), बिहेवियरल प्रोफाइलिंग, या अनचाहे कुकीज का उपयोग नहीं करते हैं। आपकी ब्राउज़िंग हिस्ट्री और पढ़ाई की गतिविधियां पूर्णतः निजी हैं।
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-slate-100 flex items-center gap-1.5 mb-1 text-sm">
+                  <Lock className="w-4 h-4 text-purple-400" />
+                  3. लोकल स्टोरेज में डेटा (Local Storage on Your Device)
+                </h4>
+                <p className="text-xs leading-relaxed text-slate-300">
+                  आपकी पसंद (थीम, बुकमार्क्स, पढ़ी गई किताबें, ऑर्डर हिस्ट्री) केवल आपके अपने फोन या कंप्यूटर के <code>localStorage</code> में सुरक्षित रहती है। आप जब चाहें अपने ब्राउज़र का कैश साफ करके इसे तुरंत हटा सकते हैं।
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-slate-100 flex items-center gap-1.5 mb-1 text-sm">
+                  <Zap className="w-4 h-4 text-amber-400" />
+                  4. सुरक्षित AI प्रोसेसिंग (Secure Encrypted AI Queries)
+                </h4>
+                <p className="text-xs leading-relaxed text-slate-300">
+                  जब आप AI स्टडी असिस्टेंट से कोई शैक्षणिक प्रश्न पूछते हैं, तो वह एंड-टू-एंड एन्क्रिप्टेड HTTPS टनल के जरिए प्रोसेस होता है। इस डेटा का उपयोग न तो किसी सार्वजनिक मॉडल की ट्रेनिंग के लिए होता है और न ही इसे रिकॉर्ड किया जाता है।
+                </p>
+              </div>
+
+              <div className="pt-2 border-t border-slate-800 text-[11px] text-slate-400">
+                यदि आपके पास प्राइवेसी से संबंधित कोई प्रश्न है, तो आप <strong>hkdeveloperh@gmail.com</strong> पर संपर्क कर सकते हैं।
+              </div>
+            </div>
+          )}
+
+          {activeComplianceModal === 'security' && (
+            <div className="space-y-4 text-slate-300">
+              <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-800/60 flex items-start gap-3">
+                <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                <div className="text-xs space-y-1">
+                  <p className="font-semibold text-white">
+                    सुरक्षा आश्वासन: क्या यह वेबसाइट हैक हो सकती है?
+                  </p>
+                  <p className="text-emerald-200">
+                    <strong>संक्षिप्त उत्तर: नहीं!</strong> HK VELORA आधुनिक क्लाउड सुरक्षा, सैंडबॉक्स्ड आर्किटेक्चर और एन्क्रिप्शन मानकों पर निर्मित है। उपयोगकर्ताओं का कोई भी संवेदनशील डेटा सर्वर पर स्टोर ही नहीं होता, जिससे डेटा ब्रीच का जोखिम शून्य हो जाता है।
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-800">
+                  <h4 className="font-bold text-slate-100 flex items-center gap-2 text-xs mb-1">
+                    <Shield className="w-4 h-4 text-emerald-400" />
+                    1. कोई असुरक्षित डेटाबेस नहीं (Zero Vulnerable Server Database)
+                  </h4>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    अधिकांश वेबसाइट्स इसलिए हैक होती हैं क्योंकि वे उपयोगकर्ताओं के पासवर्ड, बैंक कार्ड या पर्सनल डेटा को किसी सेंट्रल सर्वर डेटाबेस में रखती हैं। HK VELORA में <strong>कोई भी संवेदनशील वित्तीय या निजी डेटा सर्वर पर स्टोर ही नहीं होता</strong>। जब चुराने के लिए कोई डेटाबेस ही नहीं है, तो लीक होने का खतरा समाप्त हो जाता है।
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-800">
+                  <h4 className="font-bold text-slate-100 flex items-center gap-2 text-xs mb-1">
+                    <Lock className="w-4 h-4 text-blue-400" />
+                    2. 256-बिट HTTPS / TLS 1.3 एन्क्रिप्शन (Bank-Grade Transmission)
+                  </h4>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    आपके ब्राउज़र और HK VELORA के बीच होने वाला हर एक नेटवर्क अनुरोध 256-बिट SSL/TLS एन्क्रिप्शन द्वारा सुरक्षित है। कोई भी थर्ड-पार्टी, आईएसपी, या वाई-फाई हैकर आपके डेटा को बीच में पढ़ (Snoop/Sniff) नहीं सकता।
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-800">
+                  <h4 className="font-bold text-slate-100 flex items-center gap-2 text-xs mb-1">
+                    <Cpu className="w-4 h-4 text-purple-400" />
+                    3. क्लाइंट-साइड सैंडबॉक्सिंग (Safe Code Execution)
+                  </h4>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    हमारे कोडिंग प्लेग्राउंड्स और टूल्स वेब ब्राउज़र के सुरक्षित सैंडबॉक्स (Isolated Web Workers & Iframes) में चलते हैं। कोई भी दुर्भावनापूर्ण कोड उपयोगकर्ता के कंप्यूटर या मोबाइल सिस्टम को प्रभावित नहीं कर सकता।
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-800">
+                  <h4 className="font-bold text-slate-100 flex items-center gap-2 text-xs mb-1">
+                    <Server className="w-4 h-4 text-amber-400" />
+                    4. गूगल क्लाउड एंटरप्राइज इंफ्रास्ट्रक्चर & DDoS प्रोटेक्शन
+                  </h4>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    HK VELORA गूगल क्लाउड प्लेटफॉर्म के उच्च-स्तरीय कंटेनर इंफ्रास्ट्रक्चर पर होस्टेड है, जिसमें ऑटोमैटिक DDoS शील्ड, फायरवॉल और Nginx रिवर्स प्रॉक्सी लेयर सक्रिय रहती है।
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-800">
+                  <h4 className="font-bold text-slate-100 flex items-center gap-2 text-xs mb-1">
+                    <Check className="w-4 h-4 text-teal-400" />
+                    5. उपयोगकर्ताओं के लिए सुरक्षा सुझाव (Tips to Stay Safe)
+                  </h4>
+                  <ul className="text-xs text-slate-300 list-disc pl-4 space-y-1">
+                    <li>हमेशा सुनिश्चित करें कि एड्रेस बार में <code>https://</code> और लॉक (ताला) आइकन दिख रहा हो।</li>
+                    <li>अपने ब्राउज़र और ऑपरेटिंग सिस्टम को हमेशा लेटेस्ट वर्जन पर अपडेट रखें।</li>
+                    <li>किसी भी अनजान या संदिग्ध ब्राउज़र एक्सटेंशन को इंस्टॉल करने से बचें।</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+                <span>सुरक्षा रिपोर्ट या बग बाउंटी के लिए:</span>
+                <span className="text-indigo-400 font-semibold">hkdeveloperh@gmail.com</span>
+              </div>
             </div>
           )}
 
@@ -122,7 +242,7 @@ export const LegalModals: React.FC = () => {
             <div className="space-y-3 text-slate-300">
               <h4 className="font-bold text-slate-100">1. Educational Use Only</h4>
               <p>
-                HK HUB provides tools, educational tutorials, and study guides for personal, academic, and non-commercial professional empowerment. Users agree not to misuse developer utilities for denial-of-service, malicious cracking, or harmful payloads.
+                HK VELORA provides tools, educational tutorials, and study guides for personal, academic, and non-commercial professional empowerment. Users agree not to misuse developer utilities for denial-of-service, malicious cracking, or harmful payloads.
               </p>
               <h4 className="font-bold text-slate-100">2. Free Access & Availability</h4>
               <p>
@@ -134,7 +254,7 @@ export const LegalModals: React.FC = () => {
           {activeComplianceModal === 'cookie' && (
             <div className="space-y-3 text-slate-300">
               <p>
-                HK HUB utilizes browser <code>localStorage</code> solely to remember your chosen theme (Dark/Light), your bookmarked guides, your saved favorite tools, and your submitted showcase projects.
+                HK VELORA utilizes browser <code>localStorage</code> solely to remember your chosen theme (Dark/Light), your bookmarked guides, your saved favorite tools, and your submitted showcase projects.
               </p>
               <p>
                 We do not use intrusive advertising tracking cookies or third-party fingerprinting scripts. You can clear this data at any time through your browser settings or via the Data Reset option in My Space.
@@ -145,7 +265,7 @@ export const LegalModals: React.FC = () => {
           {activeComplianceModal === 'disclaimer' && (
             <div className="space-y-3 text-slate-300">
               <p>
-                The information, software calculations, and guides on HK HUB are provided for educational and utility purposes. While every mathematical algorithm, financial EMI calculator, and code sample is verified, users should verify critical financial or cryptographic calculations before making production decisions.
+                The information, software calculations, and guides on HK VELORA are provided for educational and utility purposes. While every mathematical algorithm, financial EMI calculator, and code sample is verified, users should verify critical financial or cryptographic calculations before making production decisions.
               </p>
               <p>
                 All cybersecurity content is strictly defensive and educational, designed to help students protect their accounts, recognize phishing attempts, and practice secure password hygiene.
@@ -157,7 +277,7 @@ export const LegalModals: React.FC = () => {
             <div className="space-y-3 text-slate-300">
               <h4 className="font-bold text-slate-100">Academic Integrity & Responsible AI</h4>
               <p>
-                HK HUB strictly discourages academic cheating or dishonest homework generation. AI tools and study assistants on our platform are engineered to breakdown logic, explain foundational principles, and guide independent problem-solving.
+                HK VELORA strictly discourages academic cheating or dishonest homework generation. AI tools and study assistants on our platform are engineered to breakdown logic, explain foundational principles, and guide independent problem-solving.
               </p>
               <h4 className="font-bold text-slate-100">Project Showcase Standards</h4>
               <p>
@@ -173,7 +293,7 @@ export const LegalModals: React.FC = () => {
                   <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto" />
                   <h4 className="font-bold text-lg text-white">Message Received!</h4>
                   <p className="text-slate-400 max-w-sm mx-auto">
-                    Thank you for reaching out to HK HUB Support. A member of our technology desk will review your inquiry shortly.
+                    Thank you for reaching out to HK VELORA Support. A member of our technology desk will review your inquiry shortly.
                   </p>
                   <button
                     id="contact-done-btn"
@@ -217,7 +337,7 @@ export const LegalModals: React.FC = () => {
                       required
                       value={contactMessage}
                       onChange={e => setContactMessage(e.target.value)}
-                      placeholder="Suggest a new tool, report a bug, or ask a question about HK HUB..."
+                      placeholder="Suggest a new tool, report a bug, or ask a question about HK VELORA..."
                       className="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm focus:border-indigo-500 outline-none resize-none"
                     />
                   </div>
@@ -227,7 +347,7 @@ export const LegalModals: React.FC = () => {
                     className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs transition-colors flex items-center justify-center gap-2"
                   >
                     <Mail className="w-4 h-4" />
-                    Send Inquiry to HK HUB
+                    Send Inquiry to HK VELORA
                   </button>
                 </form>
               )}

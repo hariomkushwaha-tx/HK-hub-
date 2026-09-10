@@ -30,7 +30,7 @@ export const UtilityTools: React.FC<SubToolProps> = ({ toolId }) => {
 
   // 1. QR Code Generator
   const [qrType, setQrType] = useState<'url' | 'wifi' | 'text'>('url');
-  const [qrContent, setQrContent] = useState<string>('https://hkhub.dev');
+  const [qrContent, setQrContent] = useState<string>('https://hkvelora.dev');
   const [wifiSsid, setWifiSsid] = useState<string>('Campus-Student-WiFi');
   const [wifiPassword, setWifiPassword] = useState<string>('StudyTech2026');
   const [wifiSecurity, setWifiSecurity] = useState<'WPA' | 'WEP' | 'nopass'>('WPA');
@@ -67,7 +67,7 @@ export const UtilityTools: React.FC<SubToolProps> = ({ toolId }) => {
   const downloadQR = () => {
     if (!qrCanvasRef.current) return;
     const link = document.createElement('a');
-    link.download = 'hkhub-qrcode.png';
+    link.download = 'hkvelora-qrcode.png';
     link.href = qrCanvasRef.current.toDataURL('image/png');
     link.click();
   };

@@ -16,7 +16,7 @@ export const DeveloperTools: React.FC<SubToolProps> = ({ toolId }) => {
   };
 
   // 1. JSON Tool state
-  const [jsonInput, setJsonInput] = useState(`{\n  "platform": "HK HUB",\n  "type": "Student Digital Hub",\n  "toolsCount": 30,\n  "features": ["Coding", "AI Hub", "Free Tools", "Student Zone"]\n}`);
+  const [jsonInput, setJsonInput] = useState(`{\n  "platform": "HK VELORA",\n  "type": "Student Digital Hub",\n  "toolsCount": 30,\n  "features": ["Coding", "AI Hub", "Free Tools", "Student Zone"]\n}`);
   const [jsonOutput, setJsonOutput] = useState('');
   const [jsonError, setJsonError] = useState<string | null>(null);
   const [jsonIndent, setJsonIndent] = useState<number>(2);
@@ -44,7 +44,7 @@ export const DeveloperTools: React.FC<SubToolProps> = ({ toolId }) => {
   };
 
   // 2. Base64 state
-  const [base64Input, setBase64Input] = useState('Hello HK HUB Developer!');
+  const [base64Input, setBase64Input] = useState('Hello HK VELORA Developer!');
   const [base64Output, setBase64Output] = useState('');
   const [base64Mode, setBase64Mode] = useState<'encode' | 'decode'>('encode');
 
@@ -61,7 +61,7 @@ export const DeveloperTools: React.FC<SubToolProps> = ({ toolId }) => {
   };
 
   // 3. URL Encoder / Decoder
-  const [urlInput, setUrlInput] = useState('https://hkhub.dev/search?q=technology & students=100%');
+  const [urlInput, setUrlInput] = useState('https://hkvelora.dev/search?q=technology & students=100%');
   const [urlOutput, setUrlOutput] = useState('');
   const [urlMode, setUrlMode] = useState<'encode' | 'decode'>('encode');
 
@@ -80,7 +80,7 @@ export const DeveloperTools: React.FC<SubToolProps> = ({ toolId }) => {
   // 4. Regex Tester
   const [regexPattern, setRegexPattern] = useState('[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}');
   const [regexFlags, setRegexFlags] = useState('gi');
-  const [regexTestText, setRegexTestText] = useState('Contact support@hkhub.dev or student.lead@university.edu for queries. Invalid: test@');
+  const [regexTestText, setRegexTestText] = useState('Contact support@hkvelora.dev or student.lead@university.edu for queries. Invalid: test@');
   const [regexMatches, setRegexMatches] = useState<string[]>([]);
   const [regexError, setRegexError] = useState<string | null>(null);
 
@@ -143,7 +143,7 @@ export const DeveloperTools: React.FC<SubToolProps> = ({ toolId }) => {
   };
 
   // 7. Hash Generator (Web Crypto)
-  const [hashInput, setHashInput] = useState('HK HUB Security & Encryption');
+  const [hashInput, setHashInput] = useState('HK VELORA Security & Encryption');
   const [sha256Hash, setSha256Hash] = useState('');
   const [sha512Hash, setSha512Hash] = useState('');
   const [sha1Hash, setSha1Hash] = useState('');
@@ -174,7 +174,7 @@ export const DeveloperTools: React.FC<SubToolProps> = ({ toolId }) => {
 
   // 8. Code Beautifier
   const [codeLang, setCodeLang] = useState<'html' | 'css' | 'js'>('html');
-  const [rawCode, setRawCode] = useState('<div class="box"><h1>HK HUB</h1><p>Student tools</p></div>');
+  const [rawCode, setRawCode] = useState('<div class="box"><h1>HK VELORA</h1><p>Student tools</p></div>');
   const [beautifiedCode, setBeautifiedCode] = useState('');
 
   const formatCode = () => {

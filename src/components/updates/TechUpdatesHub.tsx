@@ -16,7 +16,7 @@ export const TechUpdatesHub: React.FC = () => {
     : TECH_UPDATES_DATA.filter(u => u.category.toLowerCase() === selectedCategory.toLowerCase());
 
   const handleShare = async (id: string, title: string) => {
-    await copyToClipboard(`${title} - Read on HK HUB`);
+    await copyToClipboard(`${title} - Read on HK VELORA`);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
   };

@@ -9,6 +9,10 @@ import { CheckoutModal } from './CheckoutModal';
 import { AuthorModal } from './AuthorModal';
 import { BookSubmissionModal } from './BookSubmissionModal';
 import { AdminBooksModal } from './AdminBooksModal';
+import { SchoolLibraryView } from './SchoolLibraryView';
+import { StoriesLibraryView } from './StoriesLibraryView';
+import { PuzzlesLibraryView } from './PuzzlesLibraryView';
+import { MyReadingDeskView } from './MyReadingDeskView';
 import { 
   BookOpen, 
   Search, 
@@ -29,11 +33,17 @@ import {
   BookMarked,
   ShieldCheck,
   Percent,
-  Play
+  Play,
+  Feather,
+  Puzzle
 } from 'lucide-react';
 
 export const EBooksHub: React.FC = () => {
   const { readingProgressMap, isBookUnlocked, activeBookId, setActiveBookId } = useApp();
+
+  // Primary Ecosystem View Tab (Section 74, 84, 87, 101, 102)
+  type LibraryViewTab = 'catalog' | 'school' | 'stories' | 'puzzles' | 'desk';
+  const [currentViewTab, setCurrentViewTab] = useState<LibraryViewTab>('catalog');
 
   // Local state for books list (supports admin updates & new submissions)
   const [booksList, setBooksList] = useState<EBookItem[]>(EBOOKS_DATA);
@@ -86,14 +96,33 @@ export const EBooksHub: React.FC = () => {
       const matchQuery = !q || (
         book.title.toLowerCase().includes(q) ||
         book.author.toLowerCase().includes(q) ||
-        book.description.toLowerCase().includes(q) ||
+        (book.description ? book.description.toLowerCase().includes(q) : false) ||
+        (book.shortDescription ? book.shortDescription.toLowerCase().includes(q) : false) ||
         (book.subtitle && book.subtitle.toLowerCase().includes(q)) ||
         book.tags.some(t => t.toLowerCase().includes(q)) ||
         (book.topics && book.topics.some(tp => tp.toLowerCase().includes(q)))
       );
 
       // Category
-      const matchCategory = selectedCategory === 'All Books' || book.category === selectedCategory;
+      const matchCategory = selectedCategory === 'All Books' || 
+        book.category === selectedCategory ||
+        (selectedCategory === 'Class 9–12 / School' && (
+          book.category === 'Class 9–12 / School' ||
+          book.schoolClass === 'Class 9' || book.schoolClass === 'Class 10' || book.schoolClass === 'Class 11' || book.schoolClass === 'Class 12' ||
+          book.tags.some(t => t.toLowerCase().includes('class 9') || t.toLowerCase().includes('class 10') || t.toLowerCase().includes('class 11') || t.toLowerCase().includes('class 12'))
+        )) ||
+        (selectedCategory === 'Competitive Exams' && (
+          book.category === 'Competitive Exams' || 
+          book.tags.some(t => t.toLowerCase().includes('competitive') || t.toLowerCase().includes('exam') || t.toLowerCase().includes('upsc') || t.toLowerCase().includes('ssc') || t.toLowerCase().includes('railway') || t.toLowerCase().includes('ctet')) ||
+          book.schoolClass === 'Competitive'
+        )) ||
+        (selectedCategory === 'Middle School (Class 6–8)' && (
+          book.category === 'Middle School (Class 6–8)' ||
+          book.schoolClass === 'Class 6' || book.schoolClass === 'Class 7' || book.schoolClass === 'Class 8'
+        )) ||
+        (selectedCategory === 'Business & Self-Help' && (
+          book.category === 'Business & Self-Help' || book.category === 'Business & Startups' || book.category === 'Self-Help & Mindset'
+        ));
 
       // Format
       const matchFormat = selectedFormat === 'All' || 
@@ -160,21 +189,21 @@ export const EBooksHub: React.FC = () => {
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 text-xs font-semibold">
               <BookMarked className="w-4 h-4" />
-              <span>HK HUB Digital Library & Knowledge Vault</span>
+              <span>HK Tech World Original Publications • Authored by Hariom Kushwaha</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-100 tracking-tight leading-tight">
-              📚 HK HUB Digital Library
+              📚 HK VELORA Knowledge Vault
             </h1>
 
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              Technology, AI, Coding, Digital Skills and Student Knowledge — all in one library. Read verified academic handbooks, listen to audio editions, and test your skills with in-app AI tutors.
+              Complete, deeply explained handbooks written by <strong>Hariom Kushwaha (HK Tech World)</strong>. Simplified with real-world analogies, step-by-step code, exam notes, and interactive AI chapter tutors designed specifically for Indian and global tech students.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-1 text-xs font-medium text-slate-400">
               <span className="flex items-center gap-1.5 text-emerald-400">
                 <CheckCircle2 className="w-4 h-4" />
-                100% Free Open-Access Books Available
+                100% Free Open-Access Books
               </span>
               <span className="flex items-center gap-1.5 text-cyan-400">
                 <Headphones className="w-4 h-4" />
@@ -182,7 +211,7 @@ export const EBooksHub: React.FC = () => {
               </span>
               <span className="flex items-center gap-1.5 text-indigo-400">
                 <Sparkles className="w-4 h-4" />
-                Interactive Chapter Reader & Quiz
+                Bilingual Study Guides & Quizzes
               </span>
             </div>
           </div>
@@ -208,7 +237,119 @@ export const EBooksHub: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. Continue Reading Shelf (If user has reading progress) */}
+      {/* 2. Top-Level Library Ecosystem Navigation Tabs */}
+      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-slate-900 border border-slate-800 overflow-x-auto scrollbar-none shadow-md">
+        <button
+          onClick={() => setCurrentViewTab('school')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
+            currentViewTab === 'school'
+              ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-md shadow-indigo-500/25'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          <GraduationCap className="w-4 h-4 text-indigo-300" />
+          <span>School Library</span>
+          <span className="px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
+            Class 9–12
+          </span>
+        </button>
+
+        <button
+          onClick={() => setCurrentViewTab('stories')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
+            currentViewTab === 'stories'
+              ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md shadow-amber-500/25'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          <Feather className="w-4 h-4 text-amber-300" />
+          <span>Stories & Literature</span>
+        </button>
+
+        <button
+          onClick={() => setCurrentViewTab('puzzles')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
+            currentViewTab === 'puzzles'
+              ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md shadow-purple-500/25'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          <Puzzle className="w-4 h-4 text-purple-300" />
+          <span>Puzzles & Brain Gym</span>
+        </button>
+
+        <button
+          onClick={() => setCurrentViewTab('catalog')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
+            currentViewTab === 'catalog'
+              ? 'bg-indigo-600 text-white shadow-md'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          <BookOpen className="w-4 h-4" />
+          <span>All Books & Tech Vault</span>
+        </button>
+
+        <button
+          onClick={() => setCurrentViewTab('desk')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
+            currentViewTab === 'desk'
+              ? 'bg-slate-800 text-white shadow-md border border-slate-700'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          <Bookmark className="w-4 h-4 text-cyan-400" />
+          <span>My Reading Desk</span>
+          {continueReadingBooks.length > 0 && (
+            <span className="px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-cyan-500/20 text-cyan-300">
+              {continueReadingBooks.length}
+            </span>
+          )}
+        </button>
+      </div>
+
+      {/* Subview Renders */}
+      {currentViewTab === 'school' && (
+        <SchoolLibraryView
+          books={booksList}
+          onOpenDetails={(b) => setSelectedBookForDetails(b)}
+          onStartReading={(b) => setActiveReadingBook(b)}
+          onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
+        />
+      )}
+
+      {currentViewTab === 'stories' && (
+        <StoriesLibraryView
+          books={booksList}
+          onOpenDetails={(b) => setSelectedBookForDetails(b)}
+          onStartReading={(b) => setActiveReadingBook(b)}
+          onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
+        />
+      )}
+
+      {currentViewTab === 'puzzles' && (
+        <PuzzlesLibraryView
+          books={booksList}
+          onOpenDetails={(b) => setSelectedBookForDetails(b)}
+          onStartReading={(b) => setActiveReadingBook(b)}
+          onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
+        />
+      )}
+
+      {currentViewTab === 'desk' && (
+        <MyReadingDeskView
+          books={booksList}
+          onOpenDetails={(b) => setSelectedBookForDetails(b)}
+          onStartReading={(b) => setActiveReadingBook(b)}
+          onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
+          onNavigateToSchool={() => setCurrentViewTab('school')}
+        />
+      )}
+
+      {/* 3. Complete Catalog Content (Rendered when active tab is 'catalog') */}
+      {currentViewTab === 'catalog' && (
+        <div className="space-y-10 animate-fadeIn">
+          {/* Continue Reading Shelf (If user has reading progress) */}
       {continueReadingBooks.length > 0 && !isFilteringActive && (
         <div className="p-5 sm:p-6 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-xl space-y-4">
           <div className="flex items-center justify-between">
@@ -621,6 +762,8 @@ export const EBooksHub: React.FC = () => {
               </div>
             </div>
           )}
+        </div>
+      )}
         </div>
       )}
 

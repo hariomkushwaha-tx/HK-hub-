@@ -207,7 +207,7 @@ export const BookSubmissionModal: React.FC<BookSubmissionModalProps> = ({
                     className="mt-0.5 rounded border-slate-700 text-indigo-600 focus:ring-indigo-500"
                   />
                   <span className="text-slate-300 text-[11px] leading-relaxed">
-                    <strong className="text-slate-100 font-semibold">Copyright & Originality Warranty:</strong> I declare that I am the author or authorized publisher of this educational material, or that it is published under an explicit open-access license (e.g. Creative Commons / Public Domain). I understand unauthorized pirated content is strictly prohibited on HK HUB.
+                    <strong className="text-slate-100 font-semibold">Copyright & Originality Warranty:</strong> I declare that I am the author or authorized publisher of this educational material, or that it is published under an explicit open-access license (e.g. Creative Commons / Public Domain). I understand unauthorized pirated content is strictly prohibited on HK VELORA.
                   </span>
                 </label>
               </div>
@@ -228,7 +228,7 @@ export const BookSubmissionModal: React.FC<BookSubmissionModalProps> = ({
               <div className="space-y-1">
                 <h4 className="text-base font-bold text-slate-100">Draft Submitted Successfully!</h4>
                 <p className="text-xs text-slate-400">
-                  Your book <strong className="text-slate-200">"{title}"</strong> has been queued for editorial review and copyright verification. You will receive an email once published to the HK HUB Digital Library.
+                  Your book <strong className="text-slate-200">"{title}"</strong> has been queued for editorial review and copyright verification. You will receive an email once published to the HK VELORA Digital Library.
                 </p>
               </div>
               <button

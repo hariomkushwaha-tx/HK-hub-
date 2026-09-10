@@ -70,7 +70,7 @@ document.getElementById('reset').addEventListener('click', () => {
   },
   clock: {
     html: `<div class="clock-container">
-  <div class="badge">HK HUB SYSTEM TIME</div>
+  <div class="badge">HK VELORA SYSTEM TIME</div>
   <div id="time" class="time-display">00:00:00</div>
   <div id="date" class="date-display">Today</div>
 </div>`,
@@ -206,7 +206,7 @@ Key Semantic Elements:
 </head>
 <body>
   <header>
-    <h1>Welcome to HK HUB</h1>
+    <h1>Welcome to HK VELORA</h1>
   </header>
   <main>
     <article>
@@ -277,7 +277,7 @@ Best Practices:
 
 Key Python Structures:
 • Lists: Ordered, mutable collections ([1, 2, 3]).
-• Dictionaries: Key-value lookup tables ({"name": "HK HUB"}).
+• Dictionaries: Key-value lookup tables ({"name": "HK VELORA"}).
 • List Comprehensions: Elegant 1-line transformation of datasets.`,
     codeExample: `# Filtering student marks above passing grade
 marks = [88, 45, 92, 74, 55, 38]

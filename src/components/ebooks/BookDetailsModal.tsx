@@ -99,7 +99,7 @@ export const BookDetailsModal: React.FC<BookDetailsModalProps> = ({
     b => b.id !== book.id && (b.category === book.category || b.difficulty === book.difficulty)
   ).slice(0, 3);
 
-  // Related HK HUB Tools & Guides
+  // Related HK VELORA Tools & Guides
   const relatedTools = ALL_TOOLS.slice(0, 2);
   const relatedGuides = COMPREHENSIVE_GUIDES.slice(0, 2);
 
@@ -130,7 +130,7 @@ export const BookDetailsModal: React.FC<BookDetailsModalProps> = ({
       setShowReportModal(false);
       setReportSubmitted(false);
       setReportNotes('');
-      showToast('Thank you. Your report has been submitted to HK HUB moderators for review.');
+      showToast('Thank you. Your report has been submitted to HK VELORA moderators for review.');
     }, 1200);
   };
 
@@ -317,7 +317,7 @@ export const BookDetailsModal: React.FC<BookDetailsModalProps> = ({
                     </div>
                   )}
                   <p className="text-[11px] text-slate-400 mt-0.5">
-                    {unlocked ? '✓ Unlocked in your HK HUB Library' : 'One-time digital unlock • Lifetime updates'}
+                    {unlocked ? '✓ Unlocked in your HK VELORA Library' : 'One-time digital unlock • Lifetime updates'}
                   </p>
                 </div>
 
@@ -422,7 +422,7 @@ export const BookDetailsModal: React.FC<BookDetailsModalProps> = ({
             <div className="space-y-4 text-xs">
               <div className="space-y-2 text-slate-300 leading-relaxed">
                 <h4 className="font-bold text-sm text-slate-100">About This Edition</h4>
-                <p>{book.description}</p>
+                <p>{book.description || book.shortDescription || book.subtitle || 'Comprehensive handbook and reference guide for students and self-learners.'}</p>
               </div>
 
               {/* Metadata Grid */}
@@ -443,11 +443,74 @@ export const BookDetailsModal: React.FC<BookDetailsModalProps> = ({
                   <p className="text-[10px] text-slate-400 uppercase font-mono">License</p>
                   <p className="font-bold text-slate-200 mt-0.5 truncate">{book.copyrightStatus || 'Open Access'}</p>
                 </div>
+                {book.schoolClass && (
+                  <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/20">
+                    <p className="text-[10px] text-indigo-300 uppercase font-mono">Academic Class</p>
+                    <p className="font-bold text-white mt-0.5">{book.schoolClass}</p>
+                  </div>
+                )}
+                {book.subject && (
+                  <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/20">
+                    <p className="text-[10px] text-indigo-300 uppercase font-mono">Subject / Field</p>
+                    <p className="font-bold text-white mt-0.5">{book.subject}</p>
+                  </div>
+                )}
+                {book.stream && (
+                  <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/20">
+                    <p className="text-[10px] text-indigo-300 uppercase font-mono">Stream</p>
+                    <p className="font-bold text-white mt-0.5">{book.stream}</p>
+                  </div>
+                )}
+                {book.readingLevel && (
+                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                    <p className="text-[10px] text-slate-400 uppercase font-mono">Reading Level</p>
+                    <p className="font-bold text-slate-200 mt-0.5">{book.readingLevel}</p>
+                  </div>
+                )}
               </div>
 
-              {/* Related HK HUB Tools & Guides */}
+              {/* Copyright Transparency & Trust Box (Section 96 & 97) */}
+              <div className="p-4 rounded-2xl bg-slate-950 border border-emerald-500/20 space-y-2">
+                <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>Copyright & Academic Rights Transparency</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-400">
+                  <div>
+                    <span className="text-slate-500">License: </span>
+                    <strong className="text-slate-300">{book.licenseType || 'Open Educational Resource / Creative Commons'}</strong>
+                  </div>
+                  <div>
+                    <span className="text-slate-500">Permission: </span>
+                    <strong className="text-slate-300">{book.permissionStatus || 'Authorized Academic Release'}</strong>
+                  </div>
+                  <div>
+                    <span className="text-slate-500">Publisher / Cell: </span>
+                    <strong className="text-slate-300">{book.publisher || 'HK VELORA Digital Library'}</strong>
+                  </div>
+                  <div>
+                    <span className="text-slate-500">Content Source: </span>
+                    <strong className="text-slate-300">{book.source || 'Curated Academic Syllabus'}</strong>
+                  </div>
+                </div>
+              </div>
+
+              {/* Puzzle Items Preview if available */}
+              {book.puzzleItems && book.puzzleItems.length > 0 && (
+                <div className="p-4 rounded-2xl bg-purple-950/20 border border-purple-500/30 space-y-2">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Includes {book.puzzleItems.length} Interactive Brain Challenges</span>
+                  </h4>
+                  <p className="text-slate-400 text-[11px]">
+                    This book includes interactive riddles with hints, answers, and analytical breakdowns inside the digital reader.
+                  </p>
+                </div>
+              )}
+
+              {/* Related HK VELORA Tools & Guides */}
               <div className="pt-4 border-t border-slate-800 space-y-3">
-                <h4 className="font-bold text-sm text-slate-100">Connected HK HUB Tools & Handbooks</h4>
+                <h4 className="font-bold text-sm text-slate-100">Connected HK VELORA Tools & Handbooks</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {relatedTools.map(tool => (
                     <div
@@ -581,7 +644,7 @@ export const BookDetailsModal: React.FC<BookDetailsModalProps> = ({
           {/* Related Books & Copyright Report Action */}
           <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
             <div className="text-slate-400">
-              <span>Licensed for HK HUB Academic & Student Knowledge Platform.</span>
+              <span>Licensed for HK VELORA Academic & Student Knowledge Platform.</span>
             </div>
             <button
               onClick={() => setShowReportModal(true)}

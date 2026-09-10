@@ -36,6 +36,16 @@ export const ALL_TOOLS: ToolItem[] = [
     iconName: 'AlignLeft',
     tags: ['dummy text', 'placeholder', 'lorem ipsum', 'mockup']
   },
+  {
+    id: 'universal-translator',
+    name: 'Universal Multi-Language Translator & Speech',
+    description: 'Translate text between Hindi, English, Hinglish, Bengali, Marathi, Telugu, Tamil, and 50+ languages with instant voice playback.',
+    category: 'text',
+    iconName: 'Languages',
+    isPopular: true,
+    isStudentPick: true,
+    tags: ['translate', 'hindi', 'english', 'hinglish', 'bengali', 'languages', 'voice', 'speech']
+  },
 
   // Developer Tools
   {

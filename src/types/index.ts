@@ -83,6 +83,8 @@ export interface AiTool {
   rating?: number;
   website?: string;
   link?: string;
+  featured?: boolean;
+  badge?: string;
 }
 
 export type AiToolInfo = AiTool;
@@ -164,9 +166,29 @@ export interface EBookChapter {
   codeSnippet?: string;
   audioUrl?: string;
   duration?: string;
+  realWorldUse?: string;
+  exercise?: string;
+  content?: string;
 }
 
-export type BookType = 'E-Book' | 'Guide' | 'Handbook' | 'Tutorial' | 'Study Material' | 'Reference' | 'Audio Book';
+export type BookType = 
+  | 'Textbook' 
+  | 'Reference Book' 
+  | 'Study Guide' 
+  | 'Revision Book' 
+  | 'Practice Book' 
+  | 'Question Practice' 
+  | 'Handbook' 
+  | 'Notes/Study Material' 
+  | 'Educational Guide' 
+  | 'Story' 
+  | 'Puzzle Book' 
+  | 'E-Book' 
+  | 'Guide' 
+  | 'Tutorial' 
+  | 'Study Material' 
+  | 'Reference' 
+  | 'Audio Book';
 
 export interface BookReview {
   id: string;
@@ -209,6 +231,15 @@ export interface AuthorProfile {
   socialLinks?: { github?: string; twitter?: string; website?: string };
 }
 
+export interface PuzzleItem {
+  id: string;
+  question: string;
+  hint?: string;
+  answer: string;
+  explanation?: string;
+  difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
+}
+
 export interface EBookItem {
   id: string;
   title: string;
@@ -218,7 +249,7 @@ export interface EBookItem {
   authorId?: string;
   authorBio?: string;
   publisher?: string;
-  description: string;
+  description?: string;
   shortDescription?: string;
   coverImage?: string;
   coverGradient: string;
@@ -252,11 +283,66 @@ export interface EBookItem {
   originalPrice?: number;
   discountPercentage?: number;
   isFree: boolean;
-  copyrightStatus?: 'Open Access / Creative Commons' | 'Public Domain' | 'Authorized Academic Release' | 'HK HUB Exclusive' | string;
+  copyrightStatus?: 'Open Access / Creative Commons' | 'Public Domain' | 'Authorized Academic Release' | 'HK VELORA Exclusive' | string;
   whatYoullLearn?: string[];
   tableOfContents: string[];
   chaptersPreview: EBookChapter[];
   studyNotes: string[];
   reviews?: BookReview[];
+  // Education & School Library (Sections 74-83, 91-97)
+  schoolClass?: 'Class 6' | 'Class 7' | 'Class 8' | 'Class 9' | 'Class 10' | 'Class 11' | 'Class 12' | 'Competitive' | 'College/General' | string;
+  stream?: 'Science' | 'Commerce' | 'Humanities / Arts' | 'General' | string;
+  subject?: string;
+  readingLevel?: 'School' | 'Teen-friendly' | 'General' | 'Advanced';
+  // Stories & Literature (Sections 84-86)
+  literatureGenre?: string;
+  // Puzzles & Brain Library (Sections 87-89)
+  puzzleType?: string;
+  puzzleCount?: number;
+  puzzleItems?: {
+    id: string;
+    question: string;
+    hint?: string;
+    answer: string;
+    explanation?: string;
+    difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
+  }[];
+  // Rights & Verification Metadata (Section 97)
+  rightsHolder?: string;
+  licenseType?: string;
+  source?: string;
+  permissionStatus?: 'Verified Free Access' | 'Original Publication' | 'Public Domain' | 'Authorized Academic Release';
+  relatedToolIds?: string[];
+  relatedGuideIds?: string[];
+}
+
+export type SupportedLanguage = 
+  | 'en'       // English
+  | 'hi'       // हिन्दी (Hindi)
+  | 'hinglish' // Hinglish (Roman Hindi)
+  | 'bn'       // বাংলা (Bengali)
+  | 'mr'       // मराठी (Marathi)
+  | 'gu'       // ગુજરાતી (Gujarati)
+  | 'te'       // తెలుగు (Telugu)
+  | 'ta'       // தமிழ் (Tamil)
+  | 'ur'       // اردو (Urdu)
+  | 'pa'       // ਪੰਜਾਬੀ (Punjabi)
+  | 'kn'       // ಕನ್ನಡ (Kannada)
+  | 'ml'       // മലയാളം (Malayalam)
+  | 'es'       // Español (Spanish)
+  | 'fr'       // Français (French)
+  | 'de'       // Deutsch (German)
+  | 'ar'       // العربية (Arabic)
+  | 'ru'       // Русский (Russian)
+  | 'ja';      // 日本語 (Japanese)
+
+export interface LanguageOption {
+  code: SupportedLanguage;
+  name: string;
+  nativeName: string;
+  flag: string;
+  region: 'India' | 'Global';
+  description: string;
+  greeting: string;
 }
 

@@ -16,12 +16,15 @@ import { EBooksHub } from './components/ebooks/EBooksHub';
 import { GlobalSearchModal } from './components/GlobalSearchModal';
 import { LegalModals } from './components/compliance/LegalModals';
 import { UserProfileModal } from './components/profile/UserProfileModal';
+import { LanguageModal } from './components/LanguageModal';
+import { FloatingLanguageWidget } from './components/FloatingLanguageWidget';
+import { MobileBottomNav } from './components/MobileBottomNav';
 
 const MainContent: React.FC = () => {
   const { activeTab, theme } = useApp();
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-200 ${
+    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-200 pb-16 lg:pb-0 ${
       theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'
     }`}>
       {/* Universal Header */}
@@ -45,7 +48,14 @@ const MainContent: React.FC = () => {
       {/* Universal Compliance & Directory Footer */}
       <Footer />
 
+      {/* Native Mobile Bottom Navigation */}
+      <MobileBottomNav />
+
+      {/* Floating Language Quick Switcher */}
+      <FloatingLanguageWidget />
+
       {/* Global Modals & Overlays */}
+      <LanguageModal />
       <GlobalSearchModal />
       <LegalModals />
       <UserProfileModal />

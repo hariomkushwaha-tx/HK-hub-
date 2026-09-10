@@ -25,7 +25,8 @@ export const UserProfileModal: React.FC = () => {
     bookmarkedIds, 
     openTool, 
     openGuide, 
-    theme 
+    theme,
+    setActiveComplianceModal
   } = useApp();
 
   const displayName = userProfile?.name || userProfile?.fullName || 'Alex Student';
@@ -255,11 +256,31 @@ export const UserProfileModal: React.FC = () => {
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-3 bg-slate-950 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
-          <span className="flex items-center gap-1 text-emerald-400">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            100% Local Device Privacy
-          </span>
+        <div className="px-6 py-3 bg-slate-950 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                setUserModalOpen(false);
+                setActiveComplianceModal('privacy');
+              }}
+              className="flex items-center gap-1 text-slate-400 hover:text-indigo-400 transition-colors underline-offset-2 hover:underline"
+            >
+              Privacy Policy
+            </button>
+            <span className="text-slate-700">•</span>
+            <button
+              type="button"
+              onClick={() => {
+                setUserModalOpen(false);
+                setActiveComplianceModal('security');
+              }}
+              className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition-colors font-medium"
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              Security Guarantee (सुरक्षा गारंटी)
+            </button>
+          </div>
           <button
             onClick={() => setUserModalOpen(false)}
             className="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium"

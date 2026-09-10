@@ -183,7 +183,7 @@ export const GlobalSearchModal: React.FC = () => {
       EBOOKS_DATA.forEach(b => {
         const titleMatch = b.title.toLowerCase().includes(q);
         const authorMatch = b.author.toLowerCase().includes(q);
-        const descMatch = b.description.toLowerCase().includes(q);
+        const descMatch = (b.description || b.shortDescription || '').toLowerCase().includes(q);
         const tagMatch = b.tags.some(t => t.toLowerCase().includes(q));
         const catMatch = b.category.toLowerCase().includes(q);
 

@@ -76,7 +76,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         <div className="p-5 sm:p-6 bg-gradient-to-r from-indigo-950/90 via-slate-900 to-slate-900 border-b border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Lock className="w-4 h-4 text-emerald-400" />
-            <span className="text-sm font-bold text-slate-100">HK HUB Secure Digital Checkout</span>
+            <span className="text-sm font-bold text-slate-100">HK VELORA Secure Digital Checkout</span>
           </div>
           <button
             onClick={onClose}
@@ -189,7 +189,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               {/* Guarantee */}
               <div className="flex items-center gap-2 text-xs text-slate-400">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Instant access granted to your HK HUB library upon payment confirmation.</span>
+                <span>Instant access granted to your HK VELORA library upon payment confirmation.</span>
               </div>
 
               {/* Pay Button */}

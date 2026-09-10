@@ -185,7 +185,7 @@ export const AdminBooksModal: React.FC<AdminBooksModalProps> = ({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base sm:text-lg font-bold text-slate-100">HK HUB Library Admin Dashboard</h3>
+                <h3 className="text-base sm:text-lg font-bold text-slate-100">HK VELORA Library Admin Dashboard</h3>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
                   Authorized Admin
                 </span>
@@ -275,6 +275,69 @@ export const AdminBooksModal: React.FC<AdminBooksModalProps> = ({
                         type="text"
                         value={editingBook.category}
                         onChange={(e) => setEditingBook({ ...editingBook, category: e.target.value })}
+                        className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 focus:border-indigo-500 outline-none"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-300">Book Type</label>
+                      <select
+                        value={editingBook.bookType || 'E-Book'}
+                        onChange={(e) => setEditingBook({ ...editingBook, bookType: e.target.value as any })}
+                        className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 focus:border-indigo-500 outline-none"
+                      >
+                        <option value="E-Book">E-Book</option>
+                        <option value="Handbook">Handbook</option>
+                        <option value="Guide">Guide</option>
+                        <option value="Textbook">Textbook (School)</option>
+                        <option value="Study Guide">Study Guide (School)</option>
+                        <option value="Revision Book">Revision Book (School)</option>
+                        <option value="Story">Story / Literature</option>
+                        <option value="Puzzle Book">Puzzle Book</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-300">Academic Class (Optional)</label>
+                      <select
+                        value={editingBook.schoolClass || ''}
+                        onChange={(e) => setEditingBook({ ...editingBook, schoolClass: (e.target.value || undefined) as any })}
+                        className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 focus:border-indigo-500 outline-none"
+                      >
+                        <option value="">None (General / Tech / Story)</option>
+                        <option value="Class 9">Class 9</option>
+                        <option value="Class 10">Class 10</option>
+                        <option value="Class 11">Class 11</option>
+                        <option value="Class 12">Class 12</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-300">Stream (For Class 11-12)</label>
+                      <select
+                        value={editingBook.stream || ''}
+                        onChange={(e) => setEditingBook({ ...editingBook, stream: (e.target.value || undefined) as any })}
+                        className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 focus:border-indigo-500 outline-none"
+                      >
+                        <option value="">None / General</option>
+                        <option value="Science">Science (PCM/PCB)</option>
+                        <option value="Commerce">Commerce</option>
+                        <option value="Humanities / Arts">Humanities & Arts</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-300">Subject</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Mathematics, Science, Physics"
+                        value={editingBook.subject || ''}
+                        onChange={(e) => setEditingBook({ ...editingBook, subject: e.target.value || undefined })}
+                        className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 focus:border-indigo-500 outline-none"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-300">Copyright Status</label>
+                      <input
+                        type="text"
+                        value={editingBook.copyrightStatus || 'Open Educational Resource'}
+                        onChange={(e) => setEditingBook({ ...editingBook, copyrightStatus: e.target.value })}
                         className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 focus:border-indigo-500 outline-none"
                       />
                     </div>

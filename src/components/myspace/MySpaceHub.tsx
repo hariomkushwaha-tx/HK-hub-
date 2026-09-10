@@ -99,7 +99,7 @@ export const MySpaceHub: React.FC = () => {
                   {userProfile?.role || 'Student'}
                 </span>
               </div>
-              <p className="text-xs text-slate-400">@{userProfile?.username || 'tech_explorer'} • HK HUB Member</p>
+              <p className="text-xs text-slate-400">@{userProfile?.username || 'tech_explorer'} • HK VELORA Member</p>
             </div>
           </div>
 

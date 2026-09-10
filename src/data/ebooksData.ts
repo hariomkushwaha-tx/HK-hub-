@@ -1,122 +1,157 @@
 import { EBookItem } from '../types';
+import { SCHOOL_BOOKS_DATA } from './schoolBooksData';
+import { STORIES_BOOKS_DATA } from './storiesBooksData';
+import { PUZZLES_BOOKS_DATA } from './puzzlesBooksData';
+import { EXPANDED_BOOKS_DATA } from './expandedBooksData';
+import { SCHOOL_BOOKS_EXPANDED_DATA } from './schoolBooksExpandedData';
+import { TECH_BOOKS_EXPANDED_DATA } from './techBooksExpandedData';
+import { GENERAL_BOOKS_EXPANDED_DATA } from './generalBooksExpandedData';
+import { MILESTONE_BOOKS_DATA } from './milestoneBooksData';
+import { COMPETITIVE_EXAMS_BOOKS_DATA } from './competitiveExamsBooksData';
+import { ADVANCED_TECH_BOOKS_DATA } from './advancedTechBooksData';
+import { MIDDLE_SCHOOL_BOOKS_DATA } from './middleSchoolBooksData';
+import { BUSINESS_AND_LIFE_BOOKS_DATA } from './businessAndLifeBooksData';
+import { MORE_STORIES_AND_APTITUDE_DATA } from './moreStoriesAndAptitudeData';
+import { SENIOR_SCHOOL_ACADEMIC_DATA } from './seniorSchoolAcademicData';
 
-export const EBOOKS_DATA: EBookItem[] = [
+const CORE_TECH_EBOOKS: EBookItem[] = [
   {
     id: 'dsa-handbook',
-    title: 'Data Structures & Algorithms: The Technical Interview & Exam Guide',
-    subtitle: 'From Big-O Foundations to Graph Traversal and Dynamic Programming',
+    title: 'Mastering Data Structures & Algorithms (DSA Master Handbook)',
+    subtitle: 'From Big-O Basics to Tree Traversal, Graphs & Dynamic Programming in Simple Terms',
     slug: 'dsa-handbook',
-    author: 'HK HUB Academic Team & Open CS Community',
-    authorId: 'hk-academic',
-    authorBio: 'Curated by senior software engineers and university faculty.',
-    publisher: 'HK HUB Open Academic Press',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    authorId: 'hariom-kushwaha',
+    authorBio: 'Founder of HK Tech World & Creator of HK VELORA. Software architect, author, and educator helping students crack top tech interviews.',
+    publisher: 'HK Tech World & HK VELORA Press',
     category: 'Coding & Programming',
     subcategory: 'Algorithms & Data Structures',
-    genre: 'Computer Science Textbook',
+    genre: 'Computer Science Master Handbook',
     bookType: 'Handbook',
-    description: 'A comprehensive, student-friendly deep dive into core data structures (Arrays, Linked Lists, Trees, Graphs, Heaps) and algorithm paradigms (Dynamic Programming, Greedy, Backtracking, Divide & Conquer) with step-by-step Big-O proofs, interview patterns, and clean code examples.',
-    shortDescription: 'Master DSA, Big-O analysis, and interview patterns with practical code snippets and study notes.',
-    pages: 420,
+    description: 'A comprehensive, student-friendly deep dive into Data Structures and Algorithms designed by Hariom Kushwaha. Explains complex concepts using everyday real-life analogies (like cinema ticket lines for queues, family trees for binary trees, and Google Maps for graphs), step-by-step Big-O proofs, LeetCode patterns, and exam-winning tips in easy-to-understand language.',
+    shortDescription: 'Master DSA, Big-O, Trees, Graphs & Dynamic Programming with practical code and exam-tested notes.',
+    pages: 480,
     format: 'E-Book & PDF',
     difficulty: 'All Levels',
-    rating: 4.9,
-    reviewCount: 428,
-    badge: 'Campus Favorite',
+    rating: 4.95,
+    reviewCount: 540,
+    badge: 'HK Bestseller',
     coverGradient: 'from-indigo-600 via-blue-700 to-cyan-800',
-    downloadUrl: 'https://opendatastructures.org/ods-cpp/',
-    readOnlineUrl: 'https://opendatastructures.org/ods-cpp/',
-    tags: ['DSA', 'Algorithms', 'LeetCode', 'Interview Prep', 'C++', 'Java', 'Python'],
-    topics: ['Big-O Analysis', 'Binary Trees', 'Graphs & Dijkstra', 'Dynamic Programming', 'Two-Pointer'],
-    language: 'English & Hinglish Notes',
+    downloadUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    readOnlineUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    tags: ['DSA', 'Algorithms', 'Hariom Kushwaha', 'HK Tech World', 'LeetCode', 'Interview Prep', 'C++', 'Python', 'Java'],
+    topics: ['Big-O Analysis', 'Two-Pointer & Sliding Window', 'Trees & BSTs', 'Graphs & Dijkstra', 'Dynamic Programming'],
+    language: 'English & Hinglish Simplified Notes',
     featured: true,
     trending: true,
     studentPick: true,
     yearPublished: '2025 Edition',
-    updatedDate: 'August 2025',
-    isbn: '978-93-89123-01-4',
+    updatedDate: 'September 2025',
+    isbn: '978-93-89101-01-1',
     price: 0,
     isFree: true,
-    copyrightStatus: 'Open Access / Creative Commons',
+    copyrightStatus: 'HK Tech World Original Press / Free for Students',
     hasAudioBook: true,
-    narrator: 'Prof. A. K. Verma',
-    audioDuration: '6h 15m',
+    narrator: 'Hariom Kushwaha',
+    audioDuration: '7h 30m',
     whatYoullLearn: [
-      'Derive worst, average, and amortized Big-O time & space complexities',
-      'Solve sliding window, two-pointer, and fast & slow pointer problems effortlessly',
-      'Master binary trees, self-balancing AVL trees, and Trie structures',
-      'Implement Graph BFS, DFS, Dijkstra, and Topological Sort with ease',
-      'Deconstruct overlapping subproblems into optimal DP state transitions'
+      'Understand Big-O time and space complexity without confusing mathematical jargon',
+      'Solve sliding window, two-pointer, and fast & slow pointer array questions effortlessly',
+      'Master Linked Lists, Stacks, Monotonic Queues, and Hash Map collision resolution',
+      'Visualize Binary Trees, Binary Search Trees (BST), AVL balance, and Trie structures',
+      'Traverse Graphs using BFS, DFS, Dijkstra shortest-path, and Topological Sort',
+      'Deconstruct complex Dynamic Programming problems using state transition equations'
     ],
     tableOfContents: [
-      '1. Complexity Analysis & Master Theorem for Big-O',
+      '1. Big-O Complexity & Master Theorem (समय और मेमोरी का सही विश्लेषण)',
       '2. Arrays, Strings & Two-Pointer / Sliding Window Techniques',
-      '3. Linked Lists: Singly, Doubly & Circular Implementation',
-      '4. Stacks & Queues: Monotonic Stacks and Expression Parsing',
-      '5. Hash Tables: Collision Resolution & Open Addressing',
-      '6. Binary Trees, BSTs & Self-Balancing AVL / Red-Black Trees',
-      '7. Heaps & Priority Queues: Min-Heap, Max-Heap & Heap Sort',
-      '8. Graphs: BFS, DFS, Dijkstra, Bellman-Ford & Minimum Spanning Trees',
-      '9. Dynamic Programming: 1D, 2D Memoization & Tabulation Patterns',
-      '10. System Design & Complexity Trade-Offs'
+      '3. Linked Lists: Singly, Doubly, Circular & Fast-Slow Pointer Traversal',
+      '4. Stacks & Queues: Monotonic Stacks, Expression Parsing & Real-Life Queues',
+      '5. Hash Tables: Hash Functions, Collisions & O(1) Lookups in Production',
+      '6. Binary Trees & BSTs: Inorder, Preorder, Postorder & Level Order BFS',
+      '7. Priority Queues & Heaps: Min-Heap, Max-Heap & Top-K Problems',
+      '8. Graph Traversal: BFS, DFS, Dijkstra Shortest Path & Cycle Detection',
+      '9. Dynamic Programming: 1D, 2D Memoization, Tabulation & Knapsack Patterns',
+      '10. Technical Interview Master Blueprint: Top 50 LeetCode Patterns'
     ],
     chaptersPreview: [
       {
-        title: 'Chapter 1: Master Theorem & Asymptotic Analysis',
-        summary: 'Understanding how algorithm performance scales with input size n. Contrast worst-case O(n), average-case Θ(n), and best-case Ω(n).',
+        title: 'Chapter 1: Big-O Complexity Analysis (Big-O को आसान भाषा में समझें)',
+        summary: 'Big-O complexity is not measuring execution time in seconds (because a supercomputer runs code faster than an old laptop). Instead, Big-O counts how the number of fundamental operations scales as the input size n grows to thousands or millions.',
         keyPoints: [
-          'Time Complexity is not execution seconds; it counts basic operations.',
-          'Binary search achieves O(log n) because the search space halves every iteration.',
-          'Dynamic arrays amortize append operations to O(1) by doubling capacity upon overflow.'
+          'O(1) - Constant Time: Instant lookups like array index access arr[i] or Hash Map search.',
+          'O(log n) - Logarithmic Time: Binary Search, where the search space halves in each step.',
+          'O(n) - Linear Time: A single loop iterating through all n elements once.',
+          'O(n log n) - Optimal Sorting: Merge Sort and Heap Sort divide-and-conquer efficiency.',
+          'O(n²) - Quadratic Time: Nested loops checking pairs, like Bubble Sort.',
+          'Hariom Note: Interviewers always expect you to state Time AND Auxiliary Space complexity.'
         ],
         codeSnippet: `// Binary Search in TypeScript / JavaScript
+// Time Complexity: O(log n) | Space: O(1)
 function binarySearch(arr: number[], target: number): number {
   let left = 0;
   let right = arr.length - 1;
+
   while (left <= right) {
+    // Avoid integer overflow: left + Math.floor((right - left) / 2)
     const mid = Math.floor(left + (right - left) / 2);
-    if (arr[mid] === target) return mid;
-    if (arr[mid] < target) left = mid + 1;
-    else right = mid - 1;
+
+    if (arr[mid] === target) return mid; // Target found at index mid!
+    if (arr[mid] < target) {
+      left = mid + 1; // Search right half
+    } else {
+      right = mid - 1; // Search left half
+    }
   }
-  return -1; // Not found
+  return -1; // Element not present
 }`
       },
       {
-        title: 'Chapter 2: Arrays, Strings & Two-Pointer Techniques',
-        summary: 'Deep dive into array indexing, memory locality, and two-pointer traversal patterns that turn brute force O(n²) into linear O(n).',
+        title: 'Chapter 2: Arrays, Strings & Two-Pointer Optimization',
+        summary: 'How to convert brute-force O(n²) pair comparisons into blazingly fast O(n) solutions using left and right pointers or sliding window boundaries.',
         keyPoints: [
-          'Two-pointer works when the array is sorted or directional invariants hold.',
-          'Sliding window tracks contiguous subsegments with dynamic expand/shrink boundaries.',
-          'Prefix sums provide O(1) range sum queries after O(n) preprocessing.'
+          'Two-Pointer works reliably when the input array is sorted or directional properties hold.',
+          'Sliding Window dynamically expands right pointer and shrinks left pointer based on conditions.',
+          'Prefix Sum array allows answering range queries (sum of elements from index L to R) in O(1).'
         ],
-        codeSnippet: `// Two-Pointer: Two Sum on Sorted Array
+        codeSnippet: `// Two-Pointer Pattern: Two Sum on a Sorted Array
+// Time: O(n) | Auxiliary Space: O(1)
 function twoSumSorted(nums: number[], target: number): [number, number] | null {
-  let left = 0, right = nums.length - 1;
+  let left = 0;
+  let right = nums.length - 1;
+
   while (left < right) {
-    const sum = nums[left] + nums[right];
-    if (sum === target) return [left, right];
-    if (sum < target) left++;
-    else right--;
+    const currentSum = nums[left] + nums[right];
+    if (currentSum === target) {
+      return [left, right]; // Found the pair!
+    } else if (currentSum < target) {
+      left++; // Need a bigger sum, move left pointer rightward
+    } else {
+      right--; // Need a smaller sum, move right pointer leftward
+    }
   }
-  return null;
+  return null; // No matching pair
 }`
       },
       {
-        title: 'Chapter 8: Graph Traversal & Dijkstra Algorithm',
-        summary: 'Representing graphs with Adjacency Lists vs Matrices, implementing Breadth-First Search (shortest path unweighted) and Dijkstra (weighted positive edges).',
+        title: 'Chapter 8: Graph Traversal & Dijkstra Algorithm (रास्तों का गणित)',
+        summary: 'Graphs model networks like friends on Facebook, routers on the Internet, or roads on Google Maps. Learn how BFS finds the shortest path in unweighted networks and Dijkstra in weighted road maps.',
         keyPoints: [
-          'BFS uses a FIFO Queue and finds the shortest path in unweighted graphs in O(V + E).',
-          'DFS uses a LIFO Stack or recursion, ideal for topological sort and cycle detection.',
-          'Dijkstra uses a Min-Heap Priority Queue to achieve O((V + E) log V).'
+          'Adjacency List is preferred over Adjacency Matrix because sparse graphs save huge memory O(V + E) vs O(V²).',
+          'BFS (Breadth-First Search) uses a Queue and explores level by level — guaranteed shortest path for unweighted graphs.',
+          'DFS (Depth-First Search) uses recursion or a Stack — ideal for backtracking, maze-solving, and topological ordering.',
+          'Dijkstra uses a Min-Heap Priority Queue to find the shortest path with positive weights in O((V + E) log V).'
         ],
-        codeSnippet: `// BFS using Adjacency List
-function bfs(graph: Map<string, string[]>, start: string): string[] {
-  const visited = new Set<string>([start]);
-  const queue: string[] = [start];
-  const order: string[] = [];
+        codeSnippet: `// BFS Algorithm using Adjacency List
+function bfsTraversal(graph: Map<string, string[]>, startNode: string): string[] {
+  const visited = new Set<string>([startNode]);
+  const queue: string[] = [startNode];
+  const visitOrder: string[] = [];
+
   while (queue.length > 0) {
     const node = queue.shift()!;
-    order.push(node);
+    visitOrder.push(node);
+
     for (const neighbor of graph.get(node) || []) {
       if (!visited.has(neighbor)) {
         visited.add(neighbor);
@@ -124,517 +159,1015 @@ function bfs(graph: Map<string, string[]>, start: string): string[] {
       }
     }
   }
-  return order;
+  return visitOrder;
 }`
-      },
-      {
-        title: 'Chapter 9: Dynamic Programming Framework',
-        summary: 'Transform exponential recursion into polynomial time via optimal substructure and overlapping subproblems.',
-        keyPoints: [
-          'Step 1: Define the state dp[i] clearly in plain English.',
-          'Step 2: Formulate the recurrence relation between dp[i] and earlier states.',
-          'Step 3: Establish base cases (e.g. dp[0] = 0, dp[1] = 1).',
-          'Space optimization often lets you reduce O(n) array space to O(1) variables.'
-        ]
       }
     ],
     studyNotes: [
-      'Tip for Exams: Always state time and space complexity explicitly before writing code.',
-      'Always test edge cases: empty array [], single element [1], duplicates [2,2,2], and negative values.',
-      'Remember: Quicksort is O(n log n) average but O(n²) worst case; Mergesort is guaranteed O(n log n) but requires O(n) extra auxiliary memory.'
+      'Exam Tip by Hariom: Always draw the data structure on paper (dry-run) before writing code in exam or interview.',
+      'Always test 4 edge cases: (1) Empty input [], (2) Single element [1], (3) All duplicate elements [5, 5, 5], (4) Extreme numbers (very large or negative).',
+      'Never panic in coding rounds. State your brute-force approach first, then explain why Two-Pointer or Hash Map makes it O(n).'
     ]
   },
   {
-    id: 'genai-prompt-engineering',
-    title: 'Generative AI & Prompt Engineering: The Modern Builder’s Handbook',
-    subtitle: 'From Zero to Production LLM Systems, Function Calling & AI Agents',
-    slug: 'genai-prompt-engineering',
-    author: 'Dr. Priya Nair',
-    authorId: 'dr-priya-nair',
-    authorBio: 'AI Researcher & Applied ML Lead specializing in LLM architectures and agents.',
-    publisher: 'HK HUB Tech Press',
-    category: 'Artificial Intelligence',
-    subcategory: 'Generative AI & LLMs',
-    genre: 'AI Architecture Guide',
+    id: 'web-development-handbook',
+    title: 'The Modern Web Developer’s Complete Handbook',
+    subtitle: 'From HTML5 & Tailwind CSS to Modern JavaScript, React 18 & Full-Stack Deployment',
+    slug: 'web-development-handbook',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    authorId: 'hariom-kushwaha',
+    authorBio: 'Founder of HK Tech World & Creator of HK VELORA. Full-stack engineer specialized in high-performance web systems and developer tooling.',
+    publisher: 'HK Tech World & HK VELORA Press',
+    category: 'Web Development',
+    subcategory: 'Frontend & Full-Stack',
+    genre: 'Web Architecture Guide',
     bookType: 'Handbook',
-    description: 'A masterclass textbook on building real-world AI applications with Gemini, Claude, and OpenAI models. Covers chain-of-thought prompting, retrieval augmented generation (RAG), vector databases, tool/function calling, and multi-agent systems with complete TypeScript & Python blueprints.',
-    shortDescription: 'Build next-generation AI apps, understand RAG pipelines, and master advanced prompt engineering.',
-    pages: 350,
-    format: 'E-Book & Interactive',
-    difficulty: 'Intermediate',
-    rating: 4.95,
-    reviewCount: 312,
-    badge: 'Trending AI Masterclass',
-    coverGradient: 'from-purple-600 via-indigo-700 to-pink-700',
-    downloadUrl: 'https://hkhub.dev/library/genai-handbook',
-    readOnlineUrl: 'https://hkhub.dev/library/genai-handbook',
-    tags: ['AI', 'Generative AI', 'Gemini', 'Prompt Engineering', 'RAG', 'LLMs', 'Agents'],
-    topics: ['System Prompts', 'Few-Shot Learning', 'Vector Embeddings', 'RAG Pipelines', 'Agent Loops'],
-    language: 'English',
+    description: 'The definitive hands-on manual written by Hariom Kushwaha for learning web development from zero to production. Covers semantic HTML5, modern Flexbox/Grid styling, modern JavaScript (ES6+, Promises, Async/Await), React component design, hooks, state management, and deploying live apps to Vercel and cloud platforms.',
+    shortDescription: 'Build modern responsive websites and React web apps with production-grade code and best practices.',
+    pages: 520,
+    format: 'E-Book & PDF',
+    difficulty: 'All Levels',
+    rating: 4.98,
+    reviewCount: 460,
+    badge: 'Most Comprehensive',
+    coverGradient: 'from-emerald-600 via-teal-700 to-cyan-900',
+    downloadUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    readOnlineUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    tags: ['Web Development', 'React', 'JavaScript', 'HTML5', 'CSS', 'Tailwind', 'Hariom Kushwaha', 'Full Stack'],
+    topics: ['HTML5 Semantics', 'CSS Flexbox & Grid', 'JavaScript Async/Await', 'React Hooks', 'Full-Stack Deployment'],
+    language: 'English & Hinglish Simplified Notes',
     featured: true,
     trending: true,
-    dealOfTheDay: true,
+    studentPick: true,
     yearPublished: '2025 Edition',
     updatedDate: 'September 2025',
-    isbn: '978-93-89123-09-2',
-    price: 149,
-    originalPrice: 299,
-    discountPercentage: 50,
-    isFree: false,
-    copyrightStatus: 'HK HUB Exclusive & Authorized',
+    isbn: '978-93-89101-02-8',
+    price: 0,
+    isFree: true,
+    copyrightStatus: 'HK Tech World Original Press / Free for Students',
     hasAudioBook: true,
-    narrator: 'Dr. Priya Nair',
-    audioDuration: '5h 40m',
+    narrator: 'Hariom Kushwaha',
+    audioDuration: '8h 10m',
     whatYoullLearn: [
-      'Design reliable system prompts with few-shot examples and output constraints',
-      'Build production RAG pipelines with semantic chunking and hybrid vector search',
-      'Implement structured JSON outputs and function calling with tool declarations',
-      'Orchestrate autonomous agent loops with self-reflection and error recovery',
-      'Mitigate hallucination, prompt injection, and token cost bottlenecks'
+      'Write clean, accessible, SEO-friendly semantic HTML5 structure',
+      'Master responsive mobile-first layouts using CSS Flexbox, Grid, and Tailwind CSS',
+      'Understand the JavaScript Event Loop, Microtasks, Promises, and Async/Await deeply',
+      'Build scalable single-page applications using React functional components and custom hooks',
+      'Connect frontend apps to backend REST APIs and handle loading/error states cleanly',
+      'Deploy full-stack projects to Vercel, Cloud Run, and custom domains with free SSL'
     ],
     tableOfContents: [
-      '1. Foundational Architecture of Transformer LLMs & Attention Mechanisms',
-      '2. Advanced Prompt Engineering: CoT, ReAct & Tree of Thoughts',
-      '3. Embeddings & Semantic Search: Cosine Similarity, HNSW & Vector DBs',
-      '4. Retrieval-Augmented Generation (RAG): Chunking, Indexing & Re-Ranking',
-      '5. Function Calling & Tool Orchestration with Structured JSON Schemas',
-      '6. Building Autonomous AI Agents: Loops, Memory & Tool Chains',
-      '7. Multimodal AI: Vision, Audio & Document Understanding',
-      '8. AI Safety, Guardrails, Prompt Injection Prevention & Compliance',
-      '9. Token Economy & Latency Optimization for Production Deployments'
+      '1. How the Internet & Web Browsers Work (DNS, HTTP Requests & DOM Rendering)',
+      '2. Modern HTML5: Semantic Structure, Forms, SEO & Web Accessibility',
+      '3. CSS Architecture: Box Model, Flexbox, CSS Grid & Tailwind Utility Classes',
+      '4. Modern JavaScript Fundamentals: Variables (let/const), Arrow Functions & Destructuring',
+      '5. Asynchronous JavaScript: Callbacks, Promises, Async/Await & Fetch API',
+      '6. React 18 Core: JSX, Virtual DOM, Components, Props & Reconciliation',
+      '7. React State & Hooks Mastery: useState, useEffect, useMemo & useCallback',
+      '8. Client-Side Routing, Context API & Global State Management',
+      '9. Connecting Frontend to Backend REST APIs & Safe Error Handling',
+      '10. Production Build, Performance Optimization & Deploying to Vercel'
     ],
     chaptersPreview: [
       {
-        title: 'Chapter 2: Chain-of-Thought & Structured Output Engineering',
-        summary: 'Why zero-shot prompts fail on complex reasoning and how to trigger step-by-step inference tokens.',
+        title: 'Chapter 5: Asynchronous JavaScript (Promises & Async/Await आसान शब्दों में)',
+        summary: 'JavaScript is single-threaded (it can only execute one command at a time). To prevent heavy tasks like network requests or file downloads from freezing the browser UI, JavaScript uses the Event Loop, Call Stack, and Task Queues.',
         keyPoints: [
-          'Chain-of-Thought forces the model to emit intermediate tokens that refine calculation probability.',
-          'Delimiters (###, XML tags, or markdown backticks) separate user context from system rules.',
-          'Always supply negative constraints: "Do NOT assume facts not present in the context."'
+          'Call Stack executes synchronous code line by line.',
+          'Web APIs handle asynchronous operations (like fetch, setTimeout) in the background.',
+          'Microtask Queue (Promises) has higher priority than Macrotask Queue (setTimeout).',
+          'async/await is simply syntactic sugar over Promises, making code look synchronous and clean.'
         ],
-        codeSnippet: `// Example System Prompt Blueprint
-const SYSTEM_PROMPT = \`You are an expert full-stack code auditor.
-When reviewing code:
-1. First verify syntax correctness.
-2. Identify potential memory leaks and Big-O bottlenecks.
-3. Return output strictly adhering to JSON schema:
-{"status": "pass" | "fail", "issues": [{"line": number, "message": string}]}\`;`
+        codeSnippet: `// Clean Async/Await Pattern with Proper Error Handling
+async function fetchUserProjects(userId: string) {
+  try {
+    const response = await fetch(\`/api/users/\${userId}/projects\`);
+    
+    // Always check response.ok before parsing JSON!
+    if (!response.ok) {
+      throw new Error(\`HTTP Error \${response.status}: Failed to fetch projects\`);
+    }
+    
+    const projects = await response.json();
+    return { success: true, data: projects };
+  } catch (error: any) {
+    console.error('Fetch error:', error.message);
+    return { success: false, error: error.message };
+  }
+}`
       },
       {
-        title: 'Chapter 4: Production RAG Architectures',
-        summary: 'Going beyond naive top-k vector retrieval to recursive chunking, BM25 keyword hybrid search, and cross-encoder re-ranking.',
+        title: 'Chapter 7: React Hooks Deep Dive (useState, useEffect & Clean Lifecycle)',
+        summary: 'Learn how React re-renders components, why state immutability is essential, and how to write cleanup functions to avoid memory leaks.',
         keyPoints: [
-          'Small chunks preserve precision; large chunks preserve contextual coherence.',
-          'Hybrid search combines dense embeddings (semantic) with sparse BM25 (keyword exact match).',
-          'Cross-encoders re-rank candidate documents to eliminate irrelevant context.'
-        ]
+          'Never mutate state directly (e.g. state.push(x)); always create a new object or array [...state, x].',
+          'useEffect dependency array tells React when to rerun the effect. Empty [] runs once on mount.',
+          'Always return a cleanup function from useEffect when subscribing to timers or WebSocket events.'
+        ],
+        codeSnippet: `// Example: Clean React Hook with Lifecycle Cleanup
+import React, { useState, useEffect } from 'react';
+
+export function WindowWidthTracker() {
+  const [width, setWidth] = useState<number>(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+
+    // CRITICAL: Cleanup listener when component unmounts to prevent memory leak!
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return <div className="text-sm">Current Window Width: {width}px</div>;
+}`
       }
     ],
     studyNotes: [
-      'In LLMs, temperature controls randomness: use 0.0 to 0.2 for deterministic code/data extraction, and 0.7 for creative brainstorming.',
-      'Always sanitize user inputs to prevent direct prompt injection attacks.'
+      'Golden Rule by Hariom: Always build responsive UI for mobile screens first (Mobile-First Design), then expand for tablets and laptops.',
+      'In React, keys in list mapping must be unique and stable (use item.id, never array index if items can be reordered).'
     ]
   },
   {
     id: 'automate-python',
-    title: 'Automate Practical Tasks with Modern Python',
-    subtitle: 'Practical Programming for Students, Automators, and Everyday Builders',
+    title: 'Python Programming & Real-World Automation Handbook',
+    subtitle: 'From Basic Syntax to Web Scraping, File Automation, Excel Scripts & Bot Building',
     slug: 'automate-python',
-    author: 'Al Sweigart & Community Contributors',
-    authorId: 'al-sweigart',
-    authorBio: 'Developer, author, and teacher who has taught millions how to code.',
-    publisher: 'No Starch & Creative Commons',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    authorId: 'hariom-kushwaha',
+    authorBio: 'Founder of HK Tech World & Creator of HK VELORA. Passionate Python automator and software developer.',
+    publisher: 'HK Tech World & HK VELORA Press',
     category: 'Coding & Programming',
     subcategory: 'Python & Automation',
-    genre: 'Practical Programming',
+    genre: 'Practical Programming Guide',
     bookType: 'Handbook',
-    description: 'Learn practical programming for students and working professionals. Automate web scraping, spreadsheet parsing, PDF merging, email notifications, and file system management without unnecessary computer science jargon.',
-    shortDescription: 'Automate boring tasks, scrape web data, parse Excel sheets, and write everyday scripts in Python.',
-    pages: 480,
-    format: 'Open Textbook',
+    description: 'Master Python through practical, real-world utility scripts written by Hariom Kushwaha. Learn how to automate boring, repetitive tasks like renaming 1,000 files in seconds, scraping live data from websites, generating automated Excel reports, sending automated WhatsApp/Telegram alerts, and building custom CLI tools.',
+    shortDescription: 'Master Python fundamentals and build real automation scripts for files, web data, and APIs.',
+    pages: 410,
+    format: 'E-Book & Interactive',
     difficulty: 'Beginner',
-    rating: 4.9,
-    reviewCount: 512,
-    badge: 'Beginner Friendly',
-    coverGradient: 'from-amber-500 via-orange-600 to-rose-700',
-    downloadUrl: 'https://automatetheboringstuff.com/',
-    readOnlineUrl: 'https://automatetheboringstuff.com/',
-    tags: ['Python', 'Automation', 'Web Scraping', 'File Handling', 'Productivity'],
-    topics: ['Python Basics', 'Regex', 'Web Scraping', 'Excel & CSV', 'File Systems'],
-    language: 'English',
-    featured: true,
-    trending: true,
-    studentPick: true,
-    yearPublished: '2024 Updated',
-    updatedDate: 'May 2025',
-    isbn: '978-15-93279-92-9',
-    price: 0,
-    isFree: true,
-    copyrightStatus: 'Open Access / Creative Commons',
-    hasAudioBook: false,
-    whatYoullLearn: [
-      'Write clean Python scripts to automate repetitive desktop and internet workflows',
-      'Master regular expressions (regex) to search and extract phone numbers and emails',
-      'Scrape live web pages with Requests and BeautifulSoup without getting blocked',
-      'Batch edit, read, and calculate formulas across hundreds of Excel workbooks',
-      'Organize, rename, and zip files across deep directory hierarchies in seconds'
-    ],
-    tableOfContents: [
-      '1. Python Basics: Variables, Loops & Functions',
-      '2. Lists, Dictionaries & Structuring Real-World Data',
-      '3. Pattern Matching with Regular Expressions (Regex)',
-      '4. Reading, Writing & Organizing Files on Disk',
-      '5. Web Scraping with Requests, BeautifulSoup & Selenium',
-      '6. Automating Excel Spreadsheets with openpyxl',
-      '7. Working with PDF & Word Documents in Python',
-      '8. Sending Scheduled Emails, WhatsApp & SMS Notifications',
-      '9. Image Manipulation with Pillow & Computer Vision Basics',
-      '10. Controlling Keyboard & Mouse GUI Automation with PyAutoGUI'
-    ],
-    chaptersPreview: [
-      {
-        title: 'Chapter 4: File Manipulation & Batch Renaming',
-        summary: 'How to use pathlib and os modules to iterate through gigabytes of lecture slides or research PDFs and batch rename them systematically.',
-        keyPoints: [
-          'pathlib.Path provides cross-platform path handling for Windows, macOS, and Linux.',
-          'Always use safe dry-runs (print before rename) to avoid accidental file deletion.',
-          'os.walk() recursively traverses subdirectories cleanly.'
-        ],
-        codeSnippet: `import os
-from pathlib import Path
-
-folder = Path("./lecture_notes")
-for index, file in enumerate(folder.glob("*.pdf"), start=1):
-    new_name = folder / f"Chapter_{index:02d}_{file.stem}.pdf"
-    print(f"Renaming {file.name} -> {new_name.name}")
-    # file.rename(new_name)`
-      }
-    ],
-    studyNotes: [
-      'Python strings are immutable. Any replace() or strip() call returns a brand new string.',
-      'Always close file handles by using the "with open(...) as f:" context manager syntax.'
-    ]
-  },
-  {
-    id: 'ai-for-students',
-    title: 'Artificial Intelligence for Students: From Classroom to Tech Career',
-    subtitle: 'The Ultimate Practical Primer on AI Concepts, Research Tools, and Project Portfolios',
-    slug: 'ai-for-students',
-    author: 'HK HUB Academic & Engineering Team',
-    authorId: 'hk-academic',
-    authorBio: 'HK HUB Technical Research & Student Mentorship Division.',
-    publisher: 'HK HUB Publications',
-    category: 'Student & Education',
-    subcategory: 'AI for Education',
-    genre: 'Student Guide',
-    bookType: 'Guide',
-    description: 'Specially crafted for college and high-school students exploring AI. Demystifies machine learning math, explains how generative models work, teaches effective AI-assisted study methods, and provides 10 portfolio project roadmaps that stand out on resumes.',
-    shortDescription: 'Demystify AI, master academic research tools, and build resume-winning student projects.',
-    pages: 260,
-    format: 'E-Book & PDF',
-    difficulty: 'Beginner',
-    rating: 4.88,
-    reviewCount: 284,
-    badge: 'Student Essential',
-    coverGradient: 'from-cyan-600 via-teal-700 to-slate-900',
-    downloadUrl: 'https://hkhub.dev/library/ai-for-students',
-    readOnlineUrl: 'https://hkhub.dev/library/ai-for-students',
-    tags: ['Student AI', 'Study Skills', 'Machine Learning', 'Projects', 'Career'],
-    topics: ['AI Foundations', 'Study Techniques', 'Research Tools', 'Portfolio Projects', 'Ethics'],
-    language: 'English & Hindi Highlights',
+    rating: 4.93,
+    reviewCount: 380,
+    badge: 'Student Favorite',
+    coverGradient: 'from-amber-600 via-orange-600 to-yellow-700',
+    downloadUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    readOnlineUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    tags: ['Python', 'Automation', 'Hariom Kushwaha', 'Web Scraping', 'Scripts', 'HK Tech World'],
+    topics: ['Python Syntax', 'File Management', 'Web Scraping (BeautifulSoup)', 'Excel & CSV Automation', 'Telegram Bots'],
+    language: 'English & Hinglish Simplified Notes',
     featured: true,
     trending: true,
     studentPick: true,
     yearPublished: '2025 Edition',
-    updatedDate: 'July 2025',
-    isbn: '978-93-89123-04-5',
+    updatedDate: 'September 2025',
+    isbn: '978-93-89101-03-5',
     price: 0,
     isFree: true,
-    copyrightStatus: 'Open Access / Creative Commons',
+    copyrightStatus: 'HK Tech World Original Press / Free for Students',
     hasAudioBook: true,
-    narrator: 'Pooja Sharma',
-    audioDuration: '4h 10m',
+    narrator: 'Hariom Kushwaha',
+    audioDuration: '6h 45m',
     whatYoullLearn: [
-      'Understand how Neural Networks, LLMs, and Computer Vision function without complex math',
-      'Use AI tools responsibly for literature review, code debugging, and concept revision',
-      'Avoid plagiarism and academic integrity pitfalls when utilizing generative tools',
-      'Build 10 resume-worthy student machine learning projects from scratch',
-      'Prepare for campus technical placements and research internships in AI'
+      'Write clean, readable Python code using loops, list comprehensions, and dictionaries',
+      'Automate file organization: bulk rename files, organize downloads, and parse text',
+      'Scrape data from modern websites using BeautifulSoup, Requests, and regular expressions',
+      'Read, modify, and create professional Excel sheets and CSV datasets automatically',
+      'Connect to public REST APIs to fetch weather, stock prices, or news feeds',
+      'Create Telegram and Discord notification bots that run 24/7 on the cloud'
     ],
     tableOfContents: [
-      '1. What is Modern AI? Debunking Myths vs Reality',
-      '2. How Machines Learn: Supervised, Unsupervised & Reinforcement',
-      '3. Deep Learning Demystified: Layers, Weights & Activation Functions',
-      '4. Generative AI & Large Language Models Explained Simply',
-      '5. Ethical AI for Students: Plagiarism, Verification & Critical Thinking',
-      '6. AI Tools for Academic Research, Paper Summaries & Literature Review',
-      '7. 10 High-Impact Student Capstone Projects You Can Build Today',
-      '8. Preparing for Campus Placement Interviews in AI & Data Science'
+      '1. Python Essentials: Variables, Datatypes, If-Else & Loops (पायथन की शुरुआत)',
+      '2. Power of Python Data Structures: Lists, Tuples, Dictionaries & Sets',
+      '3. Writing Modular Code: Functions, Scope, Modules & Virtual Environments',
+      '4. File I/O & OS Module: Reading, Writing & Bulk File Management Automation',
+      '5. Regular Expressions (RegEx): Extracting Emails, Phone Numbers & URLs',
+      '6. Web Scraping: Extracting Real-Time Data with Requests & BeautifulSoup',
+      '7. Excel & CSV Automation: Processing Spreadsheets with OpenPyXL & Pandas',
+      '8. Working with JSON, REST APIs & Sending Automated Emails',
+      '9. Building a 24/7 Automated Telegram Alert Bot in 50 Lines of Python',
+      '10. Best Practices: PEP 8 Clean Code, Type Hinting & Virtual Environments'
     ],
     chaptersPreview: [
       {
-        title: 'Chapter 1: What is Modern AI? Debunking Myths vs Reality',
-        summary: 'Understanding AI as statistical prediction engines rather than conscious entities.',
+        title: 'Chapter 6: Web Scraping with Requests & BeautifulSoup',
+        summary: 'Web scraping allows you to write Python scripts that visit websites, download HTML, and extract desired data (like product prices or job postings) automatically.',
         keyPoints: [
-          'AI calculates conditional probabilities based on billions of training text tokens.',
-          'Hallucinations occur because models prioritize linguistic fluency over factual verification.',
-          'Critical thinking and human-in-the-loop verification remain indispensable skills.'
-        ]
-      },
-      {
-        title: 'Chapter 7: 10 High-Impact Student Capstone Projects',
-        summary: 'Project blueprints spanning intelligent document search, automated exam paper generators, and student mental wellness chatbots.',
-        keyPoints: [
-          'Examiners look for end-to-end functionality rather than massive model sizes.',
-          'A working MVP with a clean user interface beats an incomplete complex neural net every time.'
-        ]
+          'requests.get(url) fetches the raw HTML webpage.',
+          'BeautifulSoup parses the HTML tree into searchable Python objects.',
+          'soup.find_all("tag", class_="name") targets specific elements.',
+          'Always respect robots.txt and add headers={"User-Agent": "..."} so websites do not block your script.'
+        ],
+        codeSnippet: `# Automated Web Scraper by Hariom Kushwaha
+import requests
+from bs4 import BeautifulSoup
+
+def scrape_headlines(url):
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+    response = requests.get(url, headers=headers)
+    
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, "html.parser")
+        headlines = []
+        for h in soup.find_all(["h1", "h2"]):
+            text = h.get_text(strip=True)
+            if text:
+                headlines.append(text)
+        return headlines
+    return []`
       }
     ],
     studyNotes: [
-      'Always cite your sources and verify AI generated mathematical formulas before including them in college assignments.',
-      'Remember: "Garbage in, garbage out" applies to every dataset you train or fine-tune.'
+      'Automation Mindset: If you have to do something on a computer more than 3 times, write a Python script to do it forever.',
+      'Always use a virtual environment: python -m venv venv and activate it to keep dependencies clean.'
     ]
   },
   {
-    id: 'clean-code-architecture',
-    title: 'Clean Code Architecture & Systems Design Guide',
-    subtitle: 'Building Maintainable, Fault-Tolerant, and Modular Production Software',
-    slug: 'clean-code-architecture',
-    author: 'Vikram Sen & Tech Leads Community',
-    authorId: 'vikram-sen',
-    authorBio: 'Cloud Native & Infrastructure Architect with 15+ years in high-scale systems.',
-    publisher: 'HK HUB Technical Press',
-    category: 'Coding & Programming',
-    subcategory: 'Software Engineering & Architecture',
-    genre: 'Engineering Architecture',
+    id: 'genai-prompt-engineering',
+    title: 'Generative AI & Prompt Engineering Masterclass',
+    subtitle: 'From Transformer Architecture to Gemini, RAG Systems, Function Calling & AI Agents',
+    slug: 'genai-prompt-engineering',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    authorId: 'hariom-kushwaha',
+    authorBio: 'Founder of HK Tech World & Creator of HK VELORA. AI systems architect and author of practical machine intelligence guides.',
+    publisher: 'HK Tech World & HK VELORA Press',
+    category: 'Artificial Intelligence',
+    subcategory: 'Generative AI & LLMs',
+    genre: 'AI Systems Handbook',
     bookType: 'Handbook',
-    description: 'A pragmatic handbook on writing readable, testable, and robust enterprise software. Covers SOLID principles, Hexagonal & Clean Architecture, domain-driven design (DDD), design patterns, and microservices trade-offs with production TypeScript and Go examples.',
-    shortDescription: 'Write maintainable, bug-resistant code and master real-world systems architecture.',
-    pages: 380,
+    description: 'A cutting-edge masterclass authored by Hariom Kushwaha on how modern Generative AI and Large Language Models (LLMs) like Gemini and GPT work under the hood. Learn prompt engineering frameworks (Chain-of-Thought, ReAct), building Retrieval Augmented Generation (RAG) with vector databases, function calling, and creating autonomous AI agents.',
+    shortDescription: 'Build next-generation AI apps, master prompt engineering, RAG pipelines, and autonomous agents.',
+    pages: 360,
+    format: 'E-Book & PDF',
+    difficulty: 'Intermediate',
+    rating: 4.96,
+    reviewCount: 395,
+    badge: 'Trending AI Masterclass',
+    coverGradient: 'from-purple-600 via-indigo-700 to-pink-700',
+    downloadUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    readOnlineUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    tags: ['AI', 'Generative AI', 'Gemini', 'Prompt Engineering', 'RAG', 'LLMs', 'Hariom Kushwaha'],
+    topics: ['System Prompts', 'Chain-of-Thought', 'Vector Embeddings', 'RAG Pipelines', 'AI Agents'],
+    language: 'English & Hinglish Simplified Notes',
+    featured: true,
+    trending: true,
+    studentPick: true,
+    yearPublished: '2025 Edition',
+    updatedDate: 'September 2025',
+    isbn: '978-93-89101-04-2',
+    price: 0,
+    isFree: true,
+    copyrightStatus: 'HK Tech World Original Press / Free for Students',
+    hasAudioBook: true,
+    narrator: 'Hariom Kushwaha',
+    audioDuration: '6h 15m',
+    whatYoullLearn: [
+      'Understand how Transformers, Self-Attention, and next-token prediction work',
+      'Design unbreakable system prompts using few-shot examples and negative constraints',
+      'Master Chain-of-Thought (CoT) prompting to dramatically improve logical accuracy',
+      'Build production RAG pipelines using text chunking, embeddings, and vector databases',
+      'Implement Structured JSON output and Function Calling with Google Gemini SDK',
+      'Architect autonomous AI agents that can browse, execute code, and correct errors'
+    ],
+    tableOfContents: [
+      '1. Fundamentals of LLMs: Tokens, Embeddings & Transformer Attention',
+      '2. Modern Prompt Engineering Frameworks: Zero-Shot, Few-Shot & Chain-of-Thought',
+      '3. System Instructions & Formatting: Markdown, XML Delimiters & JSON Schemas',
+      '4. Vector Embeddings & Similarity Search: Cosine Similarity, HNSW & Vector Stores',
+      '5. Retrieval-Augmented Generation (RAG): Document Chunking & Semantic Search',
+      '6. Function Calling & Tool Use: Giving AI the Ability to Call Your APIs',
+      '7. Multimodal AI: Processing Images, Audio & Video with Gemini',
+      '8. AI Safety & Security: Preventing Prompt Injection & Jailbreaks',
+      '9. Building Autonomous AI Agents: ReAct Loops, Memory & Tool Orchestration',
+      '10. The Future of AI Engineering: Cost, Latency Optimization & Fine-Tuning'
+    ],
+    chaptersPreview: [
+      {
+        title: 'Chapter 2: Advanced Prompt Engineering & Chain-of-Thought',
+        summary: 'Why generic questions produce hallucinated answers and how to write structured system prompts that guarantee accurate, deterministic results.',
+        keyPoints: [
+          'Chain-of-Thought (CoT) forces the model to write out intermediate steps before final answers.',
+          'Always specify: Role, Context, Task, Input Format, Output Constraints, and Negative Rules.',
+          'Temperature controls randomness: use 0.0 - 0.2 for coding/facts, and 0.7 for creative writing.'
+        ],
+        codeSnippet: `// Production Prompt Template by Hariom Kushwaha
+const SYSTEM_PROMPT = \`You are an expert technical code reviewer.
+Role: Analyze the student's code submission for Big-O efficiency and memory leaks.
+Rules:
+1. First verify if the logic handles empty input edge cases.
+2. Calculate time complexity O(...) and explain why.
+3. Respond ONLY in valid JSON matching this schema:
+{
+  "status": "APPROVED" | "NEEDS_OPTIMIZATION",
+  "timeComplexity": string,
+  "spaceComplexity": string,
+  "suggestions": string[]
+}\`;`
+      }
+    ],
+    studyNotes: [
+      'Hariom Prompt Formula: Context + Clear Task + Explicit Format + Examples = 99% Success Rate.',
+      'Never put sensitive API keys in client-side code; always call AI models from your backend server.'
+    ]
+  },
+  {
+    id: 'cybersecurity-handbook',
+    title: 'Cybersecurity & Ethical Hacking Essentials',
+    subtitle: 'Digital Defense, Network Security, Kali Linux, OWASP Top 10 & Personal Privacy',
+    slug: 'cybersecurity-handbook',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    authorId: 'hariom-kushwaha',
+    authorBio: 'Founder of HK Tech World & Creator of HK VELORA. Security researcher and ethical hacker advocating for student digital safety.',
+    publisher: 'HK Tech World & HK VELORA Press',
+    category: 'Cybersecurity & Safety',
+    subcategory: 'Ethical Hacking & Defense',
+    genre: 'Security Handbook',
+    bookType: 'Handbook',
+    description: 'A practical, defensive cybersecurity handbook authored by Hariom Kushwaha. Explains how hackers exploit systems and how students and engineers can protect their networks, applications, and personal digital identity. Covers Kali Linux tools, Wireshark, Nmap, SQL Injection, XSS, phishing defense, password management, and digital privacy.',
+    shortDescription: 'Master ethical hacking fundamentals, web app security, Kali Linux, and digital privacy protection.',
+    pages: 440,
+    format: 'E-Book & PDF',
+    difficulty: 'All Levels',
+    rating: 4.94,
+    reviewCount: 350,
+    badge: 'Essential Security',
+    coverGradient: 'from-red-600 via-rose-700 to-slate-900',
+    downloadUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    readOnlineUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    tags: ['Cybersecurity', 'Ethical Hacking', 'Hariom Kushwaha', 'Kali Linux', 'OWASP', 'HK Tech World'],
+    topics: ['Network Scanning', 'OWASP Top 10', 'SQL Injection & XSS', 'Password Security', 'Digital Privacy & VPNs'],
+    language: 'English & Hinglish Simplified Notes',
+    featured: true,
+    trending: true,
+    studentPick: true,
+    yearPublished: '2025 Edition',
+    updatedDate: 'September 2025',
+    isbn: '978-93-89101-05-9',
+    price: 0,
+    isFree: true,
+    copyrightStatus: 'HK Tech World Original Press / Free for Students',
+    hasAudioBook: true,
+    narrator: 'Hariom Kushwaha',
+    audioDuration: '7h 00m',
+    whatYoullLearn: [
+      'Understand how IP addresses, ports, protocols (TCP/UDP), and firewalls communicate',
+      'Perform safe network discovery and reconnaissance with Nmap and Wireshark',
+      'Identify and remediate OWASP Top 10 web vulnerabilities (SQLi, XSS, CSRF)',
+      'Protect passwords using cryptographic hashing (bcrypt, Argon2) and Two-Factor Authentication',
+      'Detect phishing emails, malicious links, and social engineering attempts',
+      'Harden personal devices, browse anonymously with VPNs, and secure home Wi-Fi networks'
+    ],
+    tableOfContents: [
+      '1. Introduction to Ethical Hacking: White Hat vs Black Hat & Legal Boundaries',
+      '2. Networking for Hackers: IP, MAC, Subnetting, TCP 3-Way Handshake & Ports',
+      '3. Kali Linux Command Line & Essential Security Tools (Nmap, Netcat)',
+      '4. Information Gathering & Reconnaissance: OSINT, Shodan & WHOIS',
+      '5. Network Sniffing & Traffic Analysis with Wireshark',
+      '6. Web Application Vulnerabilities: OWASP Top 10 Explained Clearly',
+      '7. SQL Injection (SQLi) & Cross-Site Scripting (XSS): Proof & Prevention',
+      '8. Cryptography Foundations: Symmetric, Asymmetric (RSA), Hashing & SSL/TLS',
+      '9. Social Engineering & Phishing Attacks: How Attackers Trick Humans',
+      '10. Personal Digital Privacy Blueprint: 2FA, Password Managers & VPN Safety'
+    ],
+    chaptersPreview: [
+      {
+        title: 'Chapter 6: OWASP Top 10 Web Security & Prevention',
+        summary: 'The Open Web Application Security Project (OWASP) lists the most dangerous vulnerabilities in modern websites. Learn how SQL Injection and Cross-Site Scripting work, and how developers prevent them.',
+        keyPoints: [
+          'SQL Injection occurs when user input is concatenated directly into SQL queries without sanitization.',
+          'Always use Prepared Statements (Parameterized Queries) to completely defeat SQL Injection.',
+          'Cross-Site Scripting (XSS) happens when unescaped user HTML/JavaScript executes in other users’ browsers.',
+          'Always sanitize and HTML-encode user inputs before rendering them on screen.'
+        ],
+        codeSnippet: `// Insecure vs Secure Database Query in Node.js
+// ❌ VULNERABLE: Direct string concatenation allows SQL Injection!
+// query = "SELECT * FROM users WHERE email = '" + req.body.email + "'";
+
+//  SECURE: Parameterized Query separates SQL logic from data!
+const query = 'SELECT id, username, email FROM users WHERE email = $1';
+const result = await db.query(query, [req.body.email]);`
+      }
+    ],
+    studyNotes: [
+      'Hariom Security Rule: Never trust user input. Treat all incoming data from forms, headers, and cookies as untrusted and potentially malicious.',
+      'Enable 2FA (Two-Factor Authentication) on all your personal accounts using an authenticator app (never rely purely on SMS OTP).'
+    ]
+  },
+  {
+    id: 'os-networks-handbook',
+    title: 'Computer Networks & Operating Systems: The Core Engineering Handbook',
+    subtitle: 'Processes, Threads, Deadlocks, Memory Management, TCP/IP & HTTP/3 Explained Clearly',
+    slug: 'os-networks-handbook',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    authorId: 'hariom-kushwaha',
+    authorBio: 'Founder of HK Tech World & Creator of HK VELORA. Computer engineering architect and educator.',
+    publisher: 'HK Tech World & HK VELORA Press',
+    category: 'Computers & PC',
+    subcategory: 'Core Computer Science',
+    genre: 'Core Engineering Textbook',
+    bookType: 'Handbook',
+    description: 'A master textbook written by Hariom Kushwaha demystifying the two core pillars of Computer Science: Operating Systems and Computer Networks. Explains how CPUs schedule processes, virtual memory paging, deadlock prevention, the 7 layers of OSI, TCP handshakes, DNS resolution, and HTTP/3 protocol evolution with visual diagrams and exam questions.',
+    shortDescription: 'Master OS processes, threads, virtual memory, and TCP/IP networking for semester exams and interviews.',
+    pages: 490,
+    format: 'E-Book & PDF',
+    difficulty: 'All Levels',
+    rating: 4.95,
+    reviewCount: 310,
+    badge: 'Core CS Bible',
+    coverGradient: 'from-blue-700 via-indigo-800 to-slate-950',
+    downloadUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    readOnlineUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    tags: ['Operating Systems', 'Computer Networks', 'Hariom Kushwaha', 'Core CS', 'GATE Prep', 'HK Tech World'],
+    topics: ['Process vs Thread', 'CPU Scheduling', 'Deadlocks', 'Virtual Memory & Paging', 'TCP/IP & OSI Models'],
+    language: 'English & Hinglish Simplified Notes',
+    featured: true,
+    trending: false,
+    studentPick: true,
+    yearPublished: '2025 Edition',
+    updatedDate: 'August 2025',
+    isbn: '978-93-89101-06-6',
+    price: 0,
+    isFree: true,
+    copyrightStatus: 'HK Tech World Original Press / Free for Students',
+    hasAudioBook: true,
+    narrator: 'Hariom Kushwaha',
+    audioDuration: '7h 15m',
+    whatYoullLearn: [
+      'Understand the difference between a Process (isolated memory) and a Thread (shared memory)',
+      'Master CPU scheduling algorithms: FCFS, SJF, Round Robin, and Priority Scheduling',
+      'Solve Deadlock conditions (Mutual Exclusion, Hold & Wait, No Preemption, Circular Wait)',
+      'Understand Virtual Memory, Page Tables, TLB cache, and Page Replacement (FIFO, LRU)',
+      'Trace how data travels through the 7 layers of OSI and 4 layers of TCP/IP model',
+      'Explain what happens when you type "google.com" in a browser: DNS, TCP, TLS, and HTTP'
+    ],
+    tableOfContents: [
+      '1. Operating System Architecture: Kernel vs User Space & System Calls',
+      '2. Process Management: Process States, PCB, Context Switching & Forking',
+      '3. Threads & Concurrency: Race Conditions, Mutex Locks & Semaphores',
+      '4. CPU Scheduling Algorithms: FCFS, SJF, Round Robin & Priority Scheduling',
+      '5. Deadlocks: 4 Coffman Conditions, Resource Allocation Graphs & Banker’s Algorithm',
+      '6. Memory Management: Contiguous Allocation, Paging, Segmentation & Virtual Memory',
+      '7. Computer Networks Foundation: OSI 7-Layer vs TCP/IP 4-Layer Architecture',
+      '8. Transport Layer: TCP (Reliable Connection-Oriented) vs UDP (Fast Datagrams)',
+      '9. Network Layer: IP Addressing (IPv4 vs IPv6), Subnetting & Routing Protocols',
+      '10. Application Layer & The Modern Web: DNS, HTTP/1.1, HTTP/2, HTTP/3 & WebSockets'
+    ],
+    chaptersPreview: [
+      {
+        title: 'Chapter 8: TCP 3-Way Handshake vs UDP (इंटरनेट कनेक्शन कैसे बनता है)',
+        summary: 'Why video streaming and online gaming use UDP while banking and web pages use TCP. Learn how TCP establishes a reliable connection using SYN, SYN-ACK, and ACK packets.',
+        keyPoints: [
+          'TCP (Transmission Control Protocol) guarantees delivery, packet order, and error checking.',
+          'TCP 3-Way Handshake: Client sends SYN -> Server responds SYN-ACK -> Client confirms with ACK.',
+          'UDP (User Datagram Protocol) is connectionless and sends packets without waiting for receipt acknowledgment (low latency).',
+          'HTTP/3 runs over QUIC (which is built on UDP), solving TCP Head-of-Line blocking issues.'
+        ],
+        codeSnippet: `// Visual Representation of TCP 3-Way Handshake:
+// Client                          Server
+//   |                               |
+//   |------- 1. SYN (seq=100) ----->|  "Let us connect!"
+//   |                               |
+//   |<-- 2. SYN-ACK (ack=101) ------|  "Connection accepted!"
+//   |                               |
+//   |------- 3. ACK (seq=101) ----->|  "Confirmed! Sending data..."
+//   |                               |
+// Connection Established (ESTABLISHED State)`
+      }
+    ],
+    studyNotes: [
+      'Exam Question: What happens when you type a URL in browser? Step 1: Local DNS cache -> Step 2: Resolver DNS query -> Step 3: IP resolved -> Step 4: TCP 3-way handshake -> Step 5: TLS handshake -> Step 6: HTTP GET -> Step 7: DOM render.',
+      'Remember: Banker\'s Algorithm is used for Deadlock Avoidance, not Deadlock Detection.'
+    ]
+  },
+  {
+    id: 'database-sql-handbook',
+    title: 'Database Engineering & SQL Mastery: From Relational Schemas to NoSQL',
+    subtitle: 'Master Queries, JOINs, Normalization, ACID Transactions, Indexing & MongoDB',
+    slug: 'database-sql-handbook',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    authorId: 'hariom-kushwaha',
+    authorBio: 'Founder of HK Tech World & Creator of HK VELORA. Database engineer and backend architect.',
+    publisher: 'HK Tech World & HK VELORA Press',
+    category: 'Coding & Programming',
+    subcategory: 'Databases & SQL',
+    genre: 'Database Engineering Manual',
+    bookType: 'Handbook',
+    description: 'A complete, practical database engineering textbook written by Hariom Kushwaha. Covers relational database design, advanced SQL queries, multi-table JOINs, database normalization up to BCNF, ACID transaction guarantees, B-Tree indexing for millisecond query performance, and NoSQL document storage with MongoDB.',
+    shortDescription: 'Master SQL queries, JOINs, indexing, normalization, and ACID transactions with real-world examples.',
+    pages: 430,
+    format: 'E-Book & PDF',
+    difficulty: 'All Levels',
+    rating: 4.93,
+    reviewCount: 320,
+    badge: 'Database Master',
+    coverGradient: 'from-amber-700 via-yellow-700 to-stone-900',
+    downloadUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    readOnlineUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    tags: ['SQL', 'Databases', 'PostgreSQL', 'MySQL', 'MongoDB', 'Hariom Kushwaha', 'HK Tech World'],
+    topics: ['SQL Queries & JOINs', 'Normalization (1NF-3NF)', 'ACID Transactions', 'B-Tree Indexing', 'SQL vs NoSQL'],
+    language: 'English & Hinglish Simplified Notes',
+    featured: false,
+    trending: true,
+    studentPick: true,
+    yearPublished: '2025 Edition',
+    updatedDate: 'September 2025',
+    isbn: '978-93-89101-07-3',
+    price: 0,
+    isFree: true,
+    copyrightStatus: 'HK Tech World Original Press / Free for Students',
+    hasAudioBook: true,
+    narrator: 'Hariom Kushwaha',
+    audioDuration: '6h 30m',
+    whatYoullLearn: [
+      'Write complex SQL queries with INNER JOIN, LEFT JOIN, GROUP BY, and HAVING clauses',
+      'Normalize messy database tables into clean 1NF, 2NF, 3NF, and BCNF structures',
+      'Ensure data integrity with ACID properties (Atomicity, Consistency, Isolation, Durability)',
+      'Speed up slow queries by 100x using B-Tree and Hash database indexes',
+      'Understand when to choose Relational SQL (PostgreSQL) vs Document NoSQL (MongoDB)',
+      'Design production schemas for real-world apps like E-commerce, Social Media, and EdTech'
+    ],
+    tableOfContents: [
+      '1. Introduction to Databases: File Systems vs DBMS & Relational Model',
+      '2. SQL Data Definition & Manipulation (DDL, DML, Constraints & Data Types)',
+      '3. Querying Data: SELECT, WHERE, LIKE, ORDER BY & Aggregate Functions',
+      '4. Relational JOINs: INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN & Self JOIN',
+      '5. Subqueries, Views & Window Functions (ROW_NUMBER, RANK, DENSE_RANK)',
+      '6. Database Normalization: Functional Dependencies, 1NF, 2NF, 3NF & BCNF',
+      '7. ACID Transactions: Commit, Rollback, Savepoints & Transaction Isolation Levels',
+      '8. Database Indexing & Query Execution Plans: B-Trees, Clustered vs Non-Clustered',
+      '9. NoSQL Foundations: Document Stores (MongoDB), Key-Value (Redis) & Use Cases',
+      '10. Production Schema Design: E-Commerce & Social Media Case Studies'
+    ],
+    chaptersPreview: [
+      {
+        title: 'Chapter 4: Mastering SQL JOINs (सभी JOINs को चित्र व उदाहरण से समझें)',
+        summary: 'JOINs allow you to connect multiple related tables using Primary Key and Foreign Key relationships. Master INNER, LEFT, RIGHT, and FULL joins with clear visual logic.',
+        keyPoints: [
+          'INNER JOIN returns only rows that match in BOTH tables.',
+          'LEFT JOIN returns ALL rows from the left table and matching rows from the right (NULL if no match).',
+          'RIGHT JOIN returns all rows from the right table and matching from the left.',
+          'FULL OUTER JOIN returns all rows when there is a match in either left or right table.'
+        ],
+        codeSnippet: `-- Example: Fetching Student Details along with their Course Name
+SELECT 
+    students.id AS student_id,
+    students.full_name,
+    students.email,
+    courses.course_name,
+    courses.instructor
+FROM students
+INNER JOIN courses ON students.course_id = courses.id
+WHERE students.status = 'ACTIVE'
+ORDER BY students.enrollment_date DESC;`
+      }
+    ],
+    studyNotes: [
+      'Index Rule: Do not put indexes on every single column. Indexes speed up SELECT queries but slow down INSERT and UPDATE operations.',
+      'Remember ACID: Atomicity (All or Nothing), Consistency (Rules stay valid), Isolation (Concurrent transactions do not corrupt), Durability (Committed data survives power failure).'
+    ]
+  },
+  {
+    id: 'cpp-systems-handbook',
+    title: 'Modern C & C++ Programming: Systems, Pointers & Memory Architecture',
+    subtitle: 'Low-Level Mechanics, Dynamic Memory Allocation, STL & Object-Oriented Principles',
+    slug: 'cpp-systems-handbook',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    authorId: 'hariom-kushwaha',
+    authorBio: 'Founder of HK Tech World & Creator of HK VELORA. Systems engineer and high-performance software specialist.',
+    publisher: 'HK Tech World & HK VELORA Press',
+    category: 'Coding & Programming',
+    subcategory: 'C & C++ Programming',
+    genre: 'Systems Programming Guide',
+    bookType: 'Handbook',
+    description: 'An authoritative manual written by Hariom Kushwaha for students mastering C and C++. Takes you inside computer RAM, stack vs heap memory, pointer arithmetic, dynamic memory allocation (malloc/free, new/delete), classes, inheritance, polymorphism, the Standard Template Library (STL vectors, maps, sets), and modern C++ smart pointers.',
+    shortDescription: 'Master C and C++ pointers, memory management, OOP, and the Standard Template Library (STL).',
+    pages: 460,
+    format: 'E-Book & PDF',
+    difficulty: 'Intermediate',
+    rating: 4.96,
+    reviewCount: 340,
+    badge: 'Performance Master',
+    coverGradient: 'from-blue-600 via-indigo-700 to-teal-800',
+    downloadUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    readOnlineUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    tags: ['C++', 'C Programming', 'Pointers', 'Memory Management', 'STL', 'Hariom Kushwaha', 'HK Tech World'],
+    topics: ['Pointers & Addresses', 'Stack vs Heap', 'C++ Classes & OOP', 'STL Vectors & Maps', 'Smart Pointers'],
+    language: 'English & Hinglish Simplified Notes',
+    featured: false,
+    trending: false,
+    studentPick: true,
+    yearPublished: '2025 Edition',
+    updatedDate: 'August 2025',
+    isbn: '978-93-89101-08-0',
+    price: 0,
+    isFree: true,
+    copyrightStatus: 'HK Tech World Original Press / Free for Students',
+    hasAudioBook: true,
+    narrator: 'Hariom Kushwaha',
+    audioDuration: '7h 10m',
+    whatYoullLearn: [
+      'Understand computer RAM memory addresses, pointers, and the dereference operator (*)',
+      'Master Stack memory (fast, automatic) vs Heap memory (dynamic, manual control)',
+      'Prevent segmentation faults, dangling pointers, and memory leaks',
+      'Implement Object-Oriented Programming (Encapsulation, Inheritance, Polymorphism, Virtual Functions)',
+      'Use the C++ Standard Template Library (STL): std::vector, std::map, std::set, and std::sort',
+      'Write safe Modern C++ with std::unique_ptr, std::shared_ptr, and RAII principles'
+    ],
+    tableOfContents: [
+      '1. Compilation Pipeline: Preprocessor, Compiler, Assembler & Linker',
+      '2. Data Types, Modifiers, Bitwise Operators & Memory Footprints in C/C++',
+      '3. Pointers Demystified: Memory Addresses, Pointer Arithmetic & Arrays as Pointers',
+      '4. Dynamic Memory Allocation: malloc(), calloc(), free() vs new, delete',
+      '5. Structs, Unions & Memory Alignment / Padding in Hardware',
+      '6. Object-Oriented C++: Classes, Constructors, Destructors & Access Specifiers',
+      '7. Polymorphism: Function Overloading, Operator Overloading & Virtual Functions',
+      '8. The C++ Standard Template Library (STL): Vectors, Lists, Deques & Iterators',
+      '9. Associative STL Containers: Maps, Unordered Maps, Sets & Custom Hash Functions',
+      '10. Modern C++ (C++11 to C++20): Lambdas, Move Semantics & Smart Pointers'
+    ],
+    chaptersPreview: [
+      {
+        title: 'Chapter 3: Pointers Demystified (पॉइंटर्स को पानी की तरह आसान समझें)',
+        summary: 'Pointers are variables that store the memory address of another variable. Once you realize every variable lives at a specific numeric hexadecimal house address in RAM, pointers become simple.',
+        keyPoints: [
+          '& (Address-Of operator) gives you the memory location: &x gives address of x.',
+          '* (Dereference operator) looks inside the address: *ptr gives the actual value stored there.',
+          'Dangling Pointer: A pointer pointing to memory that has already been deallocated. Always set ptr = nullptr after delete!',
+          'Memory Leak: Allocating memory with new/malloc and never calling delete/free.'
+        ],
+        codeSnippet: `// Pointer Demonstration in C++ by Hariom Kushwaha
+#include <iostream>
+
+int main() {
+    int score = 100;
+    int* ptr = &score; // ptr holds the memory address of score
+
+    std::cout << "Value of score: " << score << std::endl;         // 100
+    std::cout << "Memory address of score (&score): " << ptr << std::endl; // e.g. 0x7ffd9b...
+    std::cout << "Dereferenced pointer (*ptr): " << *ptr << std::endl; // 100
+
+    *ptr = 150; // Change value through the pointer!
+    std::cout << "Updated score: " << score << std::endl;         // 150
+    return 0;
+}`
+      }
+    ],
+    studyNotes: [
+      'RAII (Resource Acquisition Is Initialization): In modern C++, wrap raw pointers in std::unique_ptr or std::shared_ptr so memory is automatically freed when leaving scope.',
+      'Always check: sizeof(int) is typically 4 bytes; pointers on 64-bit systems are always 8 bytes regardless of datatype.'
+    ]
+  },
+  {
+    id: 'java-oop-handbook',
+    title: 'Java Programming & Enterprise Software Design Masterclass',
+    subtitle: 'JVM Architecture, Multithreading, Spring Boot Fundamentals & Clean OOP Architecture',
+    slug: 'java-oop-handbook',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    authorId: 'hariom-kushwaha',
+    authorBio: 'Founder of HK Tech World & Creator of HK VELORA. Enterprise software architect and educator.',
+    publisher: 'HK Tech World & HK VELORA Press',
+    category: 'Coding & Programming',
+    subcategory: 'Java & Enterprise Architecture',
+    genre: 'Enterprise Software Guide',
+    bookType: 'Handbook',
+    description: 'A comprehensive Java masterclass written by Hariom Kushwaha for university students and aspiring software engineers. Deep dive into Java Virtual Machine (JVM) internals (Bytecode, Heap, Garbage Collection), the Four Pillars of OOP, the Java Collections Framework (ArrayList, HashMap, LinkedList), Multithreading, and building REST APIs with Spring Boot.',
+    shortDescription: 'Master Java OOP, JVM internals, Collections framework, Multithreading, and Spring Boot.',
+    pages: 470,
+    format: 'E-Book & PDF',
+    difficulty: 'All Levels',
+    rating: 4.94,
+    reviewCount: 310,
+    badge: 'Enterprise Gold',
+    coverGradient: 'from-orange-600 via-red-700 to-amber-900',
+    downloadUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    readOnlineUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    tags: ['Java', 'OOP', 'Spring Boot', 'Multithreading', 'JVM', 'Hariom Kushwaha', 'HK Tech World'],
+    topics: ['JVM Internals', 'Four Pillars of OOP', 'Java Collections', 'Multithreading', 'Spring Boot Basics'],
+    language: 'English & Hinglish Simplified Notes',
+    featured: false,
+    trending: false,
+    studentPick: true,
+    yearPublished: '2025 Edition',
+    updatedDate: 'August 2025',
+    isbn: '978-93-89101-09-7',
+    price: 0,
+    isFree: true,
+    copyrightStatus: 'HK Tech World Original Press / Free for Students',
+    hasAudioBook: true,
+    narrator: 'Hariom Kushwaha',
+    audioDuration: '7h 20m',
+    whatYoullLearn: [
+      'Understand how Java achieves "Write Once, Run Anywhere" via Bytecode and the JVM',
+      'Master the Four Pillars of OOP: Encapsulation, Abstraction, Inheritance, and Polymorphism',
+      'Use the Java Collections Framework (ArrayList, LinkedList, HashMap, HashSet) like a pro',
+      'Handle exceptions gracefully with try-catch-finally and custom checked/unchecked exceptions',
+      'Write safe multithreaded applications using synchronized blocks and ExecutorService',
+      'Build your first enterprise REST API using Java, Spring Boot, and PostgreSQL'
+    ],
+    tableOfContents: [
+      '1. Java Architecture: JDK, JRE, JVM, Bytecode & ClassLoader Internals',
+      '2. Core Java Fundamentals: Data Types, Flow Control, Arrays & String Immutability',
+      '3. Object-Oriented Programming (OOP) in Java: Classes, Objects & Memory Allocation',
+      '4. The Four Pillars of OOP: Encapsulation, Abstraction, Inheritance & Polymorphism',
+      '5. Interfaces vs Abstract Classes: Modern Default Methods & Multiple Inheritance',
+      '6. Java Exception Handling: Checked vs Unchecked Exceptions & Robust Error Recovery',
+      '7. Java Collections Framework: List, Set, Queue & Map Implementations',
+      '8. Java Generics & Lambda Expressions / Stream API (filter, map, collect)',
+      '9. Java Multithreading: Thread Lifecycle, Synchronization, Volatile & Thread Pools',
+      '10. Introduction to Enterprise Spring Boot: Dependency Injection & RESTful APIs'
+    ],
+    chaptersPreview: [
+      {
+        title: 'Chapter 4: The Four Pillars of OOP (चार मुख्य स्तम्भ आसान शब्दों में)',
+        summary: 'The 4 fundamental pillars that make software modular, maintainable, and scalable: Encapsulation (data hiding), Abstraction (hiding complexity), Inheritance (reusability), and Polymorphism (many forms).',
+        keyPoints: [
+          'Encapsulation: Make fields private and expose them via getters/setters to protect internal state.',
+          'Abstraction: Show only what is necessary using Interfaces and Abstract classes.',
+          'Inheritance: Subclass inherits properties from superclass using the "extends" keyword.',
+          'Polymorphism: Method Overloading (compile-time) and Method Overriding (runtime with @Override).'
+        ],
+        codeSnippet: `// Clean Java OOP Example by Hariom Kushwaha
+public abstract class PaymentMethod {
+    private String userEmail; // Encapsulated
+
+    public PaymentMethod(String email) {
+        this.userEmail = email;
+    }
+
+    public String getUserEmail() { return userEmail; }
+
+    // Abstract method must be implemented by subclasses
+    public abstract boolean processPayment(double amount);
+}
+
+public class UpiPayment extends PaymentMethod {
+    private String upiId;
+
+    public UpiPayment(String email, String upiId) {
+        super(email);
+        this.upiId = upiId;
+    }
+
+    @Override
+    public boolean processPayment(double amount) {
+        System.out.println("Processing ₹" + amount + " via UPI: " + upiId);
+        return true;
+    }
+}`
+      }
+    ],
+    studyNotes: [
+      'Interview Question: Why is String immutable in Java? For security, caching (String Pool), thread safety, and Hash Code calculation in HashMaps.',
+      'In Java, == compares memory references, while .equals() compares the actual content value!'
+    ]
+  },
+  {
+    id: 'tech-career-blueprint',
+    title: 'The Ultimate Student Tech Career & Freelancing Blueprint',
+    subtitle: 'From College Classroom to High-Paying Tech Jobs, Remote Clients & Global Freelancing',
+    slug: 'tech-career-blueprint',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    authorId: 'hariom-kushwaha',
+    authorBio: 'Founder of HK Tech World & Creator of HK VELORA. Mentoring students into top careers and independent digital freedom.',
+    publisher: 'HK Tech World & HK VELORA Press',
+    category: 'Student & Education',
+    subcategory: 'Career & Freelancing',
+    genre: 'Career Roadmap & Strategy',
+    bookType: 'Handbook',
+    description: 'An inspiring and ultra-actionable career handbook authored by Hariom Kushwaha for college students and self-taught developers. Learn how to choose your tech niche, build a killer GitHub portfolio that recruiters notice, craft an ATS-optimized resume, land remote freelance clients on Upwork and LinkedIn, crack technical coding interviews, and build lasting financial independence.',
+    shortDescription: 'The step-by-step roadmap to building high-value projects, landing tech jobs, and earning through freelancing.',
+    pages: 350,
+    format: 'E-Book & PDF',
+    difficulty: 'All Levels',
+    rating: 4.98,
+    reviewCount: 620,
+    badge: 'Career Gamechanger',
+    coverGradient: 'from-fuchsia-600 via-purple-700 to-indigo-900',
+    downloadUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    readOnlineUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    tags: ['Career', 'Freelancing', 'Resume', 'Interview Prep', 'Hariom Kushwaha', 'Students', 'HK Tech World'],
+    topics: ['Choosing Your Tech Path', 'GitHub Portfolio', 'ATS Resume Secrets', 'Freelancing Mastery', 'Interview Cracking'],
+    language: 'English & Hinglish Simplified Notes',
+    featured: true,
+    trending: true,
+    studentPick: true,
+    yearPublished: '2025 Edition',
+    updatedDate: 'September 2025',
+    isbn: '978-93-89101-10-3',
+    price: 0,
+    isFree: true,
+    copyrightStatus: 'HK Tech World Original Press / Free for Students',
+    hasAudioBook: true,
+    narrator: 'Hariom Kushwaha',
+    audioDuration: '5h 45m',
+    whatYoullLearn: [
+      'Choose the right career path (Web Dev, AI/ML, DevOps, App Dev, or Cybersecurity)',
+      'Build 3 standout, real-world portfolio projects instead of boring clone apps',
+      'Create an ATS-proof single-page resume with measurable impact metrics (X-Y-Z formula)',
+      'Optimize your LinkedIn and GitHub profiles to attract recruiters automatically',
+      'Win high-paying remote freelancing projects on Upwork and through direct cold email outreach',
+      'Ace technical interviews, handle behavioral questions, and negotiate your starting salary'
+    ],
+    tableOfContents: [
+      '1. The Tech Mindset: Why College Degrees Aren’t Enough & What Companies Really Want',
+      '2. Picking Your High-Income Tech Skill (Web Dev, AI, Cloud, Apps, Security)',
+      '3. Project-Based Learning: How to Stop Tutorial Hell & Build Original Software',
+      '4. Crafting a Killer GitHub Profile: READMEs, Clean Commits & Open Source Contributions',
+      '5. The Perfect Single-Page ATS Tech Resume (With Hariom’s Proven Template)',
+      '6. LinkedIn Mastery: Networking with Founders, Tech Leads & Recruiters',
+      '7. Freelancing 101: Finding Your First Client on Upwork, Fiverr & Direct Outreach',
+      '8. Pricing Your Freelance Services & Handling Contracts, Revisions & Client Payments',
+      '9. Mastering the Tech Interview: Coding Rounds, System Design & Behavioral HR Rounds',
+      '10. Long-Term Growth: Building Personal Brand, Tech Products & Financial Freedom'
+    ],
+    chaptersPreview: [
+      {
+        title: 'Chapter 5: The Perfect ATS Tech Resume (रिज़्यूमे बनाने का सही तरीका)',
+        summary: 'Applicant Tracking Systems (ATS) automatically discard 75% of student resumes before any human recruiter reads them. Learn how to format your resume so it scores 95%+ on ATS scanners.',
+        keyPoints: [
+          'Keep your resume strictly to ONE single page.',
+          'No two-column graphics, fancy icons, or progress bars (ATS cannot parse them).',
+          'Use the Google X-Y-Z Formula for project bullet points: "Accomplished [X], as measured by [Y], by doing [Z]".',
+          'Include live deployment links (e.g. Vercel, Netlify) and GitHub source links for every project.'
+        ],
+        codeSnippet: `// Example of a High-Impact Resume Bullet Point:
+// ❌ BAD: "Made an e-commerce website using React and Node.js."
+//  EXCELLENT: "Architected a full-stack e-commerce web app using React 18 and Node.js, reducing API response latency by 45% through Redis caching and serving 2,000+ monthly active users with 99.9% uptime."`
+      }
+    ],
+    studyNotes: [
+      'Hariom Career Secret: Don’t wait until final year to start building projects. Start in your 1st and 2nd year, push commits daily on GitHub, and your career will be set before graduation!',
+      'Proof of work is 10 times more powerful than a piece of paper certificate.'
+    ]
+  },
+  {
+    id: 'mobile-app-handbook',
+    title: 'Mobile App Development with React Native & Flutter',
+    subtitle: 'Build Stunning iOS & Android Apps with Single Codebase, State Management & API Integration',
+    slug: 'mobile-app-handbook',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    authorId: 'hariom-kushwaha',
+    authorBio: 'Founder of HK Tech World & Creator of HK VELORA. Cross-platform mobile developer and application architect.',
+    publisher: 'HK Tech World & HK VELORA Press',
+    category: 'Smartphones & Mobile',
+    subcategory: 'Mobile App Development',
+    genre: 'Mobile Engineering Handbook',
+    bookType: 'Handbook',
+    description: 'A complete student guide written by Hariom Kushwaha for building cross-platform mobile apps for Android and iOS using React Native and Flutter. Learn mobile UI components, navigation, camera and GPS device integration, offline SQLite storage, push notifications, and publishing apps to the Google Play Store and Apple App Store.',
+    shortDescription: 'Build professional cross-platform mobile apps for Android & iOS with React Native & Flutter.',
+    pages: 420,
     format: 'E-Book & PDF',
     difficulty: 'Intermediate',
     rating: 4.92,
-    reviewCount: 198,
-    badge: 'Industry Essential',
-    coverGradient: 'from-emerald-600 via-teal-700 to-indigo-900',
-    downloadUrl: 'https://hkhub.dev/library/clean-code',
-    readOnlineUrl: 'https://hkhub.dev/library/clean-code',
-    tags: ['Clean Code', 'SOLID', 'Architecture', 'Design Patterns', 'TypeScript', 'Refactoring'],
-    topics: ['SOLID Principles', 'Hexagonal Architecture', 'Design Patterns', 'Unit Testing', 'Refactoring'],
-    language: 'English',
-    featured: false,
-    trending: true,
-    dealOfTheDay: true,
-    yearPublished: '2025 Edition',
-    updatedDate: 'June 2025',
-    isbn: '978-93-89123-05-2',
-    price: 99,
-    originalPrice: 199,
-    discountPercentage: 50,
-    isFree: false,
-    copyrightStatus: 'HK HUB Exclusive & Authorized',
-    hasAudioBook: true,
-    narrator: 'Vikram Sen',
-    audioDuration: '5h 10m',
-    whatYoullLearn: [
-      'Apply SOLID principles to decouple monolithic codebases into testable modules',
-      'Design clean Domain-Driven models with clear aggregates and value objects',
-      'Implement Factory, Observer, Strategy, and Repository patterns cleanly',
-      'Master dependency injection and inversion of control (IoC)',
-      'Perform safe refactoring without breaking production regression tests'
-    ],
-    tableOfContents: [
-      '1. The Philosophy of Readable Code & Technical Debt',
-      '2. Meaningful Naming, Small Functions & Eliminating Side Effects',
-      '3. Mastering SOLID Principles with Concrete Refactoring Examples',
-      '4. Domain-Driven Design (DDD) for Real-World Applications',
-      '5. Hexagonal / Ports & Adapters Architecture in TypeScript',
-      '6. Essential Gang of Four Design Patterns for Modern Software',
-      '7. Writing Bulletproof Unit & Integration Tests (TDD & BDD)',
-      '8. Error Handling, Logging, Metrics & Observability in Production'
-    ],
-    chaptersPreview: [
-      {
-        title: 'Chapter 3: SOLID Principles in Practice',
-        summary: 'Detailed decomposition of Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion.',
-        keyPoints: [
-          'Single Responsibility: A class should have one, and only one, reason to change.',
-          'Dependency Inversion: Depend upon abstractions, not concretions.',
-          'Interface Segregation: Clients should not be forced to depend on methods they do not use.'
-        ],
-        codeSnippet: `// Dependency Inversion Principle
-interface PaymentGateway {
-  charge(amount: number): Promise<boolean>;
-}
-
-class StripeGateway implements PaymentGateway {
-  async charge(amount: number) { /* Stripe API call */ return true; }
-}
-
-class CheckoutService {
-  constructor(private gateway: PaymentGateway) {}
-  async processOrder(total: number) {
-    return this.gateway.charge(total);
-  }
-}`
-      }
-    ],
-    studyNotes: [
-      'Premature optimization is the root of all evil. Write clean, readable code first; benchmark before optimizing.',
-      'Code is read ten times more often than it is written.'
-    ]
-  },
-  {
-    id: 'cybersecurity-zero-trust',
-    title: 'Cybersecurity Essentials, Ethical Hacking & Zero-Trust Defense',
-    subtitle: 'Network Security, Web Penetration Testing, Cryptography & Threat Modeling',
-    slug: 'cybersecurity-zero-trust',
-    author: 'Elena Rostova & Security Community',
-    authorId: 'elena-rostova',
-    authorBio: 'Staff Security Researcher specializing in offensive security and threat hunting.',
-    publisher: 'Open Security Press & HK HUB',
-    category: 'Cybersecurity & Safety',
-    subcategory: 'Ethical Hacking & Defense',
-    genre: 'Security Manual',
-    bookType: 'Handbook',
-    description: 'An authoritative, hands-on guide to protecting modern networks and web applications. Covers OWASP Top 10 vulnerabilities (SQLi, XSS, CSRF, SSRF), network reconnaissance with Nmap & Wireshark, asymmetric cryptography, zero-trust perimeter defense, and CTF security challenges.',
-    shortDescription: 'Master web security, ethical hacking, OWASP Top 10 defenses, and zero-trust systems.',
-    pages: 440,
-    format: 'E-Book & PDF',
-    difficulty: 'Intermediate',
-    rating: 4.94,
-    reviewCount: 240,
-    badge: 'Security Must-Read',
-    coverGradient: 'from-red-600 via-rose-700 to-slate-950',
-    downloadUrl: 'https://hkhub.dev/library/cybersecurity-guide',
-    readOnlineUrl: 'https://hkhub.dev/library/cybersecurity-guide',
-    tags: ['Cybersecurity', 'Ethical Hacking', 'OWASP', 'Penetration Testing', 'Cryptography'],
-    topics: ['OWASP Top 10', 'Wireshark & Nmap', 'Public Key Crypto', 'Zero Trust', 'Authentication'],
-    language: 'English',
-    featured: true,
-    trending: true,
-    yearPublished: '2025 Edition',
-    updatedDate: 'August 2025',
-    isbn: '978-93-89123-06-9',
-    price: 199,
-    originalPrice: 399,
-    discountPercentage: 50,
-    isFree: false,
-    copyrightStatus: 'Authorized Academic Release',
-    hasAudioBook: true,
-    narrator: 'Elena Rostova',
-    audioDuration: '6h 30m',
-    whatYoullLearn: [
-      'Detect, exploit, and remediate OWASP Top 10 web vulnerabilities safely',
-      'Analyze encrypted network packets and TLS handshakes using Wireshark',
-      'Implement zero-trust security perimeters with least-privilege RBAC',
-      'Understand RSA, Diffie-Hellman, and Elliptic Curve asymmetric cryptography',
-      'Audit API endpoints for broken object level authorization (BOLA)'
-    ],
-    tableOfContents: [
-      '1. Introduction to Cyber Threat Landscapes & Threat Modeling',
-      '2. Network Reconnaissance & Port Scanning with Nmap and Scapy',
-      '3. Packet Inspection & Traffic Analysis with Wireshark',
-      '4. Web Application Security: OWASP Top 10 Deep Dive',
-      '5. SQL Injection (SQLi) & Cross-Site Scripting (XSS) Prevention',
-      '6. Cryptography: Ciphers, Hashing, Salts & Public Key Infrastructure',
-      '7. Authentication, Session Security, OAuth 2.0 & JWT Best Practices',
-      '8. Cloud Security & Zero-Trust Architecture Implementation',
-      '9. Incident Response, Forensics & Bug Bounty Methodologies'
-    ],
-    chaptersPreview: [
-      {
-        title: 'Chapter 4: Web Application Security & OWASP Top 10',
-        summary: 'Understanding how malicious payloads compromise servers via injection, broken access control, and insecure cryptographic storage.',
-        keyPoints: [
-          'Parameterized queries and ORM prepared statements are the ONLY guaranteed defense against SQL injection.',
-          'Never store passwords in plain text or simple MD5; always use Argon2id or bcrypt with high work factors.',
-          'Enforce Content Security Policy (CSP) headers to neutralize cross-site scripting (XSS).'
-        ],
-        codeSnippet: `// Secure Password Hashing Example
-import bcrypt from 'bcrypt';
-
-async function hashPassword(plainText: string): Promise<string> {
-  const saltRounds = 12;
-  return bcrypt.hash(plainText, saltRounds);
-}
-
-async function verifyPassword(plainText: string, hash: string): Promise<boolean> {
-  return bcrypt.compare(plainText, hash);
-}`
-      }
-    ],
-    studyNotes: [
-      'Security is a process, not a product. Systems are only as secure as their weakest human link.',
-      'Always practice security testing exclusively on authorized test environments (like DVWA or TryHackMe).'
-    ]
-  },
-  {
-    id: 'cloud-native-devops',
-    title: 'Cloud Computing, Docker & Kubernetes: Zero to Production',
-    subtitle: 'Containerization, Microservices, CI/CD Pipelines, and Infrastructure as Code',
-    slug: 'cloud-native-devops',
-    author: 'Vikram Sen',
-    authorId: 'vikram-sen',
-    authorBio: 'CNCF Contributor and Cloud Native Systems Architect.',
-    publisher: 'HK HUB Cloud Press',
-    category: 'Cloud & Internet',
-    subcategory: 'DevOps & Containers',
-    genre: 'DevOps Manual',
-    bookType: 'Handbook',
-    description: 'Everything a modern software engineer needs to deploy, scale, and monitor cloud-native applications. Learn Docker multi-stage builds, Kubernetes Pods/Deployments/Ingress, Helm charts, GitHub Actions CI/CD, and Terraform infrastructure management.',
-    shortDescription: 'Master Docker containerization, Kubernetes clusters, CI/CD pipelines, and cloud scaling.',
-    pages: 390,
-    format: 'E-Book & PDF',
-    difficulty: 'Intermediate',
-    rating: 4.91,
-    reviewCount: 165,
-    badge: 'DevOps Blueprint',
-    coverGradient: 'from-blue-600 via-sky-700 to-indigo-900',
-    downloadUrl: 'https://hkhub.dev/library/cloud-devops',
-    readOnlineUrl: 'https://hkhub.dev/library/cloud-devops',
-    tags: ['Docker', 'Kubernetes', 'Cloud', 'DevOps', 'CI/CD', 'AWS', 'Linux'],
-    topics: ['Containers', 'Kubernetes Pods', 'Helm Charts', 'GitHub Actions', 'Terraform'],
-    language: 'English',
+    reviewCount: 290,
+    badge: 'Mobile Master',
+    coverGradient: 'from-cyan-600 via-blue-700 to-indigo-900',
+    downloadUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    readOnlineUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    tags: ['React Native', 'Flutter', 'Mobile Apps', 'Android', 'iOS', 'Hariom Kushwaha', 'HK Tech World'],
+    topics: ['Cross-Platform Mobile', 'Mobile Navigation', 'State Management', 'Device Hardware APIs', 'Play Store Publishing'],
+    language: 'English & Hinglish Simplified Notes',
     featured: false,
     trending: false,
-    dealOfTheDay: true,
+    studentPick: false,
     yearPublished: '2025 Edition',
-    updatedDate: 'July 2025',
-    isbn: '978-93-89123-07-6',
-    price: 149,
-    originalPrice: 299,
-    discountPercentage: 50,
-    isFree: false,
-    copyrightStatus: 'HK HUB Exclusive & Authorized',
-    hasAudioBook: false,
+    updatedDate: 'August 2025',
+    isbn: '978-93-89101-11-0',
+    price: 0,
+    isFree: true,
+    copyrightStatus: 'HK Tech World Original Press / Free for Students',
+    hasAudioBook: true,
+    narrator: 'Hariom Kushwaha',
+    audioDuration: '6h 50m',
     whatYoullLearn: [
-      'Write production multi-stage Dockerfiles with minimal image attack surfaces',
-      'Architect Kubernetes clusters with Pods, Deployments, Services, and Ingress',
-      'Configure auto-scaling (HPA) and zero-downtime rolling updates',
-      'Build automated CI/CD pipelines with GitHub Actions and container registries',
-      'Provision infrastructure as code safely with Terraform'
+      'Compare Native (Kotlin/Swift) vs Cross-Platform (React Native / Flutter)',
+      'Build fluid mobile UIs that adapt perfectly across Android phones and iPhones',
+      'Implement smooth screen transitions using React Navigation and Flutter Navigator',
+      'Integrate device hardware: Camera, Geolocation, Accelerometer, and Biometric Auth',
+      'Store data locally for offline operation using AsyncStorage and SQLite',
+      'Generate signed APKs/AAB bundles and publish to the Google Play Console'
     ],
     tableOfContents: [
-      '1. Cloud Computing Evolution: Bare Metal, VMs & Containers',
-      '2. Mastering Docker: Images, Multi-Stage Builds & Docker Compose',
-      '3. Kubernetes Architecture: Control Plane, Nodes & Kubelet',
-      '4. Managing Workloads: Pods, ReplicaSets, Deployments & StatefulSets',
-      '5. Cluster Networking, ClusterIP, NodePort & Ingress Controllers',
-      '6. Package Management with Helm & GitOps with ArgoCD',
-      '7. Continuous Integration & Deployment (CI/CD) with GitHub Actions',
-      '8. Monitoring & Observability: Prometheus, Grafana & OpenTelemetry'
+      '1. Mobile App Landscape: Native Android/iOS vs Hybrid vs Cross-Platform',
+      '2. Setting up the Development Environment: Expo, Android Studio & Xcode',
+      '3. React Native Core Components: View, Text, Image, ScrollView & FlatList',
+      '4. Mobile Styling: Flexbox in Mobile, Screen Dimensions & Responsive Layouts',
+      '5. Mobile Navigation: Stack Navigation, Bottom Tabs & Drawer Menus',
+      '6. State Management in Mobile: Managing Global App State without Re-render Lag',
+      '7. Accessing Native Device APIs: Camera, Gallery, Location & Local Notifications',
+      '8. Offline Data Persistence & Secure Token Storage (AsyncStorage, EncryptedStorage)',
+      '9. Flutter & Dart Fundamentals: Everything is a Widget (Stateless vs Stateful)',
+      '10. Building, Signing & Publishing to Google Play Store & Apple App Store'
     ],
     chaptersPreview: [
       {
-        title: 'Chapter 2: Production Multi-Stage Dockerfiles',
-        summary: 'How multi-stage builds separate development dependencies and compilers from the lightweight runtime image.',
+        title: 'Chapter 3: React Native Core Components & FlatList Optimization',
+        summary: 'Unlike the web where <div> and <span> rule, mobile uses native components that map directly to Android and iOS views. Learn why FlatList is essential for rendering long lists with zero stutter.',
         keyPoints: [
-          'Stage 1 compiles TypeScript/Go code with full dev dependencies.',
-          'Stage 2 copies only the compiled output into a distroless or Alpine base.',
-          'Reduces final image size from 1.2GB down to under 50MB!'
+          '<View> is the equivalent of <div>; <Text> is required for all text (raw strings outside <Text> crash in React Native).',
+          'FlatList virtualizes list items, only rendering elements visible on the current screen.',
+          'Always provide keyExtractor and initialNumToRender to maintain 60 FPS smooth scrolling.'
         ],
-        codeSnippet: `# Multi-Stage Dockerfile
+        codeSnippet: `// High-Performance Mobile List in React Native
+import React from 'react';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+
+interface Item { id: string; title: string; }
+
+export function ProductList({ data }: { data: Item[] }) {
+  return (
+    <FlatList
+      data={data}
+      keyExtractor={(item) => item.id}
+      initialNumToRender={10}
+      renderItem={({ item }) => (
+        <View style={styles.card}>
+          <Text style={styles.title}>{item.title}</Text>
+        </View>
+      )}
+    />
+  );
+}
+
+const styles = StyleSheet.create({
+  card: { padding: 16, backgroundColor: '#1e293b', marginVertical: 6, borderRadius: 12 },
+  title: { color: '#f8fafc', fontSize: 16, fontWeight: 'bold' }
+});`
+      }
+    ],
+    studyNotes: [
+      'Expo makes testing on your physical phone effortless: just scan the QR code with the Expo Go app.',
+      'Always test touch targets: buttons should be at least 44x44 pixels so thumbs can easily tap them.'
+    ]
+  },
+  {
+    id: 'devops-cloud-handbook',
+    title: 'Cloud Computing, DevOps & Docker: The Modern Infrastructure Handbook',
+    subtitle: 'Linux Systems, CI/CD Pipelines, Docker Containers, Kubernetes & Production Cloud',
+    slug: 'devops-cloud-handbook',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    authorId: 'hariom-kushwaha',
+    authorBio: 'Founder of HK Tech World & Creator of HK VELORA. Cloud architect and DevOps specialist.',
+    publisher: 'HK Tech World & HK VELORA Press',
+    category: 'Cloud & Internet',
+    subcategory: 'DevOps & Cloud Systems',
+    genre: 'DevOps Architecture Manual',
+    bookType: 'Handbook',
+    description: 'A masterclass manual written by Hariom Kushwaha on modern cloud computing and DevOps. Learn the core Linux terminal commands, Git branching strategies, automating builds with GitHub Actions CI/CD, packaging applications with Docker containers, orchestrating microservices with Kubernetes, and managing scalable cloud servers on AWS and Google Cloud.',
+    shortDescription: 'Master Linux servers, Docker containers, CI/CD automation, and cloud deployments.',
+    pages: 450,
+    format: 'E-Book & PDF',
+    difficulty: 'Intermediate',
+    rating: 4.95,
+    reviewCount: 330,
+    badge: 'DevOps Standard',
+    coverGradient: 'from-slate-700 via-indigo-900 to-blue-950',
+    downloadUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    readOnlineUrl: 'https://hk-hub-tau.vercel.app/?tab=ebooks',
+    tags: ['DevOps', 'Docker', 'Linux', 'Kubernetes', 'Cloud', 'CI/CD', 'Hariom Kushwaha', 'HK Tech World'],
+    topics: ['Linux Administration', 'Git & CI/CD Pipelines', 'Docker & Dockerfile', 'Kubernetes Basics', 'Cloud Infrastructure'],
+    language: 'English & Hinglish Simplified Notes',
+    featured: false,
+    trending: true,
+    studentPick: false,
+    yearPublished: '2025 Edition',
+    updatedDate: 'September 2025',
+    isbn: '978-93-89101-12-7',
+    price: 0,
+    isFree: true,
+    copyrightStatus: 'HK Tech World Original Press / Free for Students',
+    hasAudioBook: true,
+    narrator: 'Hariom Kushwaha',
+    audioDuration: '7h 00m',
+    whatYoullLearn: [
+      'Master the essential Linux command-line tools (bash, grep, awk, curl, systemctl)',
+      'Automate testing and deployments with GitHub Actions CI/CD workflows',
+      'Build lightweight, secure Docker container images using multi-stage Dockerfiles',
+      'Orchestrate multi-container applications using Docker Compose (App + Database + Redis)',
+      'Understand Kubernetes Pods, Deployments, Services, and Ingress routing',
+      'Deploy applications to the cloud with zero downtime and automatic SSL certificates'
+    ],
+    tableOfContents: [
+      '1. Introduction to DevOps: Breaking the Wall Between Developers & Operations',
+      '2. Linux Administration Essentials: File Permissions, Process Management & SSH',
+      '3. Advanced Git & GitHub: Trunk-Based Development, Rebase & Pull Request Best Practices',
+      '4. Continuous Integration & Continuous Deployment (CI/CD) with GitHub Actions',
+      '5. Containerization Foundations: Virtual Machines vs Docker Containers',
+      '6. Writing Multi-Stage Dockerfiles: Minimizing Image Size & Hardening Security',
+      '7. Multi-Container Orchestration with Docker Compose (Node.js + PostgreSQL + Nginx)',
+      '8. Introduction to Kubernetes (K8s): Pods, ReplicaSets, Deployments & Services',
+      '9. Cloud Providers: AWS (EC2, S3), Google Cloud (Cloud Run) & Serverless Platforms',
+      '10. Monitoring & Observability: Logs, Metrics, Prometheus & Uptime Health Checks'
+    ],
+    chaptersPreview: [
+      {
+        title: 'Chapter 5: Docker Containerization (कंटेनर टेक्नोलॉजी को आसान भाषा में समझें)',
+        summary: 'Why "It works on my machine" is solved forever by Docker. A container packages your application code along with its exact runtime, libraries, dependencies, and configuration files into an immutable lightweight image.',
+        keyPoints: [
+          'A Container is NOT a Virtual Machine. Containers share the host OS kernel and boot in milliseconds.',
+          'Dockerfile is the blueprint recipe used to build a Docker Image.',
+          'Multi-stage builds allow compiling in a heavy build container and copying only the binary into a tiny production Alpine image (e.g. 1GB down to 50MB).'
+        ],
+        codeSnippet: `# Production Multi-Stage Dockerfile by Hariom Kushwaha
+# Stage 1: Build stage
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
@@ -642,622 +1175,59 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
+# Stage 2: Production runtime stage (Small & Secure!)
 FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
 EXPOSE 3000
-CMD ["node", "dist/server.js"]`
+CMD ["node", "dist/server.cjs"]`
       }
     ],
     studyNotes: [
-      'Never run containers as root user in production; always specify "USER node" or a non-privileged UID.',
-      'Always specify explicit CPU and memory resource requests and limits in your Kubernetes manifests.'
-    ]
-  },
-  {
-    id: 'computer-systems-hardware',
-    title: 'Computer Systems, PC Architecture & Hardware Fundamentals',
-    subtitle: 'From Transistors & Logic Gates to CPUs, Memory Hierarchies, and Operating Systems',
-    slug: 'computer-systems-hardware',
-    author: 'HK HUB Academic Team',
-    authorId: 'hk-academic',
-    authorBio: 'HK HUB Technical Curriculum Division.',
-    publisher: 'HK HUB Publications',
-    category: 'Computers & PC',
-    subcategory: 'Hardware & Architecture',
-    genre: 'Hardware Textbook',
-    bookType: 'Handbook',
-    description: 'An illuminating, accessible guide to how computers actually work at the silicon level. Covers boolean logic, CPU arithmetic logic units (ALU), cache hierarchies (L1/L2/L3), assembly language, motherboard buses, storage controllers (NVMe, SSD), and OS interrupt handling.',
-    shortDescription: 'Understand how computers work under the hood: CPUs, memory caches, motherboards, and assembly.',
-    pages: 360,
-    format: 'E-Book & PDF',
-    difficulty: 'All Levels',
-    rating: 4.89,
-    reviewCount: 176,
-    badge: 'Hardware Fundamentals',
-    coverGradient: 'from-slate-700 via-gray-800 to-zinc-950',
-    downloadUrl: 'https://hkhub.dev/library/pc-systems',
-    readOnlineUrl: 'https://hkhub.dev/library/pc-systems',
-    tags: ['PC Architecture', 'Hardware', 'CPUs', 'Memory', 'Operating Systems', 'Assembly'],
-    topics: ['Logic Gates', 'ALU & Registers', 'Cache Locality', 'Assembly Basics', 'Motherboard Buses'],
-    language: 'English',
-    featured: false,
-    trending: false,
-    yearPublished: '2025 Edition',
-    updatedDate: 'May 2025',
-    isbn: '978-93-89123-08-3',
-    price: 0,
-    isFree: true,
-    copyrightStatus: 'Open Access / Creative Commons',
-    hasAudioBook: false,
-    whatYoullLearn: [
-      'Understand how boolean gates combine to form adders and CPU arithmetic units',
-      'Appreciate CPU cache lines and write cache-friendly high performance code',
-      'Inspect registers, the instruction pointer, and stack/heap memory allocation',
-      'Diagnose hardware bottlenecks across CPU, RAM, NVMe SSD, and PCIe lanes',
-      'Learn how operating systems handle hardware interrupts and context switching'
-    ],
-    tableOfContents: [
-      '1. The Foundations: Binary, Hexadecimal, Transistors & Boolean Gates',
-      '2. Inside the Processor: ALU, Control Unit, Registers & Clock Cycles',
-      '3. The Memory Hierarchy: Registers, L1/L2/L3 Caches, RAM & Virtual Memory',
-      '4. Motherboards, PCIe Lanes, Chipsets & Northbridge/Southbridge Evolution',
-      '5. Storage Systems: Hard Drives, NAND Flash, NVMe Protocols & Wear Leveling',
-      '6. Introduction to Assembly Language (x86-64 & ARM64 Architecture)',
-      '7. Graphics Processing Units (GPUs) vs Central Processing Units (CPUs)',
-      '8. Troubleshooting Hardware Failures, Thermal Throttling & PC Assembly'
-    ],
-    chaptersPreview: [
-      {
-        title: 'Chapter 3: The Memory Hierarchy & Cache Locality',
-        summary: 'Why cache misses cause hundreds of wasted CPU clock cycles and how memory access patterns affect runtime speed.',
-        keyPoints: [
-          'Spatial Locality: If you access memory at address x, you will likely access address x+1 soon.',
-          'Temporal Locality: If you access memory at address x, you will likely access it again soon.',
-          'Row-major array traversal is drastically faster than column-major traversal because of cache line prefetching.'
-        ]
-      }
-    ],
-    studyNotes: [
-      'L1 Cache access takes ~1 nanosecond (4 clock cycles), while accessing main RAM takes ~100 nanoseconds (~300 clock cycles).',
-      'Always monitor thermal throttling using HWMonitor or CPU-Z when analyzing system performance degradation.'
-    ]
-  },
-  {
-    id: 'modern-web-development',
-    title: 'Modern Full-Stack Web Development with React, Node & TypeScript',
-    subtitle: 'Building Scalable Web Applications, REST APIs, Authentication, and Modern UIs',
-    slug: 'modern-web-development',
-    author: 'HK HUB Web Guild',
-    authorId: 'hk-academic',
-    authorBio: 'Open-source web engineers and instructors.',
-    publisher: 'HK HUB Open Press',
-    category: 'Web Development',
-    subcategory: 'Fullstack Engineering',
-    genre: 'Web Development Guide',
-    bookType: 'Handbook',
-    description: 'A complete, project-driven guide to modern web development. Covers HTML5 semantic markup, Tailwind CSS styling, React hooks & state management, Node.js Express APIs, SQL/NoSQL databases, and fullstack deployment.',
-    shortDescription: 'Build full-stack web applications with React, TypeScript, Express, Tailwind, and databases.',
-    pages: 410,
-    format: 'Open Textbook',
-    difficulty: 'All Levels',
-    rating: 4.93,
-    reviewCount: 380,
-    badge: 'Fullstack Must-Read',
-    coverGradient: 'from-blue-600 via-indigo-600 to-violet-800',
-    downloadUrl: 'https://fullstackopen.com/en/',
-    readOnlineUrl: 'https://fullstackopen.com/en/',
-    tags: ['React', 'TypeScript', 'Node.js', 'Web Development', 'Tailwind', 'REST APIs'],
-    topics: ['React Hooks', 'TypeScript Typing', 'Express APIs', 'State Management', 'Authentication'],
-    language: 'English',
-    featured: true,
-    trending: true,
-    yearPublished: '2025 Edition',
-    updatedDate: 'August 2025',
-    isbn: '978-93-89123-02-1',
-    price: 0,
-    isFree: true,
-    copyrightStatus: 'Open Access / Creative Commons',
-    hasAudioBook: false,
-    whatYoullLearn: [
-      'Build reactive, accessible UIs using React 18 functional components and custom hooks',
-      'Write end-to-end type-safe code using TypeScript interfaces, types, and generics',
-      'Create robust RESTful APIs with Node.js, Express, and validation middleware',
-      'Style modern responsive layouts rapidly with Tailwind utility classes',
-      'Implement secure token-based user authentication with JWT and bcrypt'
-    ],
-    tableOfContents: [
-      '1. Modern Web Foundations: HTML5, CSS Grid & Responsive Design',
-      '2. TypeScript Essentials for Frontend & Backend Developers',
-      '3. React 18 Deep Dive: Hooks, Virtual DOM & Lifecycle Flow',
-      '4. State Management: Context API, Zustand & Server State with React Query',
-      '5. Styling Modern Interfaces: Tailwind CSS, Headless Components & Motion',
-      '6. Backend Engineering with Node.js, Express & TypeScript',
-      '7. Relational & Document Databases: PostgreSQL & MongoDB Modeling',
-      '8. Authentication, Authorization & Session Management',
-      '9. Testing Web Apps with Vitest & Playwright',
-      '10. Production Deployment, CDNs & Performance Web Vitals'
-    ],
-    chaptersPreview: [
-      {
-        title: 'Chapter 3: Mastering React Hooks & Re-Render Prevention',
-        summary: 'Understanding component rendering cycles, dependency arrays, and memoization techniques.',
-        keyPoints: [
-          'State updates trigger re-renders; never mutate state objects directly in React.',
-          'useEffect runs after painting; ensure dependency arrays contain only stabilized primitives or memoized callbacks.',
-          'Custom hooks encapsulate reusable business logic cleanly away from UI presentation.'
-        ],
-        codeSnippet: `// Custom Hook Example: Local Storage Sync
-import { useState, useEffect } from 'react';
-
-export function useLocalStorage<T>(key: string, initialValue: T): [T, (val: T) => void] {
-  const [value, setValue] = useState<T>(() => {
-    try {
-      const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-    } catch {
-      return initialValue;
-    }
-  });
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (e) {
-      console.warn('LocalStorage error:', e);
-    }
-  }, [key, value]);
-
-  return [value, setValue];
-}`
-      }
-    ],
-    studyNotes: [
-      'Always audit Core Web Vitals (LCP, FID/INP, CLS) before pushing web apps to production.',
-      'Never commit sensitive API keys or database connection strings to public Git repositories.'
-    ]
-  },
-  {
-    id: 'digital-skills-productivity',
-    title: 'The Digital Skills & Workplace Productivity Manual',
-    subtitle: 'Essential Computer Literacy, Cloud Tools, Data Management & Career Skills',
-    slug: 'digital-skills-productivity',
-    author: 'HK HUB Student Mentors',
-    authorId: 'hk-academic',
-    authorBio: 'Educators focusing on digital literacy and student career enablement.',
-    publisher: 'HK HUB Publications',
-    category: 'Digital Skills',
-    subcategory: 'Productivity & Office Tools',
-    genre: 'Practical Guide',
-    bookType: 'Guide',
-    description: 'Master the non-negotiable digital skills required in the modern workplace and academia. Covers advanced spreadsheet analysis (VLOOKUP, XLOOKUP, Pivot Tables), cloud collaboration (Google Drive, Docs, Sheets), markdown documentation, digital safety, and remote work tools.',
-    shortDescription: 'Excel formulas, cloud productivity, digital security, and modern workplace tools.',
-    pages: 240,
-    format: 'E-Book & PDF',
-    difficulty: 'Beginner',
-    rating: 4.87,
-    reviewCount: 154,
-    badge: 'Career Starter',
-    coverGradient: 'from-amber-600 via-orange-600 to-emerald-800',
-    downloadUrl: 'https://hkhub.dev/library/digital-skills',
-    readOnlineUrl: 'https://hkhub.dev/library/digital-skills',
-    tags: ['Digital Skills', 'Excel', 'Productivity', 'Cloud Tools', 'Office', 'Career'],
-    topics: ['Excel Formulas', 'Google Workspace', 'Data Analysis', 'Password Security', 'Resume Building'],
-    language: 'English & Hinglish Notes',
-    featured: false,
-    trending: false,
-    studentPick: true,
-    yearPublished: '2025 Edition',
-    updatedDate: 'April 2025',
-    isbn: '978-93-89123-11-5',
-    price: 0,
-    isFree: true,
-    copyrightStatus: 'Open Access / Creative Commons',
-    hasAudioBook: false,
-    whatYoullLearn: [
-      'Master essential Excel formulas: XLOOKUP, INDEX/MATCH, SUMIFS, and Pivot Tables',
-      'Collaborate seamlessly across Google Workspace, Notion, and Slack',
-      'Protect personal and professional data using password managers and 2FA',
-      'Write clean technical documentation using Markdown and Git',
-      'Format professional resumes and technical portfolios that pass ATS screeners'
-    ],
-    tableOfContents: [
-      '1. The Modern Digital Landscape: Hardware, OS & File Systems',
-      '2. Advanced Spreadsheets: Formulas, Data Cleansing & Pivot Tables',
-      '3. Cloud Collaboration Tools: Google Drive, Notion, Slack & Zoom',
-      '4. Everyday Cybersecurity: Passwords, 2FA, Phishing & Data Backups',
-      '5. Technical Writing: Markdown, Documentation & Presentation Design',
-      '6. Building an ATS-Friendly Tech Resume & LinkedIn Profile'
-    ],
-    chaptersPreview: [
-      {
-        title: 'Chapter 2: Essential Excel Formulas for Data Analysis',
-        summary: 'How modern lookup formulas eliminate manual copy-pasting and errors in financial and academic data.',
-        keyPoints: [
-          'XLOOKUP replaces both VLOOKUP and HLOOKUP with faster, safer two-way matching.',
-          'Pivot Tables allow you to summarize thousands of rows of data into interactive tables in three clicks.',
-          'Always use Absolute Cell Referencing ($A$1) when copying formulas across rows and columns.'
-        ]
-      }
-    ],
-    studyNotes: [
-      'Keyboard shortcuts save up to 8 working days per year: learn Ctrl+Z, Ctrl+Shift+L (Filter), and Alt+= (AutoSum).',
-      'Never reuse passwords across personal email and financial accounts.'
-    ]
-  },
-  {
-    id: 'mobile-tech-flutter',
-    title: 'Smartphones & Mobile App Engineering: Flutter & React Native',
-    subtitle: 'Cross-Platform Mobile Development, Device APIs, and Store Publishing',
-    slug: 'mobile-tech-flutter',
-    author: 'HK HUB Mobile Guild',
-    authorId: 'hk-academic',
-    authorBio: 'Cross-platform mobile developers and architects.',
-    publisher: 'HK HUB Tech Press',
-    category: 'Smartphones & Mobile',
-    subcategory: 'Mobile App Development',
-    genre: 'Engineering Manual',
-    bookType: 'Handbook',
-    description: 'A deep-dive textbook into modern mobile engineering for Android and iOS. Learn Flutter widget architectures, React Native bridge vs new architecture, state management (Bloc, Riverpod, Redux), hardware sensors, offline SQLite caching, and Play Store publishing.',
-    shortDescription: 'Build native iOS and Android apps with Flutter, React Native, device APIs, and offline databases.',
-    pages: 370,
-    format: 'E-Book & PDF',
-    difficulty: 'Intermediate',
-    rating: 4.88,
-    reviewCount: 142,
-    badge: 'Mobile Architect',
-    coverGradient: 'from-sky-600 via-blue-700 to-indigo-900',
-    downloadUrl: 'https://hkhub.dev/library/mobile-engineering',
-    readOnlineUrl: 'https://hkhub.dev/library/mobile-engineering',
-    tags: ['Flutter', 'React Native', 'Android', 'iOS', 'Mobile Apps', 'Dart'],
-    topics: ['Flutter Widgets', 'React Native', 'Offline Caching', 'Camera & GPS', 'App Store Deploy'],
-    language: 'English',
-    featured: false,
-    trending: false,
-    dealOfTheDay: false,
-    yearPublished: '2025 Edition',
-    updatedDate: 'May 2025',
-    isbn: '978-93-89123-12-2',
-    price: 99,
-    originalPrice: 199,
-    discountPercentage: 50,
-    isFree: false,
-    copyrightStatus: 'HK HUB Exclusive & Authorized',
-    hasAudioBook: false,
-    whatYoullLearn: [
-      'Compare Flutter and React Native architectures to choose the right tech stack',
-      'Build responsive, pixel-perfect mobile UIs that look native on Android and iOS',
-      'Access smartphone hardware: Camera, Geolocation, Accelerometer, and Bluetooth',
-      'Implement offline-first data synchronization with SQLite and Hive',
-      'Prepare signing keys and submit applications to Google Play Store and Apple App Store'
-    ],
-    tableOfContents: [
-      '1. Mobile Ecosystem Foundations: Android OS vs iOS Architectures',
-      '2. Flutter & Dart Deep Dive: Stateless vs Stateful Widgets & Layouts',
-      '3. React Native & Expo: Native Bridges, Turbomodules & Fabric Renderer',
-      '4. Mobile State Management: Riverpod, Bloc & Context Solutions',
-      '5. Smartphone Hardware APIs: Camera, GPS, Biometrics & Notifications',
-      '6. Offline Storage: SQLite, Room, Hive & Real-Time Sync',
-      '7. Mobile App Security: Keychain, Keystore, SSL Pinning & Obfuscation',
-      '8. Testing, CI/CD with Fastlane & App Store Publishing'
-    ],
-    chaptersPreview: [
-      {
-        title: 'Chapter 2: Flutter Widget Tree & Render Objects',
-        summary: 'Understanding how Flutter paints its own UI on Skia/Impeller graphics engines rather than using OEM native widgets.',
-        keyPoints: [
-          'In Flutter, everything is a widget (Structural, Stylistic, and Positional).',
-          'BuildContext represents the location of a widget in the overall element tree.',
-          'Hot Reload preserves state across code edits, making UI prototyping extraordinarily fast.'
-        ]
-      }
-    ],
-    studyNotes: [
-      'Always test mobile applications on physical low-end Android devices, not just high-end desktop simulators.',
-      'Battery consumption matters: disable GPS background listeners as soon as location updates are no longer needed.'
-    ]
-  },
-  {
-    id: 'semester-project-handbook',
-    title: 'The College Capstone & Engineering Semester Project Handbook',
-    subtitle: 'From Topic Selection & SRS Documentation to UML Diagrams and Final Viva Defense',
-    slug: 'semester-project-handbook',
-    author: 'HK HUB Student Engineering Mentors',
-    authorId: 'hk-academic',
-    authorBio: 'Senior faculty and project guides across top Indian engineering colleges.',
-    publisher: 'HK HUB Publications',
-    category: 'Student & Education',
-    subcategory: 'Academic Capstone',
-    genre: 'College Handbook',
-    bookType: 'Handbook',
-    description: 'A complete step-by-step roadmap to building and defending an outstanding BCA, B.Tech, or Polytechnic semester project. Covers topic selection, Software Requirement Specifications (SRS), architecture diagrams, Git teamwork, and viva presentation slides.',
-    shortDescription: 'Build and defend an outstanding college semester project, write SRS documents, and ace your viva.',
-    pages: 280,
-    format: 'E-Book & PDF',
-    difficulty: 'All Levels',
-    rating: 4.96,
-    reviewCount: 462,
-    badge: 'Student Essential',
-    coverGradient: 'from-pink-600 via-rose-700 to-indigo-900',
-    downloadUrl: 'https://github.com/practical-tutorials/project-based-learning',
-    readOnlineUrl: 'https://github.com/practical-tutorials/project-based-learning',
-    tags: ['College Project', 'Capstone', 'BCA', 'BTech', 'Viva Prep', 'Documentation'],
-    topics: ['Topic Selection', 'SRS Writing', 'UML Diagrams', 'Tech Stack Choice', 'Viva Questions'],
-    language: 'English & Hinglish Notes',
-    featured: true,
-    trending: true,
-    studentPick: true,
-    yearPublished: '2025 Edition',
-    updatedDate: 'September 2025',
-    isbn: '978-93-89123-14-6',
-    price: 0,
-    isFree: true,
-    copyrightStatus: 'Open Access / Creative Commons',
-    hasAudioBook: true,
-    narrator: 'Rahul Verma',
-    audioDuration: '4h 45m',
-    whatYoullLearn: [
-      'Choose a project topic that impresses external examiners without being unfeasibly complex',
-      'Write professional Software Requirement Specifications (SRS) in IEEE format',
-      'Draw standard UML diagrams: Use Case, Class, Sequence, and ER Diagrams',
-      'Organize GitHub branches, pull requests, and commit histories for team projects',
-      'Confidently answer the top 20 tricky viva defense questions asked by university examiners'
-    ],
-    tableOfContents: [
-      '1. How to Pick a Project Topic That Impresses External Examiners',
-      '2. Writing a Professional Software Requirement Specification (SRS)',
-      '3. Designing UML Diagrams: Use Case, Sequence & ER Diagrams',
-      '4. Tech Stack Decision Matrix (MERN vs Next.js vs Python FastAPI)',
-      '5. Setting Up Git Branches, PRs & GitHub Project Boards for Teams',
-      '6. Database Schema Design & Mock Data Generation',
-      '7. Building the Core Minimum Viable Product (MVP) in 4 Weeks',
-      '8. Free Cloud Deployment (Vercel, Render, Supabase, Cloudflare)',
-      '9. Writing the Final Project Report / Thesis (IEEE Format)',
-      '10. Acing the Final Year Viva Defense: Questions & Answers'
-    ],
-    chaptersPreview: [
-      {
-        title: 'Chapter 10: Top 10 Viva Questions External Examiners Ask',
-        summary: 'Prepare authoritative answers to the most common viva questions with poise and confidence.',
-        keyPoints: [
-          '1. What is the unique problem your project solves that existing solutions fail at?',
-          '2. Why did you choose this specific database architecture over alternatives?',
-          '3. How does your system handle security, password hashing, and authentication?',
-          '4. If your user base grew by 100x tomorrow, where would the primary bottleneck occur?'
-        ]
-      }
-    ],
-    studyNotes: [
-      'Never walk into a viva without having a live working URL or local backup video demo in case of classroom Wi-Fi failure.',
-      'Examiners appreciate honest answers: If you don\'t know an edge case, say "We haven\'t benchmarked that specific edge case yet, but based on our architecture, here is how we would approach it."'
-    ]
-  },
-  {
-    id: 'discrete-math-algorithms',
-    title: 'Mathematics for Computer Science, Cryptography & Algorithms',
-    subtitle: 'Discrete Mathematics, Graph Theory, Combinatorics, and Probability for Developers',
-    slug: 'discrete-math-algorithms',
-    author: 'MIT OpenCourseWare & HK HUB Faculty',
-    authorId: 'hk-academic',
-    authorBio: 'Computer Science & Mathematics educators.',
-    publisher: 'MIT & HK HUB Academic Series',
-    category: 'Science & Math',
-    subcategory: 'Discrete Mathematics',
-    genre: 'Academic Textbook',
-    bookType: 'Handbook',
-    description: 'The mathematical backbone of computer science explained with clarity and real-world code connections. Covers propositional logic, mathematical induction, graph theory proofs, modular arithmetic for RSA cryptography, and discrete probability.',
-    shortDescription: 'Master the discrete math and graph theory foundations behind algorithms and cryptography.',
-    pages: 460,
-    format: 'Open Textbook',
-    difficulty: 'Intermediate',
-    rating: 4.86,
-    reviewCount: 130,
-    badge: 'Math Foundation',
-    coverGradient: 'from-violet-700 via-purple-800 to-slate-950',
-    downloadUrl: 'https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/',
-    readOnlineUrl: 'https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/',
-    tags: ['Math for CS', 'Discrete Math', 'Graph Theory', 'Cryptography', 'Algorithms'],
-    topics: ['Propositional Logic', 'Induction Proofs', 'Modular Arithmetic', 'Graph Theory', 'Probability'],
-    language: 'English',
-    featured: false,
-    trending: false,
-    yearPublished: '2024 Edition',
-    updatedDate: 'March 2025',
-    isbn: '978-02-62033-84-8',
-    price: 0,
-    isFree: true,
-    copyrightStatus: 'Open Access / Creative Commons',
-    hasAudioBook: false,
-    whatYoullLearn: [
-      'Construct mathematical proofs using direct, contrapositive, and induction methods',
-      'Understand modular arithmetic and Fermat’s Little Theorem behind RSA encryption',
-      'Analyze graph connectivity, Euler tours, Hamiltonian cycles, and planar graphs',
-      'Compute expected values and probabilities in randomized algorithms',
-      'Bridge theoretical mathematics directly to algorithm design and competitive coding'
-    ],
-    tableOfContents: [
-      '1. Propositional Logic, Truth Tables & Logical Equivalences',
-      '2. Predicate Calculus & Quantifiers (Universal & Existential)',
-      '3. Mathematical Induction & Strong Induction Proofs',
-      '4. Number Theory: Divisibility, GCD, Euclidean Algorithm & Primes',
-      '5. Modular Arithmetic & The RSA Cryptosystem',
-      '6. Graph Theory: Degrees, Paths, Cycles, Trees & Bipartite Matching',
-      '7. Combinatorics: Permutations, Combinations & Pigeonhole Principle',
-      '8. Discrete Probability, Bayes Theorem & Random Variables'
-    ],
-    chaptersPreview: [
-      {
-        title: 'Chapter 5: Modular Arithmetic & The RSA Cryptosystem',
-        summary: 'How clock arithmetic and the difficulty of factoring huge prime numbers forms the foundation of internet e-commerce security.',
-        keyPoints: [
-          'Two integers a and b are congruent modulo m if their difference (a - b) is divisible by m.',
-          'Euler’s totient function φ(n) counts the positive integers up to n that are relatively prime to n.',
-          'RSA relies on asymmetric private/public keys generated from two large random prime numbers p and q.'
-        ]
-      }
-    ],
-    studyNotes: [
-      'The Handshaking Lemma: In any graph, the sum of the degrees of all vertices equals 2 * |E|.',
-      'Euler formula for planar connected graphs: V - E + F = 2.'
-    ]
-  },
-  {
-    id: 'tech-startup-handbook',
-    title: 'Building Digital Businesses & Tech Products: Zero to Scale',
-    subtitle: 'From Idea Validation and MVP Launch to Unit Economics, Pricing, and Product Growth',
-    slug: 'tech-startup-handbook',
-    author: 'HK HUB Product Guild',
-    authorId: 'hk-academic',
-    authorBio: 'Founders, Product Managers, and Growth Leads.',
-    publisher: 'HK HUB Business Press',
-    category: 'Business & Tech',
-    subcategory: 'Tech Entrepreneurship',
-    genre: 'Business Manual',
-    bookType: 'Guide',
-    description: 'A pragmatic, zero-fluff manual for developers, students, and engineers looking to launch their own software products and digital businesses. Covers problem validation, SaaS unit economics (CAC, LTV, Churn), flexible pricing strategies, and organic distribution.',
-    shortDescription: 'Turn code into cash flow: validate startup ideas, price software, and acquire real customers.',
-    pages: 310,
-    format: 'E-Book & PDF',
-    difficulty: 'All Levels',
-    rating: 4.9,
-    reviewCount: 118,
-    badge: 'Entrepreneur Blueprint',
-    coverGradient: 'from-amber-600 via-rose-700 to-indigo-900',
-    downloadUrl: 'https://hkhub.dev/library/tech-startup-handbook',
-    readOnlineUrl: 'https://hkhub.dev/library/tech-startup-handbook',
-    tags: ['Startup', 'SaaS', 'Business', 'Pricing', 'Product Management', 'Growth'],
-    topics: ['Idea Validation', 'MVP Scoping', 'Pricing Strategies', 'SaaS Metrics', 'Distribution'],
-    language: 'English',
-    featured: false,
-    trending: true,
-    dealOfTheDay: false,
-    yearPublished: '2025 Edition',
-    updatedDate: 'August 2025',
-    isbn: '978-93-89123-15-3',
-    price: 299,
-    originalPrice: 599,
-    discountPercentage: 50,
-    isFree: false,
-    copyrightStatus: 'HK HUB Exclusive & Authorized',
-    hasAudioBook: true,
-    narrator: 'Sameer Sen',
-    audioDuration: '5h 20m',
-    whatYoullLearn: [
-      'Validate customer pain points before writing a single line of backend code',
-      'Scope a true Minimum Viable Product (MVP) and launch in under 30 days',
-      'Implement flexible tiered and usage-based pricing architectures',
-      'Calculate customer acquisition cost (CAC), lifetime value (LTV), and churn rate',
-      'Harness organic developer marketing and programmatic SEO to drive users'
-    ],
-    tableOfContents: [
-      '1. The Developer Founder Mindset: Solving Urgent Commercial Problems',
-      '2. Idea Validation & Conducting Customer Discovery Interviews',
-      '3. Scoping Your Minimum Viable Product (MVP) in 30 Days',
-      '4. Pricing Psychology: Free vs Freemium vs One-Time vs Subscription',
-      '5. Essential SaaS Metrics: CAC, LTV, MRR, Churn & Burn Multiple',
-      '6. Building Distribution Channels: Content, Open-Source & Communities',
-      '7. Legal Fundamentals: Incorporating, IP Protection & Contracts'
-    ],
-    chaptersPreview: [
-      {
-        title: 'Chapter 4: Pricing Psychology & Architectural Flexibility',
-        summary: 'Why underpricing kills startups faster than bad code and how to test price points from ₹99 to enterprise contracts.',
-        keyPoints: [
-          'Never compete on being the cheapest; compete on solving the problem faster and more reliably.',
-          'Displaying clear annual discount incentives boosts upfront cash flow significantly.',
-          'Keep checkout friction close to zero with unified payment options.'
-        ]
-      }
-    ],
-    studyNotes: [
-      'Rule of thumb: If nobody complains that your product is too expensive, you are charging too little.',
-      'Talk to at least 15 target users before deciding on your database schema.'
-    ]
-  },
-  {
-    id: 'how-to-practical-tech',
-    title: 'The Practical Tech Handbook: Troubleshooting & Everyday Tools',
-    subtitle: 'Diagnostic Blueprints for Windows, Linux, Networking, and Performance Optimization',
-    slug: 'how-to-practical-tech',
-    author: 'HK HUB Systems Support Community',
-    authorId: 'hk-academic',
-    authorBio: 'Systems administrators and hardware support technicians.',
-    publisher: 'HK HUB Publications',
-    category: 'Guides & Handbooks',
-    subcategory: 'Hardware & OS Support',
-    genre: 'Practical How-To',
-    bookType: 'Tutorial',
-    description: 'The ultimate practical survival manual for everyday tech problems. Covers diagnosing Wi-Fi latency, troubleshooting Windows Blue Screen of Death (BSOD), Linux command-line diagnostics, disk recovery, malware removal, and home lab setups.',
-    shortDescription: 'Fix Windows crashes, solve Wi-Fi bottlenecks, recover lost files, and master Linux tools.',
-    pages: 290,
-    format: 'E-Book & PDF',
-    difficulty: 'Beginner',
-    rating: 4.89,
-    reviewCount: 210,
-    badge: 'Practical Survival',
-    coverGradient: 'from-teal-600 via-cyan-700 to-slate-900',
-    downloadUrl: 'https://hkhub.dev/library/practical-tech',
-    readOnlineUrl: 'https://hkhub.dev/library/practical-tech',
-    tags: ['Troubleshooting', 'How-To', 'Windows', 'Linux', 'Networking', 'Diagnostics'],
-    topics: ['BSOD Fixing', 'Wi-Fi Latency', 'Linux CLI', 'Data Recovery', 'PC Optimization'],
-    language: 'English & Hinglish Notes',
-    featured: false,
-    trending: false,
-    studentPick: true,
-    yearPublished: '2025 Edition',
-    updatedDate: 'June 2025',
-    isbn: '978-93-89123-16-0',
-    price: 0,
-    isFree: true,
-    copyrightStatus: 'Open Access / Creative Commons',
-    hasAudioBook: false,
-    whatYoullLearn: [
-      'Read Windows Event Viewer and dump files to pinpoint crash causes',
-      'Diagnose network packet loss, DNS issues, and Wi-Fi interference',
-      'Master essential Linux terminal commands: grep, awk, top, htop, and netstat',
-      'Recover deleted files safely and verify storage drive health using SMART data',
-      'Optimize Windows startup performance by cleaning telemetry and startup services'
-    ],
-    tableOfContents: [
-      '1. The Diagnostic Method: Isolating Hardware vs Software vs Network',
-      '2. Troubleshooting Windows: Blue Screens, Driver Conflicts & System File Checker',
-      '3. Linux Terminal Mastery for Troubleshooting: Logs, Processes & Disks',
-      '4. Networking Diagnostics: Ping, Traceroute, DNS & Packet Loss Fixes',
-      '5. Storage Health: SMART Attributes, SSD Wear Leveling & Safe Recovery',
-      '6. Secure System Cleanup: Removing Adware, Malware & Bloatware'
-    ],
-    chaptersPreview: [
-      {
-        title: 'Chapter 2: Troubleshooting Windows Blue Screens (BSOD)',
-        summary: 'How to extract stop codes and analyze crash dumps with WinDbg to pinpoint faulty drivers or RAM corruption.',
-        keyPoints: [
-          'Run "sfc /scannow" and "DISM /Online /Cleanup-Image /RestoreHealth" from an elevated command prompt.',
-          'Use Windows Memory Diagnostic tool to test for bad RAM sectors before replacing hardware.',
-          'Check Device Manager for yellow exclamation marks indicating outdated or broken drivers.'
-        ]
-      }
-    ],
-    studyNotes: [
-      '90% of strange computer issues are resolved by checking physical cable connections, thermals, and rebooting.',
-      'Always test network connectivity from router gateway outward before assuming ISP outage.'
+      'Security Tip by Hariom: Never run Docker containers as the root user. Always add USER node or create a non-root user in your Dockerfile.',
+      'Always add a .dockerignore file to exclude node_modules and .git folders when building images.'
     ]
   }
 ];
 
+export const EBOOKS_DATA: EBookItem[] = [
+  ...CORE_TECH_EBOOKS,
+  ...EXPANDED_BOOKS_DATA,
+  ...TECH_BOOKS_EXPANDED_DATA,
+  ...ADVANCED_TECH_BOOKS_DATA,
+  ...SCHOOL_BOOKS_DATA,
+  ...SCHOOL_BOOKS_EXPANDED_DATA,
+  ...SENIOR_SCHOOL_ACADEMIC_DATA,
+  ...MIDDLE_SCHOOL_BOOKS_DATA,
+  ...COMPETITIVE_EXAMS_BOOKS_DATA,
+  ...GENERAL_BOOKS_EXPANDED_DATA,
+  ...BUSINESS_AND_LIFE_BOOKS_DATA,
+  ...MILESTONE_BOOKS_DATA,
+  ...STORIES_BOOKS_DATA,
+  ...MORE_STORIES_AND_APTITUDE_DATA,
+  ...PUZZLES_BOOKS_DATA
+];
+
 export const EBOOK_CATEGORIES = [
   'All Books',
-  'Coding & Programming',
+  'Competitive Exams',
+  'Middle School (Class 6–8)',
+  'Class 9–12 / School',
+  'Technology & Computers',
   'Artificial Intelligence',
-  'Student & Education',
-  'Cybersecurity & Safety',
+  'Coding & Programming',
   'Web Development',
-  'Cloud & Internet',
-  'Computers & PC',
-  'Smartphones & Mobile',
-  'Digital Skills',
-  'Science & Math',
-  'Business & Tech',
-  'Guides & Handbooks'
+  'Cybersecurity & Digital Safety',
+  'Smartphones & Internet',
+  'Digital Skills & Practical Guides',
+  'Science & Mathematics',
+  'General Knowledge',
+  'Stories & Literature',
+  'Puzzles & Brain',
+  'Business & Self-Help'
 ] as const;
+

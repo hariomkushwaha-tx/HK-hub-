@@ -123,7 +123,7 @@ export const GuidesHub: React.FC = () => {
               <div className="p-5 rounded-2xl bg-indigo-950/30 border border-indigo-500/30 space-y-3">
                 <div className="flex items-center gap-2 text-indigo-300 font-bold text-sm">
                   <Lightbulb className="w-4 h-4 text-indigo-400" />
-                  <span>HK HUB Pro Tips</span>
+                  <span>HK VELORA Pro Tips</span>
                 </div>
                 <div className="space-y-1.5 pl-6">
                   {activeGuide.proTips.map((tip, i) => (
