@@ -17,7 +17,7 @@ app.use(express.json({ limit: '10mb' }));
 // Lazy Google GenAI Client
 let aiClient: GoogleGenAI | null = null;
 function getAiClient(): GoogleGenAI | null {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY || process.env.GEMINI;
   if (!apiKey) {
     return null;
   }
@@ -33,7 +33,7 @@ app.get('/api/health', (req, res) => {
     status: 'ok',
     platform: 'HK VELORA',
     version: '1.0.0',
-    hasAiEngine: !!process.env.GEMINI_API_KEY
+    hasAiEngine: !!(process.env.GEMINI_API_KEY || process.env.GEMINI)
   });
 });
 
