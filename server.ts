@@ -179,7 +179,7 @@ async function startServer() {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`HK HUB Server running on http://0.0.0.0:${PORT}`);
+    console.log(`HK VELORA Server running on http://0.0.0.0:${PORT}`);
   });
 }
 

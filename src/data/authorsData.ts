@@ -11,7 +11,7 @@ export const AUTHORS_DATA: AuthorProfile[] = [
     verified: true,
     socialLinks: {
       github: 'https://github.com/hariomkushwaha-tx',
-      website: 'https://hk-hub-tau.vercel.app'
+      website: 'https://hk-velora.vercel.app'
     }
   },
   {
@@ -24,7 +24,7 @@ export const AUTHORS_DATA: AuthorProfile[] = [
     verified: true,
     socialLinks: {
       github: 'https://github.com/hariomkushwaha-tx/HK-hub-',
-      website: 'https://hk-hub-tau.vercel.app'
+      website: 'https://hk-velora.vercel.app'
     }
   }
 ];
