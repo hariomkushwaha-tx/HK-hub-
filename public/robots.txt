@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hk-hub-tau.vercel.app/sitemap.xml
+Sitemap: https://hk-velora.vercel.app/sitemap.xml
