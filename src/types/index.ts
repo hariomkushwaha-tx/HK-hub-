@@ -188,7 +188,8 @@ export type BookType =
   | 'Tutorial' 
   | 'Study Material' 
   | 'Reference' 
-  | 'Audio Book';
+  | 'Audio Book'
+  | 'Classic';
 
 export interface BookReview {
   id: string;
@@ -286,8 +287,8 @@ export interface EBookItem {
   copyrightStatus?: 'Open Access / Creative Commons' | 'Public Domain' | 'Authorized Academic Release' | 'HK VELORA Exclusive' | string;
   whatYoullLearn?: string[];
   tableOfContents: string[];
-  chaptersPreview: EBookChapter[];
-  studyNotes: string[];
+  chaptersPreview?: EBookChapter[];
+  studyNotes?: string[];
   reviews?: BookReview[];
   // Education & School Library (Sections 74-83, 91-97)
   schoolClass?: 'Class 6' | 'Class 7' | 'Class 8' | 'Class 9' | 'Class 10' | 'Class 11' | 'Class 12' | 'Competitive' | 'College/General' | string;

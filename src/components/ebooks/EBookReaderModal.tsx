@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { EBookItem } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { copyToClipboard } from '../../utils/clipboard';
-import { getChapterDetails, EnrichedChapter } from '../../utils/ebooksContent';
+import { getChapterDetails, detectBookDomain, EnrichedChapter } from '../../utils/ebooksContent';
 import { 
   X, 
   BookOpen, 
@@ -218,6 +218,168 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
     sm: 'text-xs sm:text-sm leading-relaxed',
     base: 'text-sm sm:text-base leading-relaxed',
     lg: 'text-base sm:text-lg leading-relaxed'
+  };
+
+  const domain = detectBookDomain(book, currentChapter.title);
+
+  const getVivaSectionHeading = () => {
+    switch (domain) {
+      case 'literature-hindi':
+        return 'पाठ बोध एवं परीक्षा प्रश्नोत्तर (Literary Analysis & Board Q&A)';
+      case 'literature-english':
+        return 'Literary Analysis & Examination Q&A';
+      case 'academics-math':
+        return 'महत्वपूर्ण गणितीय प्रश्नोत्तर एवं हल (Mathematical Q&A & Step Solutions)';
+      case 'academics-science':
+        return 'वैज्ञानिक अवधारणा एवं मौखिक प्रश्नोत्तर (Viva-Voce & Conceptual Q&A)';
+      case 'academics-social':
+        return 'सामाजिक विज्ञान महत्वपूर्ण परीक्षा प्रश्नोत्तर (Analytical Board Q&A)';
+      case 'competitive-exams':
+        return 'प्रतियोगी परीक्षा महत्वपूर्ण अभ्यास प्रश्न (Competitive Exam Q&A)';
+      case 'business-life':
+        return 'व्यावहारिक विश्लेषण एवं केस स्टडी (Case Study & Practical Q&A)';
+      case 'puzzles-logic':
+        return 'तार्किक पहेली एवं समाधान तकनीक (Puzzle Solutions & Brain Logic)';
+      case 'tech-ai':
+      case 'tech-web':
+      case 'tech-cyber':
+      case 'tech-python':
+      case 'tech-dsa':
+      case 'tech-systems':
+      default:
+        return 'Technical Interview & Practical Viva Questions';
+    }
+  };
+
+  const getDetailedNotesHeading = () => {
+    switch (domain) {
+      case 'literature-hindi':
+        return 'गहन साहित्यिक विश्लेषण एवं व्याख्या (Detailed Chapter Breakdown)';
+      case 'literature-english':
+        return 'Detailed Narrative Analysis & Critical Appreciation';
+      case 'academics-math':
+        return 'अवधारणात्मक विश्लेषण व प्रमेय रूपरेखा (Conceptual Breakdown & Proofs)';
+      case 'academics-science':
+        return 'वैज्ञानिक विश्लेषण व सैद्धांतिक विस्तार (Scientific Deep-Dive)';
+      case 'academics-social':
+        return 'विस्तृत ऐतिहासिक व संवैधानिक विश्लेषण (Historical & Civics Analysis)';
+      case 'competitive-exams':
+        return 'विस्तृत परीक्षा विश्लेषण एवं मुख्य संदर्भ (Exam Blueprint & Deep Analysis)';
+      case 'business-life':
+        return 'गहन केस स्टडी व जीवन अनुप्रयोग (In-depth Case Study & Principles)';
+      case 'puzzles-logic':
+        return 'तार्किक विश्लेषण व हल तकनीक (Detailed Logical Breakdown)';
+      case 'tech-ai':
+      case 'tech-web':
+      case 'tech-cyber':
+      case 'tech-python':
+      case 'tech-dsa':
+      case 'tech-systems':
+      default:
+        return 'In-Depth Architectural Analysis & Engineering Mental Model';
+    }
+  };
+
+  const getReferenceBoxHeading = () => {
+    switch (domain) {
+      case 'literature-hindi':
+      case 'literature-english':
+        return 'साहित्यिक संदर्भ एवं मुख्य उद्धरण (Text References & Quotes)';
+      case 'academics-math':
+        return 'महत्वपूर्ण सूत्र, सर्वसमिकाएं व हल रूपरेखा (Core Formulas & Blueprint)';
+      case 'academics-science':
+        return 'वैज्ञानिक नियम, समीकरण व मानक SI मात्रक (Laws & Equations)';
+      case 'academics-social':
+        return 'ऐतिहासिक समय-रेखा व संवैधानिक अनुच्छेद (Timeline & Articles)';
+      case 'competitive-exams':
+        return 'प्रतियोगी परीक्षा त्वरित रिवीज़न फ्लैशकार्ड (High-Yield Flashcard)';
+      case 'puzzles-logic':
+        return 'पहेली सूत्र व हल करने का एल्गोरिदम (Puzzle Strategy & Rule)';
+      case 'business-life':
+        return 'वित्तीय व जीवन प्रबंधन कार्य-योजना (Principles & Rules)';
+      case 'tech-python':
+      case 'tech-web':
+      case 'tech-dsa':
+      case 'tech-ai':
+      case 'tech-cyber':
+      case 'tech-systems':
+      default:
+        return 'Interactive Implementation & Production Code';
+    }
+  };
+
+  const getAiQuickPrompts = () => {
+    switch (domain) {
+      case 'literature-hindi':
+        return [
+          'इस पाठ को सरल हिंदी में समझाइए',
+          'बोर्ड परीक्षा के 3 सबसे महत्वपूर्ण बिंदु',
+          'पाठ का केंद्रीय भाव और चरित्र चित्रण',
+          'सप्रसंग व्याख्या और व्याकरण की सही ट्रिक'
+        ];
+      case 'literature-english':
+        return [
+          'Explain this chapter in simple Hinglish',
+          'Key character sketches and themes',
+          'Extract-based questions for Board Exams',
+          'How to structure a high-scoring answer'
+        ];
+      case 'academics-math':
+        return [
+          'प्रमुख सूत्र और सवाल हल करने का तरीका',
+          'बोर्ड परीक्षा में 100% अंक लाने की ट्रिक',
+          'इस टॉपिक में सामान्य गलतियाँ (Common Traps)',
+          'कठिन सवालों को हल करने का स्टेप-बाय-स्टेप तरीका'
+        ];
+      case 'academics-science':
+        return [
+          'वैज्ञानिक नियम व सूत्र सरल भाषा में समझाइए',
+          'प्रैक्टिकल व वाइवा (Viva) के संभावित प्रश्न',
+          'दैनिक जीवन में इसके 3 व्यावहारिक उदाहरण',
+          'रासायनिक समीकरण / न्यूमेरिकल कैसे हल करें?'
+        ];
+      case 'academics-social':
+        return [
+          'इतिहास व संविधान को याद रखने की टाइमलाइन',
+          'दीर्घ उत्तरीय प्रश्न लिखने का सटीक प्रारूप',
+          'UPSC / SSC / Board परीक्षा के मुख्य तथ्य',
+          'मानचित्र व महत्वपूर्ण तारीखों की आसान ट्रिक'
+        ];
+      case 'competitive-exams':
+        return [
+          'इस टॉपिक के 5 सबसे महत्वपूर्ण PYQ प्रश्न',
+          'एग्जाम हॉल में 50-50 एलिमिनेशन ट्रिक',
+          'करेंट अफेयर्स और स्टेटिक फैक्ट्स का निचोड़',
+          'स्पीड और एक्यूरेसी बढ़ाने का तरीका'
+        ];
+      case 'business-life':
+        return [
+          'इस अध्याय का सबसे बड़ा जीवन सिद्धांत',
+          'करियर व दैनिक जीवन में तुरंत लागू करने योग्य 3 सीख',
+          'छात्रों के लिए टाइम मैनेजमेंट व आदत निर्माण',
+          'केस स्टडी और व्यावहारिक उदाहरण'
+        ];
+      case 'puzzles-logic':
+        return [
+          'इस पहेली/रणनीति को हल करने की स्मार्ट ट्रिक',
+          'पैटर्न एलिमिनेशन और बैकवर्ड थिंकिंग',
+          'तार्किक सोच को तेज़ करने का तरीका',
+          'दिमागी कसरत के 3 अभ्यास प्रश्न'
+        ];
+      case 'tech-ai':
+      case 'tech-web':
+      case 'tech-cyber':
+      case 'tech-python':
+      case 'tech-dsa':
+      case 'tech-systems':
+      default:
+        return [
+          'Explain this topic with real-world code',
+          'Summarize into 3 technical interview points',
+          'What are common edge cases and bugs?',
+          'Best practices for production architecture'
+        ];
+    }
   };
 
   const bookmarked = isBookmarked(book.id);
@@ -618,6 +780,28 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
                   </p>
                 </div>
 
+                {/* Detailed Conceptual Lecture Notes / Deep Dive */}
+                {currentChapter.detailedNotes && currentChapter.detailedNotes.length > 0 && (
+                  <div className="space-y-4">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                      <BookOpen className="w-4 h-4 text-emerald-400" />
+                      <span>{getDetailedNotesHeading()}</span>
+                    </h3>
+                    <div className="grid grid-cols-1 gap-3.5">
+                      {currentChapter.detailedNotes.map((note, idx) => (
+                        <div
+                          key={idx}
+                          className={`p-4 sm:p-5 rounded-2xl border ${cardTheme[readingTheme]}`}
+                        >
+                          <p className={`text-xs sm:text-sm leading-relaxed whitespace-pre-line ${contentClasses[readingTheme]}`}>
+                            {note}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Key Points / High-Yield Concepts */}
                 {currentChapter.keyPoints && currentChapter.keyPoints.length > 0 && (
                   <div className="space-y-4">
@@ -643,13 +827,13 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
                   </div>
                 )}
 
-                {/* Code Snippet Box (if applicable) */}
+                {/* Code / Reference / Formulas Box (if applicable) */}
                 {currentChapter.codeSnippet && (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
                         <Code2 className="w-4 h-4 text-cyan-400" />
-                        <span>Interactive Implementation Example</span>
+                        <span>{getReferenceBoxHeading()}</span>
                       </span>
                       <button
                         onClick={() => handleCopyText(currentChapter.codeSnippet!, 'code')}
@@ -663,7 +847,7 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
                         ) : (
                           <>
                             <Copy className="w-3.5 h-3.5" />
-                            <span>Copy Code</span>
+                            <span>{domain.startsWith('tech-') ? 'Copy Code' : 'Copy Notes'}</span>
                           </>
                         )}
                       </button>
@@ -679,7 +863,7 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
                   <div className="space-y-4">
                     <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
                       <HelpCircle className="w-4 h-4 text-purple-400" />
-                      <span>Viva & Technical Interview Questions</span>
+                      <span>{getVivaSectionHeading()}</span>
                     </h3>
                     <div className="space-y-3">
                       {currentChapter.vivaQuestions.map((viva, idx) => (
@@ -735,12 +919,7 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
 
                   {/* Quick Prompt Chips */}
                   <div className="flex flex-wrap gap-2 pt-2">
-                    {[
-                      'Explain this chapter in simple Hinglish',
-                      'Summarize into 3 exam bullet points',
-                      'Give 3 real-world software engineering examples',
-                      'What are common student mistakes in this topic?'
-                    ].map((promptText, i) => (
+                    {getAiQuickPrompts().map((promptText, i) => (
                       <button
                         key={i}
                         onClick={() => handleAskAi(promptText)}

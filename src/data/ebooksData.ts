@@ -13,6 +13,9 @@ import { MIDDLE_SCHOOL_BOOKS_DATA } from './middleSchoolBooksData';
 import { BUSINESS_AND_LIFE_BOOKS_DATA } from './businessAndLifeBooksData';
 import { MORE_STORIES_AND_APTITUDE_DATA } from './moreStoriesAndAptitudeData';
 import { SENIOR_SCHOOL_ACADEMIC_DATA } from './seniorSchoolAcademicData';
+import { BATCH_B_BOOKS_DATA } from './batchBBooksData';
+import { NEW_SPECIAL_BOOKS_DATA } from './newSpecialBooksData';
+import { NATIONAL_HEROES_AND_CORE_EXAMS_DATA } from './nationalHeroesAndCoreExamsData';
 
 const CORE_TECH_EBOOKS: EBookItem[] = [
   {
@@ -1194,8 +1197,9 @@ CMD ["node", "dist/server.cjs"]`
   }
 ];
 
-export const EBOOKS_DATA: EBookItem[] = [
+const RAW_EBOOKS_DATA: EBookItem[] = [
   ...CORE_TECH_EBOOKS,
+  ...BATCH_B_BOOKS_DATA,
   ...EXPANDED_BOOKS_DATA,
   ...TECH_BOOKS_EXPANDED_DATA,
   ...ADVANCED_TECH_BOOKS_DATA,
@@ -1209,8 +1213,49 @@ export const EBOOKS_DATA: EBookItem[] = [
   ...MILESTONE_BOOKS_DATA,
   ...STORIES_BOOKS_DATA,
   ...MORE_STORIES_AND_APTITUDE_DATA,
-  ...PUZZLES_BOOKS_DATA
+  ...PUZZLES_BOOKS_DATA,
+  ...NEW_SPECIAL_BOOKS_DATA,
+  ...NATIONAL_HEROES_AND_CORE_EXAMS_DATA
 ];
+
+export const EBOOKS_DATA: EBookItem[] = RAW_EBOOKS_DATA.map(b => {
+  const cleanChapters = (b.tableOfContents || []).map(t => 
+    t.replace(/^(?:Chapter|अध्याय|पाठ)?\s*\d+[:.\-\s]*/i, '').trim()
+  ).filter(Boolean);
+
+  const topics = (b.topics && b.topics.length > 0)
+    ? b.topics
+    : [
+        ...(b.tags || []),
+        ...cleanChapters.slice(0, 4)
+      ].filter((v, i, a) => v && a.indexOf(v) === i).slice(0, 6);
+
+  const whatYoullLearn = (b.whatYoullLearn && b.whatYoullLearn.length > 0)
+    ? b.whatYoullLearn
+    : cleanChapters.slice(0, 4).map(clean => `इस पुस्तक में ${clean} की बुनियादी और व्यावहारिक समझ प्राप्त करना`);
+
+  const fallbackDesc = (b.subtitle && b.subtitle.trim().length > 0)
+    ? `${b.title} — ${b.subtitle}. A comprehensive, curated study guide and master reference authored by ${b.author}. Featuring in-depth chapter notes, step-by-step conceptual breakdowns, high-yield examination takeaways, interactive viva voce interview practice, and knowledge-check quizzes.`
+    : `${b.title}: A structured, in-depth academic and reference handbook authored by ${b.author} in ${b.category}. Covers foundational concepts, chapter-by-chapter detailed theory, practical applications, interactive viva voce preparation, and self-evaluation quizzes for students and self-learners.`;
+
+  const description = (b.description && b.description.trim().length > 0)
+    ? b.description
+    : fallbackDesc;
+
+  const shortDescription = (b.shortDescription && b.shortDescription.trim().length > 0)
+    ? b.shortDescription
+    : (b.subtitle && b.subtitle.trim().length > 0)
+      ? b.subtitle
+      : (description.length > 130 ? description.slice(0, 127) + '...' : description);
+
+  return {
+    ...b,
+    description,
+    shortDescription,
+    topics: topics.length > 0 ? topics : [b.category, b.title],
+    whatYoullLearn: whatYoullLearn.length > 0 ? whatYoullLearn : [`${b.title} के प्रमुख सिद्धांतों का अध्ययन`]
+  };
+});
 
 export const EBOOK_CATEGORIES = [
   'All Books',
