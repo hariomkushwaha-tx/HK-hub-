@@ -9,6 +9,9 @@ import { CheckoutModal } from './CheckoutModal';
 import { AuthorModal } from './AuthorModal';
 import { BookSubmissionModal } from './BookSubmissionModal';
 import { AdminBooksModal } from './AdminBooksModal';
+import { BharatvarshReaderModal } from './BharatvarshReaderModal';
+import { DirectPaymentModal } from './DirectPaymentModal';
+import { BHARATVARSH_EBOOK_ITEM } from '../../data/bharatvarshBookItem';
 import { SchoolLibraryView } from './SchoolLibraryView';
 import { StoriesLibraryView } from './StoriesLibraryView';
 import { PuzzlesLibraryView } from './PuzzlesLibraryView';
@@ -35,7 +38,9 @@ import {
   Percent,
   Play,
   Feather,
-  Puzzle
+  Puzzle,
+  CreditCard,
+  QrCode
 } from 'lucide-react';
 
 export const EBooksHub: React.FC = () => {
@@ -52,7 +57,7 @@ export const EBooksHub: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All Books');
   const [selectedFormat, setSelectedFormat] = useState<string>('All');
-  const [selectedPriceFilter, setSelectedPriceFilter] = useState<'all' | 'free' | 'under99' | 'deals'>('all');
+  const [selectedPriceFilter, setSelectedPriceFilter] = useState<'all' | 'free' | 'paid' | 'under99' | '100to499' | 'deals'>('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('All');
   const [sortBy, setSortBy] = useState<'rating' | 'popular' | 'price-asc' | 'price-desc' | 'title'>('rating');
 
@@ -63,9 +68,22 @@ export const EBooksHub: React.FC = () => {
   const [selectedAuthorId, setSelectedAuthorId] = useState<string | null>(null);
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
+  const [showDirectPaymentModal, setShowDirectPaymentModal] = useState(false);
 
-  // Sync external openBook action
+  // Sync external openBook action & URL query param
   React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const bookParam = params.get('book');
+    const chapterParam = params.get('chapter');
+
+    if (bookParam) {
+      const target = booksList.find(b => b.id === bookParam || b.slug === bookParam);
+      if (target) {
+        setActiveReadingBook(target);
+        return;
+      }
+    }
+
     if (activeBookId) {
       const target = booksList.find(b => b.id === activeBookId);
       if (target) {
@@ -134,7 +152,9 @@ export const EBooksHub: React.FC = () => {
       // Price filter
       const matchPrice = selectedPriceFilter === 'all' ||
         (selectedPriceFilter === 'free' && book.isFree) ||
+        (selectedPriceFilter === 'paid' && !book.isFree) ||
         (selectedPriceFilter === 'under99' && !book.isFree && book.price <= 99) ||
+        (selectedPriceFilter === '100to499' && !book.isFree && book.price >= 100) ||
         (selectedPriceFilter === 'deals' && (book.discountPercentage || 0) > 0);
 
       // Difficulty
@@ -155,6 +175,7 @@ export const EBooksHub: React.FC = () => {
   // Curated collections
   const trendingBooks = useMemo(() => booksList.filter(b => b.trending), [booksList]);
   const freeBooks = useMemo(() => booksList.filter(b => b.isFree), [booksList]);
+  const paidBooks = useMemo(() => booksList.filter(b => !b.isFree), [booksList]);
   const audioBooks = useMemo(() => booksList.filter(b => b.hasAudioBook), [booksList]);
   const studentPicks = useMemo(() => booksList.filter(b => b.studentPick), [booksList]);
   const aiBooks = useMemo(() => booksList.filter(b => b.category === 'Artificial Intelligence'), [booksList]);
@@ -197,27 +218,39 @@ export const EBooksHub: React.FC = () => {
             </h1>
 
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              Complete, deeply explained handbooks written by <strong>Hariom Kushwaha (HK Tech World)</strong>. Simplified with real-world analogies, step-by-step code, exam notes, and interactive AI chapter tutors designed specifically for Indian and global tech students.
+              Complete, deeply explained handbooks written by <strong>Hariom Kushwaha (HK Tech World)</strong> & Academic Experts. Over 500+ comprehensive books spanning Technology, School (Classes 6–12), College Engineering, Competitive Exams, Literature, and Brain Puzzles.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-1 text-xs font-medium text-slate-400">
-              <span className="flex items-center gap-1.5 text-emerald-400">
+              <span className="flex items-center gap-1.5 text-amber-400 font-bold">
+                <BookOpen className="w-4 h-4" />
+                {booksList.length}+ Total Books in Library
+              </span>
+              <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
                 <CheckCircle2 className="w-4 h-4" />
-                100% Free Open-Access Books
+                School & Heritage (100% Free)
+              </span>
+              <span className="flex items-center gap-1.5 text-indigo-300 font-semibold">
+                <CreditCard className="w-4 h-4 text-indigo-400" />
+                Pro & Engineering (₹49 – ₹499)
               </span>
               <span className="flex items-center gap-1.5 text-cyan-400">
                 <Headphones className="w-4 h-4" />
                 Audio Book Narrations
               </span>
-              <span className="flex items-center gap-1.5 text-indigo-400">
-                <Sparkles className="w-4 h-4" />
-                Bilingual Study Guides & Quizzes
-              </span>
             </div>
           </div>
 
           {/* Action CTAs */}
-          <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row md:flex-col gap-2.5 shrink-0 w-full sm:w-auto">
+            <button
+              onClick={() => setShowDirectPaymentModal(true)}
+              className="py-2.5 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-md shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all border border-emerald-400/30"
+            >
+              <QrCode className="w-4 h-4" />
+              <span>UPI Payment & Support (PNB)</span>
+            </button>
+
             <button
               onClick={() => setShowSubmissionModal(true)}
               className="py-2.5 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md shadow-indigo-500/20 flex items-center justify-center gap-2 transition-all"
@@ -288,6 +321,9 @@ export const EBooksHub: React.FC = () => {
         >
           <BookOpen className="w-4 h-4" />
           <span>All Books & Tech Vault</span>
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-white/20 text-white">
+            {booksList.length} Books
+          </span>
         </button>
 
         <button
@@ -405,6 +441,111 @@ export const EBooksHub: React.FC = () => {
         </div>
       )}
 
+      {/* Featured National Masterwork Banner: भारतवर्ष: सभ्यता, साम्राज्य और महान व्यक्तित्व */}
+      {!isFilteringActive && (
+        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-amber-950/70 via-slate-900 to-slate-950 border border-amber-500/40 shadow-2xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-radial from-amber-500/15 via-orange-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            <div className="space-y-3 max-w-2xl">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-3 py-1 rounded-full text-xs font-black bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 uppercase tracking-wider flex items-center gap-1.5 shadow-md">
+                  <Sparkles className="w-3.5 h-3.5" /> राष्ट्रीय महाग्रंथ (Flagship National Masterwork)
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  18 भाग • 160 अध्याय
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800">
+                  100% Free & Open Access
+                </span>
+              </div>
+
+              <h2 className="text-xl sm:text-3xl font-extrabold text-white font-serif tracking-tight leading-tight">
+                भारतवर्ष: सभ्यता, साम्राज्य और महान व्यक्तित्व
+              </h2>
+              
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+                प्राचीन सिंधु-सरस्वती सभ्यता, वैदिक काल, मौर्य व गुप्त साम्राज्य, दक्षिण भारतीय महाशक्तियां, छत्रपति शिवाजी महाराज, महाराणा प्रताप, नेताजी सुभाष चंद्र बोस, 1857 से 1947 का स्वतंत्रता संग्राम, महान वैज्ञानिक एवं आधुनिक भारत का 19-सेक्शन प्रामाणिक अकादमिक इतिहास।
+              </p>
+
+              <div className="flex flex-wrap items-center gap-2 pt-2">
+                <span className="text-[11px] text-slate-400 font-semibold">त्वरित अध्याय (Smart Jump):</span>
+                <button
+                  onClick={() => {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('tab', 'ebooks');
+                    url.searchParams.set('book', 'bharatvarsh-maha-granth');
+                    url.searchParams.set('chapter', '44');
+                    window.history.replaceState({}, '', url.toString());
+                    setActiveReadingBook(BHARATVARSH_EBOOK_ITEM);
+                  }}
+                  className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 transition-colors flex items-center gap-1"
+                >
+                  👑 Ch 44: छत्रपति शिवाजी महाराज
+                </button>
+                <button
+                  onClick={() => {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('tab', 'ebooks');
+                    url.searchParams.set('book', 'bharatvarsh-maha-granth');
+                    url.searchParams.set('chapter', '48');
+                    window.history.replaceState({}, '', url.toString());
+                    setActiveReadingBook(BHARATVARSH_EBOOK_ITEM);
+                  }}
+                  className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 transition-colors flex items-center gap-1"
+                >
+                  ⚔️ महाराणा प्रताप
+                </button>
+                <button
+                  onClick={() => {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('tab', 'ebooks');
+                    url.searchParams.set('book', 'bharatvarsh-maha-granth');
+                    url.searchParams.set('chapter', '11');
+                    window.history.replaceState({}, '', url.toString());
+                    setActiveReadingBook(BHARATVARSH_EBOOK_ITEM);
+                  }}
+                  className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 transition-colors flex items-center gap-1"
+                >
+                  📜 Ch 11: आचार्य चाणक्य व अर्थशास्त्र
+                </button>
+                <button
+                  onClick={() => {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('tab', 'ebooks');
+                    url.searchParams.set('book', 'bharatvarsh-maha-granth');
+                    url.searchParams.set('chapter', '96');
+                    window.history.replaceState({}, '', url.toString());
+                    setActiveReadingBook(BHARATVARSH_EBOOK_ITEM);
+                  }}
+                  className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 transition-colors flex items-center gap-1"
+                >
+                  🇮🇳 नेताजी सुभाष चंद्र बोस
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0 w-full lg:w-auto">
+              <button
+                onClick={() => setActiveReadingBook(BHARATVARSH_EBOOK_ITEM)}
+                className="px-6 py-3.5 rounded-2xl font-extrabold text-xs sm:text-sm bg-gradient-to-r from-amber-500 via-orange-500 to-red-600 hover:from-amber-600 hover:to-red-700 text-slate-950 shadow-xl shadow-orange-950/40 hover:shadow-orange-950/60 transition-all flex items-center justify-center gap-2 group/btn"
+              >
+                <BookOpen className="w-4 h-4 text-slate-950" />
+                <span>संपूर्ण ग्रंथ पढ़ें (160 अध्याय)</span>
+                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-0.5 transition-transform" />
+              </button>
+
+              <button
+                onClick={() => setSelectedBookForDetails(BHARATVARSH_EBOOK_ITEM)}
+                className="px-5 py-3 rounded-2xl font-bold text-xs bg-slate-900/80 hover:bg-slate-800 border border-slate-700 hover:border-amber-500/60 text-slate-200 transition-colors flex items-center justify-center gap-2"
+              >
+                <span>अनुक्रमणिका एवं विस्तृत विवरण</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 3. Search Bar & Multi-Filter Control Panel */}
       <div className="space-y-4">
         {/* Search & Sort Row */}
@@ -415,7 +556,7 @@ export const EBooksHub: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search books by title, author, topic, or keyword (e.g. Python, Big-O, RAG, Viva)..."
+              placeholder="Search books: 'भारतवर्ष', 'Shivaji', 'Maharana Pratap', 'Python', 'AI', 'DSA'..."
               className="w-full pl-11 pr-4 py-3 text-xs sm:text-sm rounded-2xl bg-slate-900 border border-slate-800 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:border-indigo-500 shadow-inner"
             />
             {searchQuery && (
@@ -490,20 +631,22 @@ export const EBooksHub: React.FC = () => {
           </div>
 
           {/* Price pills */}
-          <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800">
+          <div className="inline-flex flex-wrap rounded-xl bg-slate-900 p-1 border border-slate-800 gap-1">
             {[
               { id: 'all', label: 'All Prices' },
-              { id: 'free', label: '100% Free (₹0)' },
-              { id: 'under99', label: 'Under ₹99' },
-              { id: 'deals', label: 'Deals & Discounts' }
+              { id: 'free', label: `100% Free (₹0) [${freeBooks.length}]` },
+              { id: 'paid', label: `Pro Books (₹49–₹499) [${paidBooks.length}]` },
+              { id: 'under99', label: '₹49 – ₹99' },
+              { id: '100to499', label: '₹100 – ₹499 (Advanced)' },
+              { id: 'deals', label: 'Deals & 50% Off' }
             ].map(p => (
               <button
                 key={p.id}
                 onClick={() => setSelectedPriceFilter(p.id as any)}
                 className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
                   selectedPriceFilter === p.id
-                    ? 'bg-emerald-600 text-white'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-emerald-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
                 }`}
               >
                 {p.label}
@@ -614,8 +757,8 @@ export const EBooksHub: React.FC = () => {
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-slate-100">🆓 100% Free & Open-Access Textbooks</h2>
-                  <p className="text-xs text-slate-400">Zero cost, verified open-source textbooks and computer science fundamentals</p>
+                  <h2 className="text-xl font-bold text-slate-100">🆓 100% Free School, Stories & Heritage Books</h2>
+                  <p className="text-xs text-slate-400">Zero cost, open-access textbooks for Class 6–12, history of Bharatvarsh, and Hindi classics</p>
                 </div>
               </div>
               <button
@@ -629,6 +772,40 @@ export const EBooksHub: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {freeBooks.slice(0, 4).map(book => (
+                <BookCard
+                  key={book.id}
+                  book={book}
+                  onOpenDetails={(b) => setSelectedBookForDetails(b)}
+                  onStartReading={(b) => setActiveReadingBook(b)}
+                  onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Shelf 2.5: Pro Tech & Engineering Courses (₹49 to ₹499) */}
+          <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-900 border border-indigo-500/30 space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+                  <CreditCard className="w-5 h-5" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-slate-100">💎 Pro Handbooks & Advanced Engineering (₹49 – ₹499)</h2>
+                  <p className="text-xs text-slate-400">Comprehensive guides for Full-Stack, High-Level AI, Competitive Exams, and DevOps with PNB UPI instant unlock</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedPriceFilter('paid')}
+                className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1 shrink-0"
+              >
+                <span>View All Pro ({paidBooks.length})</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {paidBooks.slice(0, 4).map(book => (
                 <BookCard
                   key={book.id}
                   book={book}
@@ -762,6 +939,45 @@ export const EBooksHub: React.FC = () => {
               </div>
             </div>
           )}
+
+          {/* Shelf 7: All Comprehensive Catalog Exploration Banner */}
+          <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-slate-800 space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-5 h-5 text-indigo-400" />
+                  <h2 className="text-xl font-bold text-slate-100">📖 Complete Academic, Tech & College Library</h2>
+                </div>
+                <p className="text-xs text-slate-400">
+                  Browse the comprehensive collection of {booksList.length} verified handbooks, school courses, college engineering textbooks, and competitive exam guides.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1.5 rounded-xl bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 text-xs font-bold font-mono">
+                  {booksList.length} Books Active
+                </span>
+                <button
+                  onClick={() => setSearchQuery(' ')}
+                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-all shadow-md shadow-indigo-600/20"
+                >
+                  View Full Grid ({booksList.length})
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {booksList.slice(0, 8).map(book => (
+                <BookCard
+                  key={book.id}
+                  book={book}
+                  onOpenDetails={(b) => setSelectedBookForDetails(b)}
+                  onStartReading={(b) => setActiveReadingBook(b)}
+                  onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       )}
         </div>
@@ -788,7 +1004,29 @@ export const EBooksHub: React.FC = () => {
       )}
 
       {/* 2. Interactive Chapter Reader Modal */}
-      {activeReadingBook && (
+      {activeReadingBook && activeReadingBook.id === 'bharatvarsh-maha-granth' ? (
+        <BharatvarshReaderModal
+          initialChapterNumber={
+            (() => {
+              const urlCh = new URLSearchParams(window.location.search).get('chapter');
+              if (urlCh && !isNaN(parseInt(urlCh, 10))) {
+                const parsed = parseInt(urlCh, 10);
+                if (parsed >= 1 && parsed <= 160) return parsed;
+              }
+              return (readingProgressMap['bharatvarsh-maha-granth']?.currentChapterIndex || 0) + 1;
+            })()
+          }
+          onClose={() => {
+            setActiveReadingBook(null);
+            setActiveBookId(null);
+            // Clean URL
+            const url = new URL(window.location.href);
+            url.searchParams.delete('book');
+            url.searchParams.delete('chapter');
+            window.history.replaceState({}, '', url.toString());
+          }}
+        />
+      ) : activeReadingBook ? (
         <EBookReaderModal
           book={activeReadingBook}
           onClose={() => {
@@ -796,7 +1034,7 @@ export const EBooksHub: React.FC = () => {
             setActiveBookId(null);
           }}
         />
-      )}
+      ) : null}
 
       {/* 3. Secure Checkout Modal */}
       {checkoutBook && (
@@ -837,6 +1075,13 @@ export const EBooksHub: React.FC = () => {
           onClose={() => setShowAdminModal(false)}
           onUpdateBook={handleUpdateBook}
           onAddNewBook={handleAddNewBook}
+        />
+      )}
+
+      {/* 7. Direct UPI & PNB Payment Modal */}
+      {showDirectPaymentModal && (
+        <DirectPaymentModal
+          onClose={() => setShowDirectPaymentModal(false)}
         />
       )}
     </div>

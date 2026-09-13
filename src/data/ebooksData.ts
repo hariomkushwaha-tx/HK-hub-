@@ -16,6 +16,11 @@ import { SENIOR_SCHOOL_ACADEMIC_DATA } from './seniorSchoolAcademicData';
 import { BATCH_B_BOOKS_DATA } from './batchBBooksData';
 import { NEW_SPECIAL_BOOKS_DATA } from './newSpecialBooksData';
 import { NATIONAL_HEROES_AND_CORE_EXAMS_DATA } from './nationalHeroesAndCoreExamsData';
+import { BHARATVARSH_EBOOK_ITEM } from './bharatvarshBookItem';
+import { MEGA_CATALOG_PART1_DATA } from './megaCatalogPart1Data';
+import { MEGA_CATALOG_EXTENDED_DATA } from './megaCatalogExtendedData';
+import { MEGA_CATALOG_PART3_DATA } from './megaCatalogPart3Data';
+import { MEGA_CATALOG_PART4_DATA } from './megaCatalogPart4Data';
 
 const CORE_TECH_EBOOKS: EBookItem[] = [
   {
@@ -1198,6 +1203,7 @@ CMD ["node", "dist/server.cjs"]`
 ];
 
 const RAW_EBOOKS_DATA: EBookItem[] = [
+  BHARATVARSH_EBOOK_ITEM,
   ...CORE_TECH_EBOOKS,
   ...BATCH_B_BOOKS_DATA,
   ...EXPANDED_BOOKS_DATA,
@@ -1215,7 +1221,11 @@ const RAW_EBOOKS_DATA: EBookItem[] = [
   ...MORE_STORIES_AND_APTITUDE_DATA,
   ...PUZZLES_BOOKS_DATA,
   ...NEW_SPECIAL_BOOKS_DATA,
-  ...NATIONAL_HEROES_AND_CORE_EXAMS_DATA
+  ...NATIONAL_HEROES_AND_CORE_EXAMS_DATA,
+  ...MEGA_CATALOG_PART1_DATA,
+  ...MEGA_CATALOG_EXTENDED_DATA,
+  ...MEGA_CATALOG_PART3_DATA,
+  ...MEGA_CATALOG_PART4_DATA
 ];
 
 export const EBOOKS_DATA: EBookItem[] = RAW_EBOOKS_DATA.map(b => {
@@ -1248,8 +1258,75 @@ export const EBOOKS_DATA: EBookItem[] = RAW_EBOOKS_DATA.map(b => {
       ? b.subtitle
       : (description.length > 130 ? description.slice(0, 127) + '...' : description);
 
+  // Smart Pricing assignment:
+  // - School books (Classes 6-12), Indian Heritage / Bharatvarsh, Stories, and Foundation Guides remain 100% Free for students.
+  // - Advanced Technology, High-Level AI, Competitive Exam Guides, and Professional Handbooks are priced between ₹49 and ₹499.
+  const isSchoolOrHeritage = 
+    b.category === 'Class 9–12 / School' || 
+    b.category === 'Middle School (Class 6–8)' || 
+    Boolean(b.schoolClass) || 
+    b.category === 'Stories & Literature' || 
+    b.category === 'General Knowledge' || 
+    b.id === 'bharatvarsh-complete-history' ||
+    b.id.startsWith('ncert') ||
+    b.id.startsWith('class-') ||
+    (b.difficulty === 'Beginner' && (b.category === 'Science & Mathematics' || b.category === 'Puzzles & Brain'));
+
+  let calculatedPrice = 0;
+  let calculatedOriginalPrice: number | undefined = undefined;
+  let calculatedIsFree = true;
+  let calculatedDiscountPercentage: number | undefined = undefined;
+
+  if (isSchoolOrHeritage) {
+    calculatedPrice = 0;
+    calculatedIsFree = true;
+    calculatedOriginalPrice = undefined;
+    calculatedDiscountPercentage = undefined;
+  } else if (b.category === 'Artificial Intelligence' || b.title.includes('AI') || b.title.includes('LLM') || b.title.includes('Microservices') || b.title.includes('Kubernetes')) {
+    // Top Advanced Engineering & AI Mastery
+    calculatedPrice = 499;
+    calculatedOriginalPrice = 999;
+    calculatedDiscountPercentage = 50;
+    calculatedIsFree = false;
+  } else if (b.category === 'Coding & Programming' || b.category === 'Technology & Computers') {
+    if (b.difficulty === 'Advanced') {
+      calculatedPrice = 299;
+      calculatedOriginalPrice = 599;
+      calculatedDiscountPercentage = 50;
+    } else if (b.difficulty === 'Intermediate') {
+      calculatedPrice = 149;
+      calculatedOriginalPrice = 299;
+      calculatedDiscountPercentage = 50;
+    } else {
+      calculatedPrice = 99;
+      calculatedOriginalPrice = 199;
+      calculatedDiscountPercentage = 50;
+    }
+    calculatedIsFree = false;
+  } else if (b.category === 'Competitive Exams') {
+    calculatedPrice = 199;
+    calculatedOriginalPrice = 399;
+    calculatedDiscountPercentage = 50;
+    calculatedIsFree = false;
+  } else if (b.category === 'Business & Self-Help' || b.category === 'Web Development' || b.category === 'Cybersecurity & Digital Safety') {
+    calculatedPrice = 99;
+    calculatedOriginalPrice = 199;
+    calculatedDiscountPercentage = 50;
+    calculatedIsFree = false;
+  } else {
+    // Core Quick Guides & Pocket Books
+    calculatedPrice = 49;
+    calculatedOriginalPrice = 99;
+    calculatedDiscountPercentage = 50;
+    calculatedIsFree = false;
+  }
+
   return {
     ...b,
+    price: calculatedPrice,
+    originalPrice: calculatedOriginalPrice,
+    isFree: calculatedIsFree,
+    discountPercentage: calculatedDiscountPercentage,
     description,
     shortDescription,
     topics: topics.length > 0 ? topics : [b.category, b.title],
