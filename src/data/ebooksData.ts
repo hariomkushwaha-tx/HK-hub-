@@ -1258,68 +1258,11 @@ export const EBOOKS_DATA: EBookItem[] = RAW_EBOOKS_DATA.map(b => {
       ? b.subtitle
       : (description.length > 130 ? description.slice(0, 127) + '...' : description);
 
-  // Smart Pricing assignment:
-  // - School books (Classes 6-12), Indian Heritage / Bharatvarsh, Stories, and Foundation Guides remain 100% Free for students.
-  // - Advanced Technology, High-Level AI, Competitive Exam Guides, and Professional Handbooks are priced between ₹49 and ₹499.
-  const isSchoolOrHeritage = 
-    b.category === 'Class 9–12 / School' || 
-    b.category === 'Middle School (Class 6–8)' || 
-    Boolean(b.schoolClass) || 
-    b.category === 'Stories & Literature' || 
-    b.category === 'General Knowledge' || 
-    b.id === 'bharatvarsh-complete-history' ||
-    b.id.startsWith('ncert') ||
-    b.id.startsWith('class-') ||
-    (b.difficulty === 'Beginner' && (b.category === 'Science & Mathematics' || b.category === 'Puzzles & Brain'));
-
-  let calculatedPrice = 0;
-  let calculatedOriginalPrice: number | undefined = undefined;
-  let calculatedIsFree = true;
-  let calculatedDiscountPercentage: number | undefined = undefined;
-
-  if (isSchoolOrHeritage) {
-    calculatedPrice = 0;
-    calculatedIsFree = true;
-    calculatedOriginalPrice = undefined;
-    calculatedDiscountPercentage = undefined;
-  } else if (b.category === 'Artificial Intelligence' || b.title.includes('AI') || b.title.includes('LLM') || b.title.includes('Microservices') || b.title.includes('Kubernetes')) {
-    // Top Advanced Engineering & AI Mastery
-    calculatedPrice = 499;
-    calculatedOriginalPrice = 999;
-    calculatedDiscountPercentage = 50;
-    calculatedIsFree = false;
-  } else if (b.category === 'Coding & Programming' || b.category === 'Technology & Computers') {
-    if (b.difficulty === 'Advanced') {
-      calculatedPrice = 299;
-      calculatedOriginalPrice = 599;
-      calculatedDiscountPercentage = 50;
-    } else if (b.difficulty === 'Intermediate') {
-      calculatedPrice = 149;
-      calculatedOriginalPrice = 299;
-      calculatedDiscountPercentage = 50;
-    } else {
-      calculatedPrice = 99;
-      calculatedOriginalPrice = 199;
-      calculatedDiscountPercentage = 50;
-    }
-    calculatedIsFree = false;
-  } else if (b.category === 'Competitive Exams') {
-    calculatedPrice = 199;
-    calculatedOriginalPrice = 399;
-    calculatedDiscountPercentage = 50;
-    calculatedIsFree = false;
-  } else if (b.category === 'Business & Self-Help' || b.category === 'Web Development' || b.category === 'Cybersecurity & Digital Safety') {
-    calculatedPrice = 99;
-    calculatedOriginalPrice = 199;
-    calculatedDiscountPercentage = 50;
-    calculatedIsFree = false;
-  } else {
-    // Core Quick Guides & Pocket Books
-    calculatedPrice = 49;
-    calculatedOriginalPrice = 99;
-    calculatedDiscountPercentage = 50;
-    calculatedIsFree = false;
-  }
+  // 100% Free Open Education Initiative: All books, guides, and courses are 100% Free for everyone.
+  const calculatedPrice = 0;
+  const calculatedOriginalPrice: number | undefined = undefined;
+  const calculatedIsFree = true;
+  const calculatedDiscountPercentage: number | undefined = undefined;
 
   return {
     ...b,

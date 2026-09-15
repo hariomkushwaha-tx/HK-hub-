@@ -293,76 +293,32 @@ export const BookDetailsModal: React.FC<BookDetailsModalProps> = ({
                 </div>
               </div>
 
-              {/* Pricing Box */}
+              {/* 100% Free Open Education Badge & Action */}
               <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center justify-between flex-wrap gap-3">
                 <div>
-                  {book.isFree ? (
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl font-black text-emerald-400">₹0</span>
-                      <span className="px-2 py-0.5 rounded text-xs font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 uppercase">
-                        100% Free Open Access
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2.5">
-                      <span className="text-2xl font-black text-indigo-400">₹{book.price}</span>
-                      {book.originalPrice && (
-                        <span className="text-sm text-slate-400 line-through">₹{book.originalPrice}</span>
-                      )}
-                      {book.discountPercentage && (
-                        <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/25">
-                          {book.discountPercentage}% OFF Deal
-                        </span>
-                      )}
-                    </div>
-                  )}
-                  <p className="text-[11px] text-slate-400 mt-0.5">
-                    {unlocked ? '✓ Unlocked in your HK VELORA Library' : 'One-time digital unlock • Lifetime updates'}
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 uppercase tracking-wider flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      100% Free Open Access
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-400 mt-1">
+                    Free for all students and learners • Full edition unlocked
                   </p>
                 </div>
 
                 {/* Action Buttons */}
                 <div className="flex items-center gap-2">
-                  {unlocked ? (
-                    <button
-                      onClick={() => {
-                        onClose();
-                        onStartReading(book);
-                      }}
-                      className="px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/20 flex items-center gap-2 transition-all"
-                    >
-                      <BookOpen className="w-4 h-4" />
-                      <span>Read Online Now</span>
-                    </button>
-                  ) : (
-                    <>
-                      <button
-                        onClick={() => {
-                          onClose();
-                          onStartReading(book);
-                        }}
-                        className="px-4 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs border border-slate-700 transition-colors"
-                      >
-                        Read Free Preview
-                      </button>
-                      <button
-                        onClick={() => onOpenCheckout(book)}
-                        className="px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/20 flex items-center gap-2 transition-all"
-                      >
-                        <Lock className="w-3.5 h-3.5" />
-                        <span>Buy Now - ₹{book.price}</span>
-                      </button>
-                    </>
-                  )}
-
-                  {book.isFree && !unlocked && (
-                    <button
-                      onClick={handleGetFree}
-                      className="px-4 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-sm transition-all"
-                    >
-                      Add to My Library
-                    </button>
-                  )}
+                  <button
+                    onClick={() => {
+                      onClose();
+                      onStartReading(book);
+                    }}
+                    className="px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/20 flex items-center gap-2 transition-all hover:scale-[1.02]"
+                  >
+                    <BookOpen className="w-4 h-4" />
+                    <span>Read Online Now</span>
+                  </button>
 
                   <a
                     href={book.downloadUrl || book.readOnlineUrl}
@@ -675,7 +631,7 @@ export const BookDetailsModal: React.FC<BookDetailsModalProps> = ({
                     <div className="min-w-0">
                       <p className="font-bold text-xs text-slate-200 line-clamp-1">{rb.title}</p>
                       <p className="text-[10px] text-slate-400 line-clamp-1">{rb.author}</p>
-                      <p className="text-[10px] font-bold text-emerald-400 mt-1">{rb.isFree ? 'FREE' : `₹${rb.price}`}</p>
+                      <p className="text-[10px] font-extrabold text-emerald-400 mt-1">100% FREE</p>
                     </div>
                   </div>
                 ))}

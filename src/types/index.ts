@@ -147,16 +147,29 @@ export interface StudentResource {
   badge?: string;
 }
 
+export type MembershipTier = 'free' | 'pro' | 'ultra';
+
+export interface MembershipPlan {
+  tier: MembershipTier;
+  name: string;
+  badge: string;
+  billingCycle: 'monthly' | 'yearly' | 'lifetime' | 'free';
+  activatedDate: string;
+  features?: string[];
+}
+
 export interface UserProfile {
   username: string;
   name?: string;
   fullName?: string;
   bio: string;
-  role?: 'Student' | 'Developer' | 'Tech Learner' | 'Enthusiast' | string;
+  role?: 'Student' | 'Developer' | 'Tech Learner' | 'Enthusiast' | 'Pro Scholar' | 'Ultra Architect' | string;
   skills: string[];
   interests?: string[];
   avatarUrl?: string;
   joinedDate?: string;
+  membershipPlan?: MembershipPlan;
+  isProMember?: boolean;
 }
 
 export interface EBookChapter {

@@ -17,6 +17,7 @@ interface BookCardProps {
   book: EBookItem;
   onOpenDetails: (book: EBookItem) => void;
   onStartReading: (book: EBookItem) => void;
+  onOpenCheckout?: (book: EBookItem) => void;
   onOpenAuthor?: (authorId: string) => void;
 }
 
@@ -24,6 +25,7 @@ export const BookCard: React.FC<BookCardProps> = ({
   book,
   onOpenDetails,
   onStartReading,
+  onOpenCheckout,
   onOpenAuthor
 }) => {
   const { 
@@ -161,32 +163,18 @@ export const BookCard: React.FC<BookCardProps> = ({
         </div>
       </div>
 
-      {/* Pricing & Footer Actions */}
+      {/* Pricing & Footer Actions (100% Free Open Education) */}
       <div className="pt-3 mt-3 border-t border-slate-800 flex items-center justify-between gap-2">
-        {/* Price display */}
+        {/* 100% Free Open Access badge */}
         <div className="flex flex-col">
-          {book.isFree ? (
-            <div className="flex items-center gap-1.5">
-              <span className="text-sm font-extrabold text-emerald-400">₹0</span>
-              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-wider">
-                FREE
-              </span>
-            </div>
-          ) : (
-            <div className="flex items-center gap-1.5">
-              <span className="text-sm font-extrabold text-indigo-400">₹{book.price}</span>
-              {book.originalPrice && (
-                <span className="text-xs text-slate-400 line-through">₹{book.originalPrice}</span>
-              )}
-              {book.discountPercentage && (
-                <span className="px-1 py-0.2 rounded text-[9px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">
-                  {book.discountPercentage}% OFF
-                </span>
-              )}
-            </div>
-          )}
-          <span className="text-[10px] text-slate-400">
-            {unlocked ? 'Access Granted' : 'Instant Digital Unlock'}
+          <div className="flex items-center gap-1.5">
+            <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 uppercase tracking-wider flex items-center gap-1">
+              <Sparkles className="w-3 h-3" />
+              100% FREE
+            </span>
+          </div>
+          <span className="text-[10px] text-slate-400 mt-0.5">
+            Open Access E-Book
           </span>
         </div>
 
@@ -198,23 +186,10 @@ export const BookCard: React.FC<BookCardProps> = ({
               e.stopPropagation();
               onStartReading(book);
             }}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1 transition-all ${
-              unlocked
-                ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-xs'
-                : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700'
-            }`}
+            className="px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white shadow-xs transition-all hover:scale-[1.02]"
           >
-            {unlocked ? (
-              <>
-                <BookOpen className="w-3.5 h-3.5" />
-                <span>{progress && progress.percentage > 0 ? 'Continue' : 'Read'}</span>
-              </>
-            ) : (
-              <>
-                <BookOpen className="w-3.5 h-3.5" />
-                <span>Preview</span>
-              </>
-            )}
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>{progress && progress.percentage > 0 ? 'Continue Reading' : 'Read Book'}</span>
           </button>
         </div>
       </div>

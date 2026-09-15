@@ -37,7 +37,6 @@ export const MySpaceHub: React.FC = () => {
     projects,
     unlockedBookIds,
     wishlistBookIds,
-    bookOrders,
     readingProgressMap,
     theme 
   } = useApp();
@@ -329,49 +328,6 @@ export const MySpaceHub: React.FC = () => {
           </div>
         )}
       </div>
-
-      {/* Book Orders & Invoices (If any purchases made) */}
-      {bookOrders && bookOrders.length > 0 && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <h2 className="text-lg font-bold text-slate-100">Digital Library Orders & Receipts ({bookOrders.length})</h2>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="border-b border-slate-800 bg-slate-950 text-slate-400 font-bold uppercase tracking-wider text-[10px]">
-                  <th className="p-3">Order ID</th>
-                  <th className="p-3">Book Title</th>
-                  <th className="p-3">Payment</th>
-                  <th className="p-3">Amount</th>
-                  <th className="p-3">Date</th>
-                  <th className="p-3 text-right">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800/60">
-                {bookOrders.map(order => (
-                  <tr key={order.id} className="hover:bg-slate-900/50 transition-colors">
-                    <td className="p-3 font-mono text-indigo-400 font-bold">{order.id}</td>
-                    <td className="p-3 font-medium text-slate-200">{order.bookTitle}</td>
-                    <td className="p-3 text-slate-400">{order.paymentMethod || 'UPI / QR'}</td>
-                    <td className="p-3 font-bold text-slate-200">₹{order.amount}</td>
-                    <td className="p-3 text-slate-400">{order.date}</td>
-                    <td className="p-3 text-right">
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                        {order.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
 
       {/* Bookmarked Tools */}
       <div className="space-y-4">

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { NavigationTab, ProjectItem, UserProfile, BookOrder, ReadingProgress, SupportedLanguage } from '../types';
+import { NavigationTab, ProjectItem, UserProfile, BookOrder, ReadingProgress, SupportedLanguage, MembershipTier } from '../types';
 import { INITIAL_PROJECTS } from '../data/sampleProjects';
+import { EBOOKS_DATA } from '../data/ebooksData';
 import { t as translateFn } from '../utils/translations';
 import { initGoogleTranslate, triggerGoogleTranslate, resetGoogleTranslate } from '../utils/googleTranslate';
 
@@ -33,8 +34,13 @@ interface AppContextType {
   toggleSaveTool: (id: string) => void;
   // Digital Library state
   unlockedBookIds: string[];
-  unlockBook: (bookId: string, order?: Partial<BookOrder>) => void;
+  unlockBook: (bookId: string) => void;
   isBookUnlocked: (bookId: string) => boolean;
+  unlockAllBooks: () => void;
+  membershipTier: MembershipTier;
+  upgradeMembership: (tier: MembershipTier, planDetails?: { billingCycle: 'monthly' | 'yearly' | 'lifetime'; amount: number }) => void;
+  upgradeModalOpen: boolean;
+  setUpgradeModalOpen: (open: boolean) => void;
   wishlistBookIds: string[];
   toggleWishlistBook: (bookId: string) => void;
   isBookInWishlist: (bookId: string) => boolean;
@@ -214,6 +220,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [bookmarkedIds]);
 
+  // Membership Tier State (Free vs Pro vs Ultra - ChatGPT & Gemini Model Upgrade Style)
+  const [membershipTier, setMembershipTier] = useState<MembershipTier>(() => {
+    try {
+      const saved = localStorage.getItem('hkhub_membership_tier') as MembershipTier | null;
+      if (saved === 'pro' || saved === 'ultra' || saved === 'free') return saved;
+    } catch {}
+    return 'free';
+  });
+
+  const [upgradeModalOpen, setUpgradeModalOpen] = useState<boolean>(false);
+
   // Digital Library persistence
   const [unlockedBookIds, setUnlockedBookIds] = useState<string[]>(() => {
     try {
@@ -251,25 +268,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   });
 
-  const [bookOrders, setBookOrders] = useState<BookOrder[]>(() => {
+  const [bookOrders, setBookOrders] = useState<BookOrder[]>([]);
+
+  useEffect(() => {
     try {
-      const saved = localStorage.getItem('hkhub_book_orders');
-      return saved ? JSON.parse(saved) : [
-        {
-          id: 'ORD-98241',
-          bookId: 'clean-code-architecture',
-          bookTitle: 'Clean Code Architecture & Systems Design Guide',
-          amount: 149,
-          date: 'Yesterday, 4:30 PM',
-          status: 'Paid',
-          transactionRef: 'UPI-TXN-49102830',
-          paymentMethod: 'UPI / Card'
-        }
-      ];
-    } catch {
-      return [];
-    }
-  });
+      localStorage.removeItem('hkhub_book_orders');
+    } catch {}
+  }, []);
 
   useEffect(() => {
     try {
@@ -294,14 +299,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       console.warn('LocalStorage error:', e);
     }
   }, [readingProgressMap]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('hkhub_book_orders', JSON.stringify(bookOrders));
-    } catch (e) {
-      console.warn('LocalStorage error:', e);
-    }
-  }, [bookOrders]);
 
   useEffect(() => {
     try {
@@ -415,25 +412,58 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
   };
 
-  const unlockBook = (bookId: string, order?: Partial<BookOrder>) => {
+  const unlockAllBooks = useCallback(() => {
+    const allIds = EBOOKS_DATA.map(b => b.id);
+    setUnlockedBookIds(prev => Array.from(new Set([...prev, ...allIds])));
+  }, []);
+
+  const unlockBook = (bookId: string) => {
     setUnlockedBookIds(prev => prev.includes(bookId) ? prev : [...prev, bookId]);
-    if (order && order.amount !== undefined) {
-      const newOrder: BookOrder = {
-        id: order.id || `ORD-${Math.floor(10000 + Math.random() * 90000)}`,
-        bookId,
-        bookTitle: order.bookTitle || 'HK VELORA Digital Book',
-        amount: order.amount,
-        date: order.date || 'Just now',
-        status: 'Paid',
-        transactionRef: order.transactionRef || `TXN-${Date.now().toString().slice(-8)}`,
-        paymentMethod: order.paymentMethod || 'UPI / Instant Pay'
-      };
-      setBookOrders(prev => [newOrder, ...prev]);
-    }
   };
 
-  const isBookUnlocked = (bookId: string) => {
-    return Array.isArray(unlockedBookIds) && unlockedBookIds.includes(bookId);
+  const isBookUnlocked = (_bookId: string) => {
+    // 100% Free Open Education Initiative: All books and chapters are unlocked for every student
+    return true;
+  };
+
+  const upgradeMembership = (
+    tier: MembershipTier,
+    planDetails?: {
+      billingCycle: 'monthly' | 'yearly' | 'lifetime';
+      amount: number;
+    }
+  ) => {
+    setMembershipTier(tier);
+    try {
+      localStorage.setItem('hkhub_membership_tier', tier);
+    } catch {}
+
+    if (tier === 'pro' || tier === 'ultra') {
+      unlockAllBooks();
+    }
+
+    const tierName = tier === 'ultra' 
+      ? 'HK VELORA Ultra (Lifetime All-Access Model)' 
+      : 'HK VELORA Pro (Scholar Edition)';
+    const newRole = tier === 'ultra' ? 'Ultra Scholar' : 'Pro Scholar';
+
+    updateUserProfile({
+      isProMember: true,
+      role: newRole,
+      membershipPlan: {
+        tier,
+        name: tierName,
+        badge: tier === 'ultra' ? '💎 ULTRA' : '✨ PRO',
+        billingCycle: planDetails?.billingCycle || 'lifetime',
+        activatedDate: 'Today',
+        features: [
+          'Unlimited Lifetime Books',
+          'AI Reading Assistant',
+          'Fast Narration',
+          'Full Offline Notes'
+        ]
+      }
+    });
   };
 
   const toggleWishlistBook = (bookId: string) => {
@@ -501,6 +531,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         unlockedBookIds,
         unlockBook,
         isBookUnlocked,
+        unlockAllBooks,
+        membershipTier,
+        upgradeMembership,
+        upgradeModalOpen,
+        setUpgradeModalOpen,
         wishlistBookIds,
         toggleWishlistBook,
         isBookInWishlist,

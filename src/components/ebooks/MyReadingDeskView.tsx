@@ -19,6 +19,7 @@ interface MyReadingDeskViewProps {
   books: EBookItem[];
   onOpenDetails: (book: EBookItem) => void;
   onStartReading: (book: EBookItem) => void;
+  onOpenCheckout?: (book: EBookItem) => void;
   onOpenAuthor: (authorId: string) => void;
   onNavigateToSchool: () => void;
 }
@@ -27,10 +28,16 @@ export const MyReadingDeskView: React.FC<MyReadingDeskViewProps> = ({
   books,
   onOpenDetails,
   onStartReading,
+  onOpenCheckout,
   onOpenAuthor,
   onNavigateToSchool
 }) => {
-  const { readingProgressMap, wishlistBookIds, unlockedBookIds } = useApp();
+  const { 
+    readingProgressMap, 
+    wishlistBookIds, 
+    unlockedBookIds, 
+    userProfile
+  } = useApp();
 
   // Active reading books
   const activeReadingBooks = useMemo(() => {
@@ -79,17 +86,24 @@ export const MyReadingDeskView: React.FC<MyReadingDeskViewProps> = ({
             </p>
           </div>
 
-          <button
-            onClick={onNavigateToSchool}
-            className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-2 transition-all shrink-0"
-          >
-            <GraduationCap className="w-4 h-4" />
-            <span>Go to School Library</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            <div className="px-4 py-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-bold text-xs flex items-center gap-2">
+              <Sparkles className="w-4 h-4" />
+              <span>100% Free Open Access</span>
+            </div>
+
+            <button
+              onClick={onNavigateToSchool}
+              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-bold text-xs flex items-center gap-2 transition-all border border-slate-700"
+            >
+              <GraduationCap className="w-4 h-4 text-indigo-400" />
+              <span>School Library</span>
+            </button>
+          </div>
         </div>
 
         {/* Reading Stat Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pt-2">
           <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 flex items-center gap-3">
             <div className="p-3 rounded-xl bg-indigo-500/10 text-indigo-400">
               <BookOpen className="w-5 h-5" />
@@ -117,6 +131,16 @@ export const MyReadingDeskView: React.FC<MyReadingDeskViewProps> = ({
             <div>
               <span className="text-[11px] text-slate-400 block font-medium">Pages Read (Est.)</span>
               <span className="text-xl font-extrabold text-amber-400 font-mono">{stats.totalPagesEstimated}</span>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 flex items-center gap-3">
+            <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-400">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="text-[11px] text-slate-400 block font-medium">Free Access Books</span>
+              <span className="text-xl font-extrabold text-emerald-400 font-mono">100% Free</span>
             </div>
           </div>
         </div>
@@ -214,6 +238,7 @@ export const MyReadingDeskView: React.FC<MyReadingDeskViewProps> = ({
                 book={book}
                 onOpenDetails={onOpenDetails}
                 onStartReading={onStartReading}
+                onOpenCheckout={onOpenCheckout}
                 onOpenAuthor={onOpenAuthor}
               />
             ))}

@@ -5,12 +5,10 @@ import { useApp } from '../../context/AppContext';
 import { BookCard } from './BookCard';
 import { BookDetailsModal } from './BookDetailsModal';
 import { EBookReaderModal } from './EBookReaderModal';
-import { CheckoutModal } from './CheckoutModal';
 import { AuthorModal } from './AuthorModal';
 import { BookSubmissionModal } from './BookSubmissionModal';
 import { AdminBooksModal } from './AdminBooksModal';
 import { BharatvarshReaderModal } from './BharatvarshReaderModal';
-import { DirectPaymentModal } from './DirectPaymentModal';
 import { BHARATVARSH_EBOOK_ITEM } from '../../data/bharatvarshBookItem';
 import { SchoolLibraryView } from './SchoolLibraryView';
 import { StoriesLibraryView } from './StoriesLibraryView';
@@ -38,13 +36,16 @@ import {
   Percent,
   Play,
   Feather,
-  Puzzle,
-  CreditCard,
-  QrCode
+  Puzzle
 } from 'lucide-react';
 
 export const EBooksHub: React.FC = () => {
-  const { readingProgressMap, isBookUnlocked, activeBookId, setActiveBookId } = useApp();
+  const { 
+    readingProgressMap, 
+    isBookUnlocked, 
+    activeBookId, 
+    setActiveBookId
+  } = useApp();
 
   // Primary Ecosystem View Tab (Section 74, 84, 87, 101, 102)
   type LibraryViewTab = 'catalog' | 'school' | 'stories' | 'puzzles' | 'desk';
@@ -64,11 +65,9 @@ export const EBooksHub: React.FC = () => {
   // Modals state
   const [selectedBookForDetails, setSelectedBookForDetails] = useState<EBookItem | null>(null);
   const [activeReadingBook, setActiveReadingBook] = useState<EBookItem | null>(null);
-  const [checkoutBook, setCheckoutBook] = useState<EBookItem | null>(null);
   const [selectedAuthorId, setSelectedAuthorId] = useState<string | null>(null);
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
-  const [showDirectPaymentModal, setShowDirectPaymentModal] = useState(false);
 
   // Sync external openBook action & URL query param
   React.useEffect(() => {
@@ -231,8 +230,8 @@ export const EBooksHub: React.FC = () => {
                 School & Heritage (100% Free)
               </span>
               <span className="flex items-center gap-1.5 text-indigo-300 font-semibold">
-                <CreditCard className="w-4 h-4 text-indigo-400" />
-                Pro & Engineering (₹49 – ₹499)
+                <Sparkles className="w-4 h-4 text-indigo-400" />
+                Tech & Engineering (100% Free)
               </span>
               <span className="flex items-center gap-1.5 text-cyan-400">
                 <Headphones className="w-4 h-4" />
@@ -243,13 +242,10 @@ export const EBooksHub: React.FC = () => {
 
           {/* Action CTAs */}
           <div className="flex flex-col sm:flex-row md:flex-col gap-2.5 shrink-0 w-full sm:w-auto">
-            <button
-              onClick={() => setShowDirectPaymentModal(true)}
-              className="py-2.5 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-md shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all border border-emerald-400/30"
-            >
-              <QrCode className="w-4 h-4" />
-              <span>UPI Payment & Support (PNB)</span>
-            </button>
+            <div className="py-2.5 px-4 rounded-2xl bg-gradient-to-r from-emerald-500/15 via-teal-500/15 to-indigo-500/15 border border-emerald-500/30 text-emerald-300 font-extrabold text-xs flex items-center justify-center gap-2 shadow-sm">
+              <Sparkles className="w-4 h-4 text-emerald-400" />
+              <span>100% Free Open Education</span>
+            </div>
 
             <button
               onClick={() => setShowSubmissionModal(true)}
@@ -377,6 +373,7 @@ export const EBooksHub: React.FC = () => {
           books={booksList}
           onOpenDetails={(b) => setSelectedBookForDetails(b)}
           onStartReading={(b) => setActiveReadingBook(b)}
+          onOpenCheckout={(b) => setActiveReadingBook(b)}
           onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
           onNavigateToSchool={() => setCurrentViewTab('school')}
         />
@@ -577,8 +574,6 @@ export const EBooksHub: React.FC = () => {
             >
               <option value="rating">Sort: Highest Rated ⭐</option>
               <option value="popular">Sort: Most Popular 🔥</option>
-              <option value="price-asc">Sort: Price (Low to High)</option>
-              <option value="price-desc">Sort: Price (High to Low)</option>
               <option value="title">Sort: Title (A - Z)</option>
             </select>
 
@@ -630,28 +625,10 @@ export const EBooksHub: React.FC = () => {
             ))}
           </div>
 
-          {/* Price pills */}
-          <div className="inline-flex flex-wrap rounded-xl bg-slate-900 p-1 border border-slate-800 gap-1">
-            {[
-              { id: 'all', label: 'All Prices' },
-              { id: 'free', label: `100% Free (₹0) [${freeBooks.length}]` },
-              { id: 'paid', label: `Pro Books (₹49–₹499) [${paidBooks.length}]` },
-              { id: 'under99', label: '₹49 – ₹99' },
-              { id: '100to499', label: '₹100 – ₹499 (Advanced)' },
-              { id: 'deals', label: 'Deals & 50% Off' }
-            ].map(p => (
-              <button
-                key={p.id}
-                onClick={() => setSelectedPriceFilter(p.id as any)}
-                className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
-                  selectedPriceFilter === p.id
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
-                }`}
-              >
-                {p.label}
-              </button>
-            ))}
+          {/* 100% Free Open Access Pill */}
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-bold text-xs">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+            <span>100% Free Open Access • All Books Unlocked</span>
           </div>
 
           {/* Difficulty pills */}
@@ -695,6 +672,7 @@ export const EBooksHub: React.FC = () => {
                   book={book}
                   onOpenDetails={(b) => setSelectedBookForDetails(b)}
                   onStartReading={(b) => setActiveReadingBook(b)}
+                  onOpenCheckout={(b) => setActiveReadingBook(b)}
                   onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
                 />
               ))}
@@ -743,6 +721,7 @@ export const EBooksHub: React.FC = () => {
                   book={book}
                   onOpenDetails={(b) => setSelectedBookForDetails(b)}
                   onStartReading={(b) => setActiveReadingBook(b)}
+                  onOpenCheckout={(b) => setActiveReadingBook(b)}
                   onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
                 />
               ))}
@@ -777,29 +756,30 @@ export const EBooksHub: React.FC = () => {
                   book={book}
                   onOpenDetails={(b) => setSelectedBookForDetails(b)}
                   onStartReading={(b) => setActiveReadingBook(b)}
+                  onOpenCheckout={(b) => setActiveReadingBook(b)}
                   onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
                 />
               ))}
             </div>
           </div>
 
-          {/* Shelf 2.5: Pro Tech & Engineering Courses (₹49 to ₹499) */}
+          {/* Shelf 2.5: Advanced Tech & Engineering Handbooks (100% Free) */}
           <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-900 border border-indigo-500/30 space-y-5">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
-                  <CreditCard className="w-5 h-5" />
+                  <Sparkles className="w-5 h-5" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-slate-100">💎 Pro Handbooks & Advanced Engineering (₹49 – ₹499)</h2>
-                  <p className="text-xs text-slate-400">Comprehensive guides for Full-Stack, High-Level AI, Competitive Exams, and DevOps with PNB UPI instant unlock</p>
+                  <h2 className="text-xl font-bold text-slate-100">💎 Advanced Tech, AI & System Architecture Handbooks</h2>
+                  <p className="text-xs text-slate-400">Comprehensive professional guides for Full-Stack, AI Engineering, Competitive Exams, and DevOps — 100% Free Open Access</p>
                 </div>
               </div>
               <button
-                onClick={() => setSelectedPriceFilter('paid')}
+                onClick={() => setSelectedCategory('Coding & Programming')}
                 className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1 shrink-0"
               >
-                <span>View All Pro ({paidBooks.length})</span>
+                <span>View All Engineering</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -811,6 +791,7 @@ export const EBooksHub: React.FC = () => {
                   book={book}
                   onOpenDetails={(b) => setSelectedBookForDetails(b)}
                   onStartReading={(b) => setActiveReadingBook(b)}
+                  onOpenCheckout={(b) => setActiveReadingBook(b)}
                   onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
                 />
               ))}
@@ -840,6 +821,7 @@ export const EBooksHub: React.FC = () => {
                   book={book}
                   onOpenDetails={(b) => setSelectedBookForDetails(b)}
                   onStartReading={(b) => setActiveReadingBook(b)}
+                  onOpenCheckout={(b) => setActiveReadingBook(b)}
                   onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
                 />
               ))}
@@ -869,6 +851,7 @@ export const EBooksHub: React.FC = () => {
                   book={book}
                   onOpenDetails={(b) => setSelectedBookForDetails(b)}
                   onStartReading={(b) => setActiveReadingBook(b)}
+                  onOpenCheckout={(b) => setActiveReadingBook(b)}
                   onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
                 />
               ))}
@@ -903,6 +886,7 @@ export const EBooksHub: React.FC = () => {
                   book={book}
                   onOpenDetails={(b) => setSelectedBookForDetails(b)}
                   onStartReading={(b) => setActiveReadingBook(b)}
+                  onOpenCheckout={(b) => setActiveReadingBook(b)}
                   onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
                 />
               ))}
@@ -926,17 +910,18 @@ export const EBooksHub: React.FC = () => {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {dealsBooks.slice(0, 4).map(book => (
-                  <BookCard
-                    key={book.id}
-                    book={book}
-                    onOpenDetails={(b) => setSelectedBookForDetails(b)}
-                    onStartReading={(b) => setActiveReadingBook(b)}
-                    onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
-                  />
-                ))}
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {dealsBooks.slice(0, 4).map(book => (
+                <BookCard
+                  key={book.id}
+                  book={book}
+                  onOpenDetails={(b) => setSelectedBookForDetails(b)}
+                  onStartReading={(b) => setActiveReadingBook(b)}
+                  onOpenCheckout={(b) => setActiveReadingBook(b)}
+                  onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
+                />
+              ))}
+            </div>
             </div>
           )}
 
@@ -973,6 +958,7 @@ export const EBooksHub: React.FC = () => {
                   book={book}
                   onOpenDetails={(b) => setSelectedBookForDetails(b)}
                   onStartReading={(b) => setActiveReadingBook(b)}
+                  onOpenCheckout={(b) => setActiveReadingBook(b)}
                   onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
                 />
               ))}
@@ -995,7 +981,7 @@ export const EBooksHub: React.FC = () => {
           }}
           onOpenCheckout={(b) => {
             setSelectedBookForDetails(null);
-            setCheckoutBook(b);
+            setActiveReadingBook(b);
           }}
           onOpenAuthor={(aId) => {
             setSelectedAuthorId(aId);
@@ -1036,19 +1022,7 @@ export const EBooksHub: React.FC = () => {
         />
       ) : null}
 
-      {/* 3. Secure Checkout Modal */}
-      {checkoutBook && (
-        <CheckoutModal
-          book={checkoutBook}
-          onClose={() => setCheckoutBook(null)}
-          onPurchaseComplete={(b) => {
-            setCheckoutBook(null);
-            setActiveReadingBook(b);
-          }}
-        />
-      )}
-
-      {/* 4. Author Modal */}
+      {/* 3. Author Modal */}
       {selectedAuthorId && (
         <AuthorModal
           authorId={selectedAuthorId}
@@ -1057,7 +1031,7 @@ export const EBooksHub: React.FC = () => {
         />
       )}
 
-      {/* 5. Book Submission Modal */}
+      {/* 4. Book Submission Modal */}
       {showSubmissionModal && (
         <BookSubmissionModal
           onClose={() => setShowSubmissionModal(false)}
@@ -1068,20 +1042,13 @@ export const EBooksHub: React.FC = () => {
         />
       )}
 
-      {/* 6. Admin Books Modal */}
+      {/* 5. Admin Books Modal */}
       {showAdminModal && (
         <AdminBooksModal
           booksList={booksList}
           onClose={() => setShowAdminModal(false)}
           onUpdateBook={handleUpdateBook}
           onAddNewBook={handleAddNewBook}
-        />
-      )}
-
-      {/* 7. Direct UPI & PNB Payment Modal */}
-      {showDirectPaymentModal && (
-        <DirectPaymentModal
-          onClose={() => setShowDirectPaymentModal(false)}
         />
       )}
     </div>

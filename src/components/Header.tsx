@@ -221,6 +221,16 @@ export const Header: React.FC = () => {
               <Search className="w-5 h-5" />
             </button>
 
+            {/* 100% Free Open Education Badge */}
+            <div
+              id="header-free-access-badge"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-extrabold bg-gradient-to-r from-emerald-500/15 via-teal-500/15 to-indigo-500/15 text-emerald-300 border border-emerald-500/30 shadow-sm shrink-0"
+              title="HK VELORA is 100% Free & Open Access for all learners"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span>100% Free Library</span>
+            </div>
+
             {/* Language Selector Button */}
             <button
               id="header-language-btn"
@@ -296,7 +306,18 @@ export const Header: React.FC = () => {
             }`}
           >
             {/* Quick Profile shortcut on mobile */}
-            <div className="col-span-2 sm:col-span-3 mb-1">
+            <div className="col-span-2 sm:col-span-3 mb-1 space-y-2">
+              {/* Mobile 100% Free Open Education Banner */}
+              <div className="w-full flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-emerald-500/15 via-teal-500/15 to-indigo-500/15 border border-emerald-500/30 text-emerald-300 font-extrabold text-xs shadow-sm">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-emerald-400" />
+                  <span>100% Free Open Education</span>
+                </div>
+                <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full uppercase font-mono tracking-wider">
+                  ALL UNLOCKED
+                </span>
+              </div>
+
               <button
                 onClick={() => handleNavClick('myspace')}
                 className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all text-xs font-semibold ${
