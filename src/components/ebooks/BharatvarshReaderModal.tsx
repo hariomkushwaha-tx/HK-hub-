@@ -30,7 +30,8 @@ import {
   Compass,
   ArrowRight,
   Filter,
-  Printer
+  Printer,
+  MoreVertical
 } from 'lucide-react';
 import { BharatvarshChapter, HistoricalCorrectionProposal } from '../../types/bharatvarsh';
 import { BHARATVARSH_BOOK_INFO, BHARATVARSH_PARTS } from '../../data/bharatvarshMasterData';
@@ -56,6 +57,7 @@ export const BharatvarshReaderModal: React.FC<BharatvarshReaderModalProps> = ({
   const [theme, setTheme] = useState<'dark' | 'sepia' | 'light'>('dark');
   const [fontSize, setFontSize] = useState<'sm' | 'base' | 'lg' | 'xl'>('base');
   const [showMobileSidebar, setShowMobileSidebar] = useState<boolean>(false);
+  const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
@@ -277,31 +279,32 @@ export const BharatvarshReaderModal: React.FC<BharatvarshReaderModalProps> = ({
   return (
     <div className={`fixed inset-0 z-50 flex flex-col ${themeStyles.modalBg} font-sans select-text`}>
       {/* 1. TOP MASTER HEADER */}
-      <header className={`px-4 sm:px-6 py-3 border-b flex items-center justify-between gap-3 ${themeStyles.headerBg} backdrop-blur-md shrink-0 shadow-md`}>
+      <header className={`px-2.5 sm:px-6 py-2 sm:py-3 border-b flex items-center justify-between gap-2 sm:gap-3 ${themeStyles.headerBg} backdrop-blur-md shrink-0 shadow-md relative z-30`}>
         {/* Left: Brand & Book Title */}
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center gap-1.5 sm:gap-3 min-w-0 flex-1 overflow-hidden">
           <button
             onClick={() => setShowMobileSidebar(!showMobileSidebar)}
-            className="md:hidden p-2 rounded-xl border border-amber-500/30 text-amber-500 hover:bg-amber-500/10"
+            className="md:hidden p-1.5 rounded-xl border border-amber-500/30 text-amber-500 hover:bg-amber-500/10 shrink-0 transition-colors"
             title="Toggle Chapter List"
+            aria-label="अध्याय सूची खोलें"
           >
-            <Layers className="w-5 h-5" />
+            <Layers className="w-4 h-4" />
           </button>
 
-          <div className="flex items-center gap-2.5">
-            <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 via-orange-600 to-red-700 flex items-center justify-center text-white font-serif font-black shadow-lg shadow-orange-950/40 text-base shrink-0">
+          <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
+            <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-amber-500 via-orange-600 to-red-700 flex items-center justify-center text-white font-serif font-black shadow-lg shadow-orange-950/40 text-sm sm:text-base shrink-0 select-none">
               भ
             </span>
-            <div className="min-w-0">
-              <div className="flex items-center gap-2">
-                <h1 className="font-extrabold text-sm sm:text-base truncate tracking-tight">
+            <div className="min-w-0 flex-1 overflow-hidden">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <h1 className="font-extrabold text-xs sm:text-base truncate tracking-tight text-slate-100 dark:text-slate-100">
                   भारतवर्ष: सभ्यता, साम्राज्य और महान व्यक्तित्व
                 </h1>
-                <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 shrink-0">
                   <ShieldCheck className="w-3 h-3" /> 160 अध्याय
                 </span>
               </div>
-              <p className={`text-[11px] truncate ${themeStyles.subText}`}>
+              <p className={`text-[10px] sm:text-[11px] truncate ${themeStyles.subText}`}>
                 {currentPart.romanNumeral} • {currentPart.title} | अध्याय {chapter.chapterNumber} / 160
               </p>
             </div>
@@ -309,7 +312,7 @@ export const BharatvarshReaderModal: React.FC<BharatvarshReaderModalProps> = ({
         </div>
 
         {/* Center: Progress & Navigation Buttons */}
-        <div className="hidden lg:flex items-center gap-2">
+        <div className="hidden lg:flex items-center gap-2 shrink-0">
           <button
             disabled={currentChapterNum <= 1}
             onClick={() => setCurrentChapterNum(prev => prev - 1)}
@@ -337,22 +340,23 @@ export const BharatvarshReaderModal: React.FC<BharatvarshReaderModalProps> = ({
         </div>
 
         {/* Right Controls: Audio, Theme, Font, Correction & Close */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           {/* TTS Audio Narration */}
           <button
             onClick={toggleSpeech}
-            className={`p-2 rounded-xl border transition-all ${
+            className={`p-1.5 sm:p-2 rounded-xl border transition-all shrink-0 ${
               isSpeaking
                 ? 'bg-red-600 text-white border-red-500 animate-pulse'
-                : 'border-slate-700 hover:border-amber-500 hover:text-amber-400'
+                : 'border-slate-700 hover:border-amber-500 hover:text-amber-400 text-slate-300'
             }`}
             title={isSpeaking ? 'वाचन रोकें (Stop Narration)' : 'अध्याय सुनें (Hindi Audio Narration)'}
+            aria-label="Audio Narration"
           >
             {isSpeaking ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
           </button>
 
-          {/* Theme switcher */}
-          <div className="hidden sm:flex items-center border border-slate-700 rounded-xl p-0.5">
+          {/* Theme switcher (sm+) */}
+          <div className="hidden sm:flex items-center border border-slate-700 rounded-xl p-0.5 shrink-0">
             <button
               onClick={() => setTheme('dark')}
               className={`p-1.5 rounded-lg text-xs font-bold transition-colors ${theme === 'dark' ? 'bg-amber-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
@@ -376,8 +380,8 @@ export const BharatvarshReaderModal: React.FC<BharatvarshReaderModalProps> = ({
             </button>
           </div>
 
-          {/* Font Size */}
-          <div className="hidden md:flex items-center border border-slate-700 rounded-xl p-0.5">
+          {/* Font Size (md+) */}
+          <div className="hidden md:flex items-center border border-slate-700 rounded-xl p-0.5 shrink-0">
             <button
               onClick={() => setFontSize('sm')}
               className={`px-2 py-1 rounded-lg text-[11px] font-bold ${fontSize === 'sm' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}
@@ -398,10 +402,10 @@ export const BharatvarshReaderModal: React.FC<BharatvarshReaderModalProps> = ({
             </button>
           </div>
 
-          {/* Report / Suggest Correction */}
+          {/* Report / Suggest Correction (sm+) */}
           <button
             onClick={() => setShowCorrectionModal(true)}
-            className="p-2 rounded-xl border border-slate-700 hover:border-amber-500 hover:text-amber-400 text-slate-300 transition-colors"
+            className="hidden sm:inline-flex p-2 rounded-xl border border-slate-700 hover:border-amber-500 hover:text-amber-400 text-slate-300 transition-colors shrink-0"
             title="ऐतिहासिक संदर्भ या तथ्य सुझाव (Suggest Correction)"
           >
             <Edit3 className="w-4 h-4" />
@@ -410,28 +414,133 @@ export const BharatvarshReaderModal: React.FC<BharatvarshReaderModalProps> = ({
           {/* Share */}
           <button
             onClick={handleCopyLink}
-            className="p-2 rounded-xl border border-slate-700 hover:border-amber-500 hover:text-amber-400 text-slate-300 transition-colors"
+            className="p-1.5 sm:p-2 rounded-xl border border-slate-700 hover:border-amber-500 hover:text-amber-400 text-slate-300 transition-colors shrink-0"
             title="अध्याय लिंक साझा करें (Share Chapter)"
+            aria-label="Share chapter"
           >
             {copiedLink ? <Check className="w-4 h-4 text-green-400" /> : <Share2 className="w-4 h-4" />}
           </button>
 
-          {/* Print / Save as PDF */}
+          {/* Print / Save as PDF (sm+) */}
           <button
             onClick={() => window.print()}
-            className="hidden sm:inline-flex p-2 rounded-xl border border-slate-700 hover:border-amber-500 hover:text-amber-400 text-slate-300 transition-colors"
+            className="hidden sm:inline-flex p-2 rounded-xl border border-slate-700 hover:border-amber-500 hover:text-amber-400 text-slate-300 transition-colors shrink-0"
             title="अध्याय प्रिंट करें / PDF सहेजें (Print / Save Chapter PDF)"
           >
             <Printer className="w-4 h-4" />
           </button>
 
+          {/* Mobile More Options Dropdown */}
+          <div className="relative sm:hidden shrink-0">
+            <button
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+              className="p-1.5 rounded-xl border border-slate-700 hover:border-amber-500 hover:text-amber-400 text-slate-300 transition-colors"
+              title="अधिक विकल्प (More Options)"
+              aria-label="More options"
+            >
+              <MoreVertical className="w-4 h-4" />
+            </button>
+
+            {showMobileMenu && (
+              <>
+                <div 
+                  className="fixed inset-0 z-40 bg-black/40"
+                  onClick={() => setShowMobileMenu(false)}
+                />
+                <div 
+                  className="absolute right-0 mt-2 w-60 p-3 rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl z-50 space-y-3 text-xs animate-scaleUp"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {/* Mobile Theme Selector */}
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
+                      थीम (Theme)
+                    </span>
+                    <div className="grid grid-cols-3 gap-1 p-1 bg-slate-950 rounded-xl border border-slate-800">
+                      <button
+                        onClick={() => { setTheme('dark'); setShowMobileMenu(false); }}
+                        className={`py-1 rounded-lg font-bold flex items-center justify-center gap-1 ${theme === 'dark' ? 'bg-amber-600 text-white' : 'text-slate-400'}`}
+                      >
+                        <Moon className="w-3 h-3" /> डार्क
+                      </button>
+                      <button
+                        onClick={() => { setTheme('sepia'); setShowMobileMenu(false); }}
+                        className={`py-1 rounded-lg font-bold flex items-center justify-center gap-1 ${theme === 'sepia' ? 'bg-[#b6631b] text-white' : 'text-slate-400'}`}
+                      >
+                        <Scroll className="w-3 h-3" /> सेपिया
+                      </button>
+                      <button
+                        onClick={() => { setTheme('light'); setShowMobileMenu(false); }}
+                        className={`py-1 rounded-lg font-bold flex items-center justify-center gap-1 ${theme === 'light' ? 'bg-amber-700 text-white' : 'text-slate-400'}`}
+                      >
+                        <Sun className="w-3 h-3" /> लाइट
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Mobile Font Size */}
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
+                      फॉन्ट आकार (Text Size)
+                    </span>
+                    <div className="grid grid-cols-3 gap-1 p-1 bg-slate-950 rounded-xl border border-slate-800 text-center">
+                      <button
+                        onClick={() => setFontSize('sm')}
+                        className={`py-1 rounded-lg font-bold ${fontSize === 'sm' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}
+                      >
+                        अ- छोटा
+                      </button>
+                      <button
+                        onClick={() => setFontSize('base')}
+                        className={`py-1 rounded-lg font-bold ${fontSize === 'base' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}
+                      >
+                        अ मध्यम
+                      </button>
+                      <button
+                        onClick={() => setFontSize('lg')}
+                        className={`py-1 rounded-lg font-bold ${fontSize === 'lg' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}
+                      >
+                        अ+ बड़ा
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Mobile Suggest Correction */}
+                  <button
+                    onClick={() => {
+                      setShowCorrectionModal(true);
+                      setShowMobileMenu(false);
+                    }}
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-200 transition-colors text-left font-medium"
+                  >
+                    <Edit3 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span>तथ्य संशोधन / संदर्भ सुझाव</span>
+                  </button>
+
+                  {/* Mobile Print */}
+                  <button
+                    onClick={() => {
+                      window.print();
+                      setShowMobileMenu(false);
+                    }}
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-200 transition-colors text-left font-medium"
+                  >
+                    <Printer className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    <span>अध्याय प्रिंट / PDF सहेजें</span>
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+
           {/* Close Modal */}
           <button
             onClick={onClose}
-            className="p-2 rounded-xl bg-slate-800 hover:bg-red-600 hover:text-white text-slate-300 transition-colors"
+            className="p-1.5 sm:p-2 rounded-xl bg-slate-800 hover:bg-red-600 hover:text-white text-slate-300 transition-colors shrink-0"
             title="बंद करें (Close)"
+            aria-label="Close reader"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
       </header>
@@ -453,9 +562,19 @@ export const BharatvarshReaderModal: React.FC<BharatvarshReaderModalProps> = ({
                 <BookOpen className="w-4 h-4 text-amber-500" />
                 <h3 className="font-extrabold text-sm tracking-tight">160 अध्याय सूची (Index)</h3>
               </div>
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-amber-400 border border-slate-700">
-                18 भाग
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-amber-400 border border-slate-700">
+                  18 भाग
+                </span>
+                <button
+                  onClick={() => setShowMobileSidebar(false)}
+                  className="md:hidden p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                  title="सूची बंद करें (Close Index)"
+                  aria-label="Close index"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             {/* Search Input */}

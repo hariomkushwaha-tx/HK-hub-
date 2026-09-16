@@ -19,6 +19,7 @@ import { UserProfileModal } from './components/profile/UserProfileModal';
 import { LanguageModal } from './components/LanguageModal';
 import { FloatingLanguageWidget } from './components/FloatingLanguageWidget';
 import { MobileBottomNav } from './components/MobileBottomNav';
+import { motion } from 'motion/react';
 
 const MainContent: React.FC = () => {
   const { activeTab, theme } = useApp();
@@ -30,19 +31,27 @@ const MainContent: React.FC = () => {
       {/* Universal Header */}
       <Header />
 
-      {/* Main Dynamic Viewport */}
+      {/* Main Dynamic Viewport with Smooth Transitions */}
       <main className="flex-1 w-full">
-        {activeTab === 'home' && <Home />}
-        {activeTab === 'tools' && <ToolsHub />}
-        {(activeTab === 'tech' || activeTab === 'technology') && <TechnologyHub />}
-        {activeTab === 'ai' && <AiHub />}
-        {activeTab === 'coding' && <CodingHub />}
-        {activeTab === 'ebooks' && <EBooksHub />}
-        {activeTab === 'students' && <StudentZone />}
-        {activeTab === 'guides' && <GuidesHub />}
-        {activeTab === 'updates' && <TechUpdatesHub />}
-        {activeTab === 'projects' && <ProjectsHub />}
-        {activeTab === 'myspace' && <MySpaceHub />}
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
+          className="w-full"
+        >
+          {activeTab === 'home' && <Home />}
+          {activeTab === 'tools' && <ToolsHub />}
+          {(activeTab === 'tech' || activeTab === 'technology') && <TechnologyHub />}
+          {activeTab === 'ai' && <AiHub />}
+          {activeTab === 'coding' && <CodingHub />}
+          {activeTab === 'ebooks' && <EBooksHub />}
+          {activeTab === 'students' && <StudentZone />}
+          {activeTab === 'guides' && <GuidesHub />}
+          {activeTab === 'updates' && <TechUpdatesHub />}
+          {activeTab === 'projects' && <ProjectsHub />}
+          {activeTab === 'myspace' && <MySpaceHub />}
+        </motion.div>
       </main>
 
       {/* Universal Compliance & Directory Footer */}

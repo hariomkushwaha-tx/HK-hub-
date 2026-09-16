@@ -35,18 +35,18 @@ export const Footer: React.FC = () => {
               <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-500 flex items-center justify-center text-white shadow-sm">
                 <span className="font-extrabold text-sm tracking-tight">HK</span>
               </div>
-              <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+              <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent">
                 HK VELORA
               </span>
             </div>
             
-            <p className="text-sm leading-relaxed max-w-sm">
-              <strong className="text-slate-200 block font-semibold">Everything Technology. One Smart Hub.</strong>
+            <p className="text-sm leading-relaxed max-w-sm text-slate-600 dark:text-slate-400">
+              <strong className="text-slate-900 dark:text-slate-200 block font-semibold">Everything Technology. One Smart Hub.</strong>
               A next-generation platform for students, developers, and technology learners. Learn coding, explore practical AI, use 30+ free browser tools, and build digital knowledge without paywalls.
             </p>
 
-            <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
-              <span className="inline-flex items-center gap-1 text-emerald-400">
+            <div className="flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+              <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 100% Free & Browser-First
               </span>
@@ -57,7 +57,7 @@ export const Footer: React.FC = () => {
 
           {/* Column 1: Technology */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-200 mb-3">
               Technology
             </h4>
             <ul className="space-y-2 text-xs">
@@ -65,7 +65,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-tech-smartphones"
                   onClick={() => { setActiveTab('technology'); openTechCategory('smartphones'); }} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Smartphones & OS
                 </button>
@@ -74,7 +74,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-tech-computers"
                   onClick={() => { setActiveTab('technology'); openTechCategory('computers'); }} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Windows & macOS
                 </button>
@@ -83,7 +83,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-tech-internet"
                   onClick={() => { setActiveTab('technology'); openTechCategory('internet'); }} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Internet & Privacy
                 </button>
@@ -92,7 +92,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-tech-apps"
                   onClick={() => { setActiveTab('technology'); openTechCategory('apps'); }} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Open-Source Apps
                 </button>
@@ -101,7 +101,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-tech-web"
                   onClick={() => { setActiveTab('technology'); openTechCategory('webtech'); }} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Web Architecture
                 </button>
@@ -110,7 +110,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-tech-cyber"
                   onClick={() => { setActiveTab('technology'); openTechCategory('cybersecurity'); }} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Cybersecurity Awareness
                 </button>
@@ -120,7 +120,7 @@ export const Footer: React.FC = () => {
 
           {/* Column 2: Free Tools & Student Zone */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-200 mb-3">
               Tools & Learning
             </h4>
             <ul className="space-y-2 text-xs">
@@ -128,7 +128,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-tools-dev"
                   onClick={() => handleTabClick('tools')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Developer Tools (JSON, Regex, Base64)
                 </button>
@@ -137,7 +137,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-tools-text"
                   onClick={() => handleTabClick('tools')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Text & Word Tools
                 </button>
@@ -146,7 +146,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-tools-pdf"
                   onClick={() => handleTabClick('tools')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   PDF Merger & Splitter
                 </button>
@@ -155,7 +155,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-ebooks-hub"
                   onClick={() => handleTabClick('ebooks')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Digital Books & Library
                 </button>
@@ -164,7 +164,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-student-zone"
                   onClick={() => handleTabClick('students')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Student Study Zone
                 </button>
@@ -173,7 +173,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-coding-hub"
                   onClick={() => handleTabClick('coding')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Interactive Code Playground
                 </button>
@@ -182,7 +182,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-ai-hub"
                   onClick={() => handleTabClick('ai')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   AI Tools Directory & Assistant
                 </button>
@@ -192,7 +192,7 @@ export const Footer: React.FC = () => {
 
           {/* Column 3: Trust, Legal & About */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-200 mb-3">
               Trust & Legal
             </h4>
             <ul className="space-y-2 text-xs">
@@ -200,7 +200,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-legal-about"
                   onClick={() => setActiveComplianceModal('about')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   About HK VELORA
                 </button>
@@ -209,7 +209,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-legal-privacy"
                   onClick={() => setActiveComplianceModal('privacy')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Privacy Policy (प्राइवेसी पॉलिसी)
                 </button>
@@ -218,7 +218,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-legal-security"
                   onClick={() => setActiveComplianceModal('security')} 
-                  className="hover:text-emerald-400 transition-colors flex items-center gap-1 text-emerald-400/90 font-medium"
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1 font-medium"
                 >
                   <ShieldCheck className="w-3.5 h-3.5" />
                   Security & Anti-Hacking (सुरक्षा गारंटी)
@@ -228,7 +228,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-legal-terms"
                   onClick={() => setActiveComplianceModal('terms')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Terms & Conditions
                 </button>
@@ -237,7 +237,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-legal-cookie"
                   onClick={() => setActiveComplianceModal('cookie')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Cookie Policy
                 </button>
@@ -246,7 +246,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-legal-disclaimer"
                   onClick={() => setActiveComplianceModal('disclaimer')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Disclaimer
                 </button>
@@ -255,7 +255,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-legal-guidelines"
                   onClick={() => setActiveComplianceModal('community')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Community Guidelines
                 </button>
@@ -264,7 +264,7 @@ export const Footer: React.FC = () => {
                 <button 
                   id="footer-legal-contact"
                   onClick={() => setActiveComplianceModal('contact')} 
-                  className="hover:text-indigo-400 transition-colors"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   Contact & Support
                 </button>
@@ -275,28 +275,28 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+        <div className="pt-8 border-t border-slate-200 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
           <div className="flex flex-col gap-1.5 text-center sm:text-left">
-            <p className="text-slate-300 font-medium flex items-center justify-center sm:justify-start gap-1.5">
+            <p className="text-slate-700 dark:text-slate-300 font-medium flex items-center justify-center sm:justify-start gap-1.5">
               <span>Created with</span>
               <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline shrink-0" />
-              <span>in India by <strong className="text-white font-semibold">Hariom Kushwaha</strong> (HK Tech World).</span>
+              <span>in India by <strong className="text-slate-900 dark:text-white font-semibold">Hariom Kushwaha</strong> (HK Tech World).</span>
             </p>
-            <p className="text-slate-400 text-[11px] flex items-center justify-center sm:justify-start gap-1">
-              <span>Powered by <strong className="text-indigo-400 font-semibold">HK Tech World</strong></span>
+            <p className="text-slate-500 dark:text-slate-400 text-[11px] flex items-center justify-center sm:justify-start gap-1">
+              <span>Powered by <strong className="text-indigo-600 dark:text-indigo-400 font-semibold">HK Tech World</strong></span>
               <span>|</span>
               <span>Developed with</span>
               <Heart className="w-3 h-3 text-rose-500 fill-rose-500 inline shrink-0" />
-              <span>in India by <strong className="text-slate-300">Hariom Kushwaha</strong>.</span>
+              <span>in India by <strong className="text-slate-700 dark:text-slate-300">Hariom Kushwaha</strong>.</span>
             </p>
-            <p className="text-slate-500 text-[11px]">
+            <p className="text-slate-400 dark:text-slate-500 text-[11px]">
               © {new Date().getFullYear()} HK VELORA. Learn. Explore. Create. Use. All rights reserved.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row items-center gap-3 text-slate-500 text-[11px]">
+          <div className="flex flex-col sm:flex-row items-center gap-3 text-slate-500 dark:text-slate-400 text-[11px]">
             <span>Client-Side In-Memory Processing</span>
             <span className="hidden sm:inline">•</span>
-            <span className="flex items-center gap-1 text-indigo-400">
+            <span className="flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium">
               <ShieldCheck className="w-3.5 h-3.5" />
               Secure & Educational
             </span>

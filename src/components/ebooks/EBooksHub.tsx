@@ -267,18 +267,18 @@ export const EBooksHub: React.FC = () => {
       </div>
 
       {/* 2. Top-Level Library Ecosystem Navigation Tabs */}
-      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-slate-900 border border-slate-800 overflow-x-auto scrollbar-none shadow-md">
+      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-x-auto scrollbar-none shadow-xs">
         <button
           onClick={() => setCurrentViewTab('school')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
             currentViewTab === 'school'
               ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-md shadow-indigo-500/25'
-              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
-          <GraduationCap className="w-4 h-4 text-indigo-300" />
+          <GraduationCap className="w-4 h-4 text-indigo-400 dark:text-indigo-300" />
           <span>School Library</span>
-          <span className="px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
+          <span className="px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-indigo-500/20 text-indigo-600 dark:text-indigo-200 border border-indigo-400/30">
             Class 9–12
           </span>
         </button>
@@ -288,10 +288,10 @@ export const EBooksHub: React.FC = () => {
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
             currentViewTab === 'stories'
               ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md shadow-amber-500/25'
-              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
-          <Feather className="w-4 h-4 text-amber-300" />
+          <Feather className="w-4 h-4 text-amber-500 dark:text-amber-300" />
           <span>Stories & Literature</span>
         </button>
 
@@ -300,10 +300,10 @@ export const EBooksHub: React.FC = () => {
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
             currentViewTab === 'puzzles'
               ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md shadow-purple-500/25'
-              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
-          <Puzzle className="w-4 h-4 text-purple-300" />
+          <Puzzle className="w-4 h-4 text-purple-500 dark:text-purple-300" />
           <span>Puzzles & Brain Gym</span>
         </button>
 
@@ -312,7 +312,7 @@ export const EBooksHub: React.FC = () => {
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
             currentViewTab === 'catalog'
               ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
           <BookOpen className="w-4 h-4" />
@@ -326,14 +326,14 @@ export const EBooksHub: React.FC = () => {
           onClick={() => setCurrentViewTab('desk')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
             currentViewTab === 'desk'
-              ? 'bg-slate-800 text-white shadow-md border border-slate-700'
-              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+              ? 'bg-slate-900 dark:bg-slate-800 text-white shadow-md border border-slate-700'
+              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
-          <Bookmark className="w-4 h-4 text-cyan-400" />
+          <Bookmark className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
           <span>My Reading Desk</span>
           {continueReadingBooks.length > 0 && (
-            <span className="px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-cyan-500/20 text-cyan-300">
+            <span className="px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-cyan-500/20 text-cyan-600 dark:text-cyan-300">
               {continueReadingBooks.length}
             </span>
           )}
@@ -554,12 +554,12 @@ export const EBooksHub: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search books: 'भारतवर्ष', 'Shivaji', 'Maharana Pratap', 'Python', 'AI', 'DSA'..."
-              className="w-full pl-11 pr-4 py-3 text-xs sm:text-sm rounded-2xl bg-slate-900 border border-slate-800 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:border-indigo-500 shadow-inner"
+              className="w-full pl-11 pr-4 py-3 text-xs sm:text-sm rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:border-indigo-500 shadow-inner"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-3 px-2 py-1 text-[10px] text-slate-400 hover:text-slate-200"
+                className="absolute right-3 top-3 px-2 py-1 text-[10px] text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
               >
                 Clear
               </button>
@@ -570,7 +570,7 @@ export const EBooksHub: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="py-3 px-4 rounded-2xl bg-slate-900 border border-slate-800 text-slate-200 text-xs font-semibold focus:outline-none focus:border-indigo-500"
+              className="py-3 px-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:border-indigo-500 shadow-xs"
             >
               <option value="rating">Sort: Highest Rated ⭐</option>
               <option value="popular">Sort: Most Popular 🔥</option>
@@ -580,7 +580,7 @@ export const EBooksHub: React.FC = () => {
             {isFilteringActive && (
               <button
                 onClick={handleResetFilters}
-                className="p-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-colors"
+                className="p-3 rounded-2xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800 transition-colors shadow-xs"
                 title="Reset all filters"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -598,7 +598,7 @@ export const EBooksHub: React.FC = () => {
               className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
                 selectedCategory === cat
                   ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20'
-                  : 'bg-slate-900/90 text-slate-400 hover:text-slate-200 border border-slate-800 hover:border-slate-700'
+                  : 'bg-white dark:bg-slate-900/90 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-xs'
               }`}
             >
               {cat}
@@ -609,7 +609,7 @@ export const EBooksHub: React.FC = () => {
         {/* Quick Filter Tags (Format, Price, Difficulty) */}
         <div className="flex flex-wrap items-center gap-2 text-xs pt-1">
           {/* Format pills */}
-          <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800">
+          <div className="inline-flex rounded-xl bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800">
             {['All', 'E-Books', 'Audio Books', 'Handbooks', 'Guides'].map(fmt => (
               <button
                 key={fmt}
@@ -617,7 +617,7 @@ export const EBooksHub: React.FC = () => {
                 className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
                   selectedFormat === fmt
                     ? 'bg-indigo-600 text-white'
-                    : 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 {fmt}
@@ -626,13 +626,13 @@ export const EBooksHub: React.FC = () => {
           </div>
 
           {/* 100% Free Open Access Pill */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-bold text-xs">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 font-bold text-xs">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>100% Free Open Access • All Books Unlocked</span>
           </div>
 
           {/* Difficulty pills */}
-          <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800">
+          <div className="inline-flex rounded-xl bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800">
             {['All', 'Beginner', 'Intermediate', 'Advanced'].map(diff => (
               <button
                 key={diff}
@@ -640,7 +640,7 @@ export const EBooksHub: React.FC = () => {
                 className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
                   selectedDifficulty === diff
                     ? 'bg-purple-600 text-white'
-                    : 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 {diff}

@@ -102,14 +102,14 @@ export const Header: React.FC = () => {
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-base sm:text-lg tracking-tight bg-gradient-to-r from-indigo-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                  <span className="font-extrabold text-base sm:text-lg tracking-tight bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 dark:from-indigo-400 dark:via-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
                     HK VELORA
                   </span>
-                  <span className="hidden sm:inline-flex px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                  <span className="hidden sm:inline-flex px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
                     Velora
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-400 hidden md:block font-medium">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 hidden md:block font-medium">
                   {t('brand.slogan')}
                 </p>
               </div>
@@ -131,7 +131,7 @@ export const Header: React.FC = () => {
                 <Search className="w-4 h-4 shrink-0 text-indigo-500" />
                 <span className="truncate">{t('search.placeholder')}</span>
               </div>
-              <div className="flex items-center gap-1 text-[11px] font-mono px-1.5 py-0.5 rounded bg-slate-800/60 border border-slate-700/60 text-slate-400">
+              <div className="flex items-center gap-1 text-[11px] font-mono px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/60 text-slate-600 dark:text-slate-400">
                 <kbd>Ctrl</kbd>+<kbd>K</kbd>
               </div>
             </button>
@@ -146,9 +146,9 @@ export const Header: React.FC = () => {
                 onClick={() => handleNavClick(item.id)}
                 className={`flex items-center gap-1.5 px-2.5 xl:px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors shrink-0 ${
                   activeTab === item.id
-                    ? 'bg-indigo-600/15 text-indigo-400 border border-indigo-500/30'
+                    ? 'bg-indigo-50 dark:bg-indigo-600/15 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/30'
                     : theme === 'dark'
-                      ? 'text-slate-300 hover:text-white hover:bg-slate-850'
+                      ? 'text-slate-300 hover:text-white hover:bg-slate-800'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
@@ -164,9 +164,9 @@ export const Header: React.FC = () => {
                 onClick={() => setMoreDropdownOpen(prev => !prev)}
                 className={`flex items-center gap-1 px-2.5 xl:px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
                   isSecondaryActive || moreDropdownOpen
-                    ? 'bg-indigo-600/15 text-indigo-400 border border-indigo-500/30'
+                    ? 'bg-indigo-50 dark:bg-indigo-600/15 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/30'
                     : theme === 'dark'
-                      ? 'text-slate-300 hover:text-white hover:bg-slate-850'
+                      ? 'text-slate-300 hover:text-white hover:bg-slate-800'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
                 aria-expanded={moreDropdownOpen}
@@ -215,7 +215,7 @@ export const Header: React.FC = () => {
             <button
               id="mobile-search-btn"
               onClick={() => setGlobalSearchOpen(true)}
-              className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-slate-800 md:hidden transition-colors"
+              className="p-1.5 sm:p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 md:hidden transition-colors"
               aria-label="Open search"
             >
               <Search className="w-5 h-5" />
@@ -224,10 +224,10 @@ export const Header: React.FC = () => {
             {/* 100% Free Open Education Badge */}
             <div
               id="header-free-access-badge"
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-extrabold bg-gradient-to-r from-emerald-500/15 via-teal-500/15 to-indigo-500/15 text-emerald-300 border border-emerald-500/30 shadow-sm shrink-0"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-extrabold bg-gradient-to-r from-emerald-500/15 via-teal-500/15 to-indigo-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 shadow-xs shrink-0"
               title="HK VELORA is 100% Free & Open Access for all learners"
             >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <span>100% Free Library</span>
             </div>
 

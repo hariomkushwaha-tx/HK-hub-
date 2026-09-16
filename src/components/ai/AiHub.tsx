@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import Markdown from 'react-markdown';
 import { useApp } from '../../context/AppContext';
 import { AI_TOOLS_DIRECTORY, AI_CONCEPTS, PROMPT_TEMPLATES } from '../../data/aiHubData';
 import { AiToolInfo } from '../../types';
@@ -44,6 +45,11 @@ export const AiHub: React.FC = () => {
 
   // Prompt Templates Copy State
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const chatBottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatHistory, loading]);
 
   const filteredAiTools = useMemo(() => {
     return AI_TOOLS_DIRECTORY.filter(t => {
@@ -121,21 +127,21 @@ export const AiHub: React.FC = () => {
     <div id="ai-hub-container" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header Banner */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Generative AI & LLM Knowledge</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-100 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
           Artificial Intelligence Hub
         </h1>
-        <p className="text-sm text-slate-400 leading-relaxed">
+        <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
           Demystifying AI for students and developers. Understand LLMs, explore curated AI tools, learn prompt engineering, and chat with our real-time study assistant.
         </p>
       </div>
 
       {/* Hub Navigation Tabs */}
       <div className="flex items-center justify-center">
-        <div className="flex items-center p-1.5 rounded-2xl bg-slate-900 border border-slate-800 overflow-x-auto max-w-full">
+        <div className="flex items-center p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-x-auto max-w-full shadow-xs scrollbar-none">
           {[
             { id: 'assistant', label: 'AI Study Assistant', icon: <Bot className="w-4 h-4" /> },
             { id: 'directory', label: 'AI Tools Directory', icon: <Cpu className="w-4 h-4" /> },
@@ -149,7 +155,7 @@ export const AiHub: React.FC = () => {
               className={`px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 whitespace-nowrap transition-colors ${
                 activeTab === tab.id
                   ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'text-slate-400 hover:text-slate-200'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               {tab.icon}
@@ -163,8 +169,8 @@ export const AiHub: React.FC = () => {
       {activeTab === 'assistant' && (
         <div className="max-w-3xl mx-auto space-y-4">
           {/* Quick Starter Chips */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
-            <span className="text-slate-500 shrink-0 font-medium">Quick Starters:</span>
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs scrollbar-none">
+            <span className="text-slate-500 dark:text-slate-400 shrink-0 font-medium">Quick Starters:</span>
             {[
               'Explain Recursion simply with an analogy',
               'Difference between HTTP vs HTTPS',
@@ -174,7 +180,7 @@ export const AiHub: React.FC = () => {
               <button
                 key={idx}
                 onClick={() => handleSendMessage(chip)}
-                className="px-3 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-indigo-500/50 text-slate-300 whitespace-nowrap transition-colors shrink-0"
+                className="px-3 py-1.5 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/50 text-slate-700 dark:text-slate-300 whitespace-nowrap transition-colors shrink-0 shadow-xs"
               >
                 {chip}
               </button>
@@ -182,7 +188,7 @@ export const AiHub: React.FC = () => {
           </div>
 
           {/* Chat Container */}
-          <div className="rounded-2xl bg-slate-900/90 border border-slate-800 shadow-2xl flex flex-col h-[520px] overflow-hidden">
+          <div className="rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col h-[520px] overflow-hidden">
             {/* Chat Messages */}
             <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4">
               {chatHistory.map((msg, index) => (
@@ -198,37 +204,44 @@ export const AiHub: React.FC = () => {
                   <div
                     className={`max-w-[85%] rounded-2xl p-4 text-xs sm:text-sm leading-relaxed ${
                       msg.role === 'user'
-                        ? 'bg-indigo-600 text-white rounded-tr-xs'
-                        : 'bg-slate-950 border border-slate-800 text-slate-200 rounded-tl-xs whitespace-pre-line'
+                        ? 'bg-indigo-600 text-white rounded-tr-xs shadow-xs'
+                        : 'bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-xs shadow-xs'
                     }`}
                   >
-                    <p>{msg.text}</p>
-                    <span className={`block text-[10px] mt-1.5 ${msg.role === 'user' ? 'text-indigo-200' : 'text-slate-500'}`}>
+                    {msg.role === 'user' ? (
+                      <p className="whitespace-pre-line">{msg.text}</p>
+                    ) : (
+                      <div className="prose dark:prose-invert prose-xs sm:prose-sm max-w-none text-xs sm:text-sm leading-relaxed text-slate-800 dark:text-slate-200 space-y-2.5 [&_h1]:text-base [&_h2]:text-sm [&_h3]:text-xs [&_h3]:font-bold [&_h3]:text-indigo-600 dark:[&_h3]:text-indigo-400 [&_pre]:bg-slate-900 [&_pre]:text-slate-100 [&_pre]:p-3.5 [&_pre]:rounded-xl [&_pre]:border [&_pre]:border-slate-800 [&_pre]:overflow-x-auto [&_code]:text-indigo-600 dark:[&_code]:text-indigo-300 [&_code]:font-mono [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-2">
+                        <Markdown>{msg.text}</Markdown>
+                      </div>
+                    )}
+                    <span className={`block text-[10px] mt-1.5 ${msg.role === 'user' ? 'text-indigo-200' : 'text-slate-400 dark:text-slate-500'}`}>
                       {msg.time}
                     </span>
                   </div>
                   {msg.role === 'user' && (
-                    <div className="w-8 h-8 rounded-xl bg-slate-800 flex items-center justify-center text-slate-300 shrink-0 mt-1">
+                    <div className="w-8 h-8 rounded-xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-300 shrink-0 mt-1">
                       <User className="w-4 h-4" />
                     </div>
                   )}
                 </div>
               ))}
               {loading && (
-                <div className="flex gap-3 items-center text-slate-400 text-xs">
+                <div className="flex gap-3 items-center text-slate-500 dark:text-slate-400 text-xs">
                   <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center text-white shrink-0">
                     <Bot className="w-4 h-4 animate-spin" />
                   </div>
-                  <div className="px-4 py-3 rounded-2xl bg-slate-950 border border-slate-800 flex items-center gap-2">
+                  <div className="px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
                     <span>HK VELORA AI is generating explanation...</span>
                   </div>
                 </div>
               )}
+              <div ref={chatBottomRef} />
             </div>
 
             {/* Input Bar */}
-            <div className="p-3 sm:p-4 bg-slate-950 border-t border-slate-800">
+            <div className="p-3 sm:p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
               <form
                 onSubmit={e => { e.preventDefault(); handleSendMessage(); }}
                 className="flex items-center gap-2"
@@ -238,12 +251,12 @@ export const AiHub: React.FC = () => {
                   value={query}
                   onChange={e => setQuery(e.target.value)}
                   placeholder="Ask any technology question, code query, or concept explanation..."
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 placeholder:text-slate-500 text-xs sm:text-sm outline-none focus:border-indigo-500"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 text-xs sm:text-sm outline-none focus:border-indigo-500 shadow-xs transition-colors"
                 />
                 <button
                   type="submit"
                   disabled={loading || !query.trim()}
-                  className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white font-semibold text-xs flex items-center gap-1.5 transition-colors shadow-md shadow-indigo-600/20"
+                  className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white font-semibold text-xs flex items-center gap-1.5 transition-colors shadow-sm"
                 >
                   <Send className="w-4 h-4" />
                   <span className="hidden sm:inline">Ask AI</span>
@@ -259,15 +272,15 @@ export const AiHub: React.FC = () => {
         <div className="space-y-6">
           {/* Controls */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto">
+            <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none">
               {['all', 'Writing', 'Coding', 'Research', 'Image', 'Audio', 'Productivity'].map(cat => (
                 <button
                   key={cat}
                   onClick={() => setDirCategory(cat)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-semibold capitalize whitespace-nowrap transition-colors ${
                     dirCategory === cat
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                      ? 'bg-indigo-600 text-white shadow-xs'
+                      : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200 dark:border-slate-800 shadow-xs'
                   }`}
                 >
                   {cat}
@@ -279,7 +292,7 @@ export const AiHub: React.FC = () => {
               <select
                 value={dirPricing}
                 onChange={e => setDirPricing(e.target.value)}
-                className="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 outline-none"
+                className="px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-200 outline-none shadow-xs"
               >
                 <option value="all">All Pricing</option>
                 <option value="Free">100% Free</option>
@@ -294,7 +307,7 @@ export const AiHub: React.FC = () => {
                   value={dirSearch}
                   onChange={e => setDirSearch(e.target.value)}
                   placeholder="Filter AI tools..."
-                  className="w-full pl-8 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-100 outline-none focus:border-indigo-500"
+                  className="w-full pl-8 pr-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-slate-100 outline-none focus:border-indigo-500 shadow-xs transition-colors"
                 />
               </div>
             </div>
@@ -305,47 +318,47 @@ export const AiHub: React.FC = () => {
             {filteredAiTools.map((tool, idx) => (
               <div
                 key={idx}
-                className={`p-5 rounded-2xl border space-y-3 flex flex-col justify-between transition-all ${
+                className={`p-5 rounded-2xl border space-y-3 flex flex-col justify-between transition-all shadow-xs ${
                   tool.featured
-                    ? 'bg-gradient-to-b from-indigo-950/40 via-slate-900/90 to-slate-900/95 border-indigo-500/60 ring-1 ring-indigo-500/30 shadow-lg shadow-indigo-950/40'
-                    : 'bg-slate-900/80 border-slate-800 hover:border-indigo-500/40'
+                    ? 'bg-gradient-to-b from-indigo-50/60 dark:from-indigo-950/40 via-white dark:via-slate-900/90 to-white dark:to-slate-900/95 border-indigo-300 dark:border-indigo-500/60 ring-1 ring-indigo-500/20 dark:ring-indigo-500/30'
+                    : 'bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500/40'
                 }`}
               >
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-xs font-bold uppercase tracking-wider text-indigo-400 font-mono">
+                      <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
                         {tool.category}
                       </span>
                       {tool.badge && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30">
                           {tool.badge}
                         </span>
                       )}
                     </div>
                     <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${
                       tool.pricing === 'Free'
-                        ? 'bg-emerald-500/20 text-emerald-300'
+                        ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
                         : tool.pricing === 'Freemium'
-                        ? 'bg-blue-500/20 text-blue-300'
-                        : 'bg-amber-500/20 text-amber-300'
+                        ? 'bg-blue-500/15 text-blue-700 dark:text-blue-300'
+                        : 'bg-amber-500/15 text-amber-700 dark:text-amber-300'
                     }`}>
                       {tool.pricing}
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-slate-100 text-base flex items-center gap-2">
+                  <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base flex items-center gap-2">
                     <span>{tool.name}</span>
                     {tool.featured && (
-                      <span className="inline-flex w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Live & Verified" />
+                      <span className="inline-flex w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live & Verified" />
                     )}
                   </h3>
-                  <p className="text-xs text-slate-300/90 leading-relaxed">{tool.description}</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-300/90 leading-relaxed">{tool.description}</p>
 
                   {tool.keyFeatures && tool.keyFeatures.length > 0 && (
                     <div className="pt-1 flex flex-wrap gap-1">
                       {tool.keyFeatures.slice(0, 2).map((feat, fIdx) => (
-                        <span key={fIdx} className="text-[10px] px-2 py-0.5 rounded-md bg-slate-800/80 text-slate-400 border border-slate-700/50">
+                        <span key={fIdx} className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700/50">
                           ✓ {feat}
                         </span>
                       ))}
@@ -353,15 +366,15 @@ export const AiHub: React.FC = () => {
                   )}
                 </div>
 
-                <div className="pt-3 border-t border-slate-800/80 text-xs flex items-center justify-between gap-2">
-                  <span className="text-[11px] text-slate-400 line-clamp-1">
-                    Best for: <strong className="text-slate-200">{tool.bestFor}</strong>
+                <div className="pt-3 border-t border-slate-200 dark:border-slate-800/80 text-xs flex items-center justify-between gap-2">
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1">
+                    Best for: <strong className="text-slate-700 dark:text-slate-200">{tool.bestFor}</strong>
                   </span>
                   <a
                     href={tool.link || tool.website}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-indigo-500/30 text-xs font-semibold transition-all group shrink-0"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 dark:bg-indigo-600/20 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 text-xs font-semibold transition-all group shrink-0"
                     title={`Open ${tool.name}`}
                   >
                     <span>Launch</span>
@@ -378,15 +391,15 @@ export const AiHub: React.FC = () => {
       {activeTab === 'concepts' && (
         <div className="space-y-8 max-w-4xl mx-auto">
           {/* Ethical AI Warning Card */}
-          <div className="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row items-start gap-4">
-            <div className="p-3 rounded-xl bg-amber-500/20 text-amber-300 shrink-0">
+          <div className="p-6 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 flex flex-col sm:flex-row items-start gap-4 shadow-xs">
+            <div className="p-3 rounded-xl bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 shrink-0">
               <ShieldAlert className="w-6 h-6" />
             </div>
             <div className="space-y-1.5">
-              <h4 className="font-bold text-base text-amber-200">
+              <h4 className="font-bold text-base text-amber-900 dark:text-amber-200">
                 Ethical & Responsible AI Use for Students
               </h4>
-              <p className="text-xs text-amber-300/90 leading-relaxed">
+              <p className="text-xs text-amber-800 dark:text-amber-300/90 leading-relaxed">
                 Never submit raw AI-generated answers as your original coursework. AI can hallucinate (generate plausible falsehoods) and lacks real analytical thought. Use AI to brainstorm, diagnose syntax bugs, and grasp difficult theories—never to bypass your own learning journey.
               </p>
             </div>
@@ -396,15 +409,15 @@ export const AiHub: React.FC = () => {
             {AI_CONCEPTS.map((concept, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3"
+                className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3 shadow-xs"
               >
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-bold text-xs">
+                  <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-600/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs">
                     0{idx + 1}
                   </div>
-                  <h3 className="font-bold text-slate-100 text-base">{concept.title}</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base">{concept.title}</h3>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed pl-10 whitespace-pre-line">
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed pl-10 whitespace-pre-line">
                   {concept.description}
                 </p>
               </div>
@@ -416,22 +429,22 @@ export const AiHub: React.FC = () => {
       {/* 4. Prompt Engineering Guide */}
       {activeTab === 'prompting' && (
         <div className="space-y-6 max-w-4xl mx-auto">
-          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-            <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-              <Lightbulb className="w-5 h-5 text-indigo-400" />
+          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-xs">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+              <Lightbulb className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
               <span>Core Rules of Effective Prompting</span>
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-slate-300 leading-relaxed">
-              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
-                <span className="font-bold text-indigo-400 block">1. Define the Persona & Role</span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1">
+                <span className="font-bold text-indigo-600 dark:text-indigo-400 block">1. Define the Persona & Role</span>
                 <p>Tell the model who it is: "Act as a senior computer science professor explaining to a first-year student."</p>
               </div>
-              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
-                <span className="font-bold text-indigo-400 block">2. Provide Rich Context</span>
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1">
+                <span className="font-bold text-indigo-600 dark:text-indigo-400 block">2. Provide Rich Context</span>
                 <p>Share the background: the programming language, your current knowledge level, and specific constraints.</p>
               </div>
-              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
-                <span className="font-bold text-indigo-400 block">3. Specify Output Format</span>
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1">
+                <span className="font-bold text-indigo-600 dark:text-indigo-400 block">3. Specify Output Format</span>
                 <p>Demand bullet points, code blocks, or step-by-step numbered logic rather than generic paragraphs.</p>
               </div>
             </div>
@@ -439,19 +452,19 @@ export const AiHub: React.FC = () => {
 
           {/* Prompt Templates */}
           <div className="space-y-3">
-            <h4 className="font-bold text-sm text-slate-300">Ready-to-Use Student & Developer Prompt Templates</h4>
+            <h4 className="font-bold text-sm text-slate-800 dark:text-slate-300">Ready-to-Use Student & Developer Prompt Templates</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {PROMPT_TEMPLATES.map((tpl, i) => (
                 <div
                   key={i}
-                  className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 flex flex-col justify-between"
+                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3 flex flex-col justify-between shadow-xs"
                 >
                   <div className="space-y-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 font-mono">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
                       {tpl.category}
                     </span>
-                    <h5 className="font-bold text-slate-100 text-sm">{tpl.title}</h5>
-                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-800/80 font-mono text-xs text-slate-300 leading-relaxed">
+                    <h5 className="font-bold text-slate-900 dark:text-slate-100 text-sm">{tpl.title}</h5>
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80 font-mono text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                       {tpl.template}
                     </div>
                   </div>
@@ -459,9 +472,9 @@ export const AiHub: React.FC = () => {
                   <div className="flex items-center justify-between pt-2">
                     <button
                       onClick={() => copyPrompt(tpl.template, i)}
-                      className="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium flex items-center gap-1.5"
+                      className="text-xs px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium flex items-center gap-1.5 transition-colors"
                     >
-                      {copiedIndex === i ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copiedIndex === i ? <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                       <span>{copiedIndex === i ? 'Copied Prompt!' : 'Copy Template'}</span>
                     </button>
                     <button
@@ -469,7 +482,7 @@ export const AiHub: React.FC = () => {
                         setActiveTab('assistant');
                         setQuery(tpl.template);
                       }}
-                      className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold"
+                      className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 font-semibold"
                     >
                       Test in Assistant →
                     </button>

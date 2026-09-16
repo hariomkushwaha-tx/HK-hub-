@@ -84,21 +84,21 @@ export const CodingHub: React.FC = () => {
     <div id="coding-hub-container" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header Banner */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-xs font-semibold">
           <Code2 className="w-3.5 h-3.5" />
           <span>Interactive Developer Academy</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-100 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
           Coding & Engineering Hub
         </h1>
-        <p className="text-sm text-slate-400 leading-relaxed">
+        <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
           Master web development, JavaScript, and computer science fundamentals. Test and run code directly in your browser with our live interactive playground.
         </p>
       </div>
 
       {/* Navigation Tabs */}
       <div className="flex items-center justify-center">
-        <div className="flex items-center p-1.5 rounded-2xl bg-slate-900 border border-slate-800 overflow-x-auto max-w-full">
+        <div className="flex items-center p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-x-auto max-w-full shadow-xs scrollbar-none">
           {[
             { id: 'playground', label: 'Live Code Playground', icon: <Terminal className="w-4 h-4" /> },
             { id: 'lessons', label: 'Curriculum & Lessons', icon: <BookOpen className="w-4 h-4" /> },
@@ -112,7 +112,7 @@ export const CodingHub: React.FC = () => {
               className={`px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 whitespace-nowrap transition-colors ${
                 activeTab === tab.id
                   ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'text-slate-400 hover:text-slate-200'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               {tab.icon}
@@ -126,29 +126,29 @@ export const CodingHub: React.FC = () => {
       {activeTab === 'playground' && (
         <div className="space-y-4">
           {/* Preset templates selector */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-900 border border-slate-800">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-slate-300">Templates:</span>
+              <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">Templates:</span>
               <button
                 onClick={() => loadTemplate('counter')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-medium ${
-                  activeSnippetKey === 'counter' ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
+                  activeSnippetKey === 'counter' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
                 Interactive Counter
               </button>
               <button
                 onClick={() => loadTemplate('clock')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-medium ${
-                  activeSnippetKey === 'clock' ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
+                  activeSnippetKey === 'clock' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
                 Digital Clock
               </button>
               <button
                 onClick={() => loadTemplate('todo')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-medium ${
-                  activeSnippetKey === 'todo' ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
+                  activeSnippetKey === 'todo' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
                 Todo Mini App
@@ -158,16 +158,16 @@ export const CodingHub: React.FC = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={runCode}
-                className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-xs"
+                className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors"
               >
                 <Play className="w-3 h-3 fill-current" />
                 <span>Run Code</span>
               </button>
               <button
                 onClick={copyCurrentCode}
-                className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 flex items-center gap-1"
+                className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-medium border border-slate-200 dark:border-slate-700 flex items-center gap-1 transition-colors"
               >
-                {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copiedCode ? 'Copied!' : 'Copy Code'}</span>
               </button>
             </div>
@@ -176,7 +176,7 @@ export const CodingHub: React.FC = () => {
           {/* Editor & Preview Split View */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Code Editor Surface */}
-            <div className="flex flex-col rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden h-[480px]">
+            <div className="flex flex-col rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden h-[480px] shadow-sm">
               <div className="flex items-center justify-between px-4 py-2.5 bg-slate-950 border-b border-slate-800">
                 <div className="flex items-center gap-1.5">
                   {(['html', 'css', 'js'] as const).map(tab => (
@@ -228,15 +228,15 @@ export const CodingHub: React.FC = () => {
             </div>
 
             {/* Live Render Output Window */}
-            <div className="flex flex-col rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden h-[480px]">
-              <div className="flex items-center justify-between px-4 py-2.5 bg-slate-950 border-b border-slate-800">
+            <div className="flex flex-col rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden h-[480px] shadow-sm">
+              <div className="flex items-center justify-between px-4 py-2.5 bg-slate-100 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span className="text-xs font-semibold text-slate-300">Live Preview Output</span>
+                  <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">Live Preview Output</span>
                 </div>
                 <button
                   onClick={runCode}
-                  className="text-xs text-slate-400 hover:text-indigo-400 flex items-center gap-1"
+                  className="text-xs text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1 transition-colors"
                 >
                   <RotateCcw className="w-3 h-3" />
                   <span>Refresh</span>
@@ -260,61 +260,61 @@ export const CodingHub: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Lessons List */}
           <div className="space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 px-1 mb-2">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 px-1 mb-2">
               Structured Modules
             </h4>
             {CODING_LESSONS.map(lesson => (
               <div
                 key={lesson.id}
                 onClick={() => setSelectedLessonId(lesson.id)}
-                className={`p-3.5 rounded-xl cursor-pointer transition-all border ${
+                className={`p-3.5 rounded-xl cursor-pointer transition-all border shadow-xs ${
                   selectedLessonId === lesson.id
-                    ? 'bg-indigo-600/20 border-indigo-500/50 text-white'
-                    : 'bg-slate-900 border-slate-800 hover:bg-slate-800/60 text-slate-300'
+                    ? 'bg-indigo-50 dark:bg-indigo-600/20 border-indigo-400 dark:border-indigo-500/50 text-indigo-950 dark:text-white'
+                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/60 text-slate-700 dark:text-slate-300'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs mb-1">
-                  <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-indigo-300 font-semibold uppercase">
+                  <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-300 font-semibold uppercase">
                     {lesson.language}
                   </span>
-                  <span className="text-[11px] text-slate-400 font-medium">{lesson.level}</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">{lesson.level}</span>
                 </div>
-                <h5 className="font-bold text-sm">{lesson.title}</h5>
-                <p className="text-xs text-slate-400 line-clamp-1 mt-0.5">{lesson.description}</p>
+                <h5 className="font-bold text-sm text-slate-900 dark:text-slate-100">{lesson.title}</h5>
+                <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5">{lesson.description}</p>
               </div>
             ))}
           </div>
 
           {/* Lesson Content Area */}
-          <div className="md:col-span-2 p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
-            <div className="space-y-2 pb-4 border-b border-slate-800">
+          <div className="md:col-span-2 p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
+            <div className="space-y-2 pb-4 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono uppercase px-2 py-0.5 rounded bg-indigo-600/20 text-indigo-300 font-semibold">
+                <span className="text-xs font-mono uppercase px-2 py-0.5 rounded bg-indigo-500/10 dark:bg-indigo-600/20 text-indigo-600 dark:text-indigo-300 font-semibold">
                   {currentLesson.language}
                 </span>
-                <span className="text-xs text-slate-400 font-medium">• {currentLesson.level} Level</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">• {currentLesson.level} Level</span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-black text-slate-100">{currentLesson.title}</h3>
-              <p className="text-xs text-slate-400">{currentLesson.description}</p>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100">{currentLesson.title}</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{currentLesson.description}</p>
             </div>
 
-            <div className="text-sm text-slate-300 leading-relaxed whitespace-pre-line space-y-4">
+            <div className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line space-y-4">
               {currentLesson.content}
             </div>
 
             {currentLesson.codeExample && (
               <div className="space-y-2 pt-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase text-slate-400">Code Syntax Example</span>
+                  <span className="text-xs font-bold uppercase text-slate-500 dark:text-slate-400">Code Syntax Example</span>
                   <button
                     onClick={async () => {
                       await copyToClipboard(currentLesson.codeExample);
                       setCopiedLessonCode(true);
                       setTimeout(() => setCopiedLessonCode(false), 2000);
                     }}
-                    className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1"
+                    className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 flex items-center gap-1 transition-colors"
                   >
-                    {copiedLessonCode ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    {copiedLessonCode ? <Check className="w-3 h-3 text-emerald-500 dark:text-emerald-400" /> : <Copy className="w-3 h-3" />}
                     <span>{copiedLessonCode ? 'Copied' : 'Copy'}</span>
                   </button>
                 </div>
@@ -334,29 +334,29 @@ export const CodingHub: React.FC = () => {
             {STUDENT_PROJECT_IDEAS.map((proj, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 flex flex-col justify-between space-y-4 hover:border-indigo-500/40 transition-colors"
+                className="p-6 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-4 hover:border-indigo-500/40 transition-colors shadow-xs"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase font-mono ${
                       proj.level === 'Beginner'
-                        ? 'bg-emerald-500/20 text-emerald-300'
+                        ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
                         : proj.level === 'Intermediate'
-                        ? 'bg-blue-500/20 text-blue-300'
-                        : 'bg-purple-500/20 text-purple-300'
+                        ? 'bg-blue-500/15 text-blue-700 dark:text-blue-300'
+                        : 'bg-purple-500/15 text-purple-700 dark:text-purple-300'
                     }`}>
                       {proj.level}
                     </span>
-                    <span className="text-xs text-slate-500 font-mono">Blueprint #{idx + 1}</span>
+                    <span className="text-xs text-slate-400 dark:text-slate-500 font-mono">Blueprint #{idx + 1}</span>
                   </div>
 
-                  <h4 className="font-bold text-slate-100 text-base">{proj.title}</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">{proj.description}</p>
+                  <h4 className="font-bold text-slate-900 dark:text-slate-100 text-base">{proj.title}</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{proj.description}</p>
 
-                  <div className="space-y-1.5 pt-2 border-t border-slate-800">
-                    <span className="text-[11px] font-semibold text-slate-300 block">Core Features:</span>
+                  <div className="space-y-1.5 pt-2 border-t border-slate-200 dark:border-slate-800">
+                    <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block">Core Features:</span>
                     {proj.features.map((f, i) => (
-                      <div key={i} className="text-xs text-slate-400 flex items-center gap-2">
+                      <div key={i} className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 shrink-0"></span>
                         <span>{f}</span>
                       </div>
@@ -364,10 +364,10 @@ export const CodingHub: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-800/80">
+                <div className="pt-3 border-t border-slate-200 dark:border-slate-800/80">
                   <div className="flex flex-wrap gap-1">
                     {proj.techStack.map((tech, i) => (
-                      <span key={i} className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
+                      <span key={i} className="text-[10px] px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono border border-slate-200 dark:border-slate-700">
                         {tech}
                       </span>
                     ))}
@@ -382,13 +382,13 @@ export const CodingHub: React.FC = () => {
       {/* 4. Developer Roadmaps */}
       {activeTab === 'roadmap' && (
         <div className="space-y-6 max-w-4xl mx-auto">
-          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-            <h3 className="text-lg font-bold text-slate-100">Web Development Career Roadmap</h3>
-            <p className="text-xs text-slate-400">
+          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">Web Development Career Roadmap</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Step-by-step milestones to transform from absolute beginner to industry-ready engineer.
             </p>
 
-            <div className="space-y-6 pt-4">
+            <div className="space-y-4 pt-2">
               {[
                 {
                   step: 'Phase 1',
@@ -415,14 +415,14 @@ export const CodingHub: React.FC = () => {
                   tools: 'Node.js, Express, PostgreSQL / Firestore, Cloud Run'
                 }
               ].map((phase, idx) => (
-                <div key={idx} className="flex items-start gap-4 p-4 rounded-xl bg-slate-950 border border-slate-800">
-                  <div className="px-2.5 py-1 rounded-lg bg-indigo-600/20 text-indigo-300 text-xs font-bold font-mono shrink-0">
+                <div key={idx} className="flex items-start gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                  <div className="px-2.5 py-1 rounded-lg bg-indigo-500/10 dark:bg-indigo-600/20 text-indigo-600 dark:text-indigo-300 text-xs font-bold font-mono shrink-0">
                     {phase.step}
                   </div>
                   <div className="space-y-1">
-                    <h4 className="font-bold text-sm text-slate-100">{phase.title}</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">{phase.desc}</p>
-                    <span className="text-[11px] font-mono text-cyan-400 block pt-1">
+                    <h4 className="font-bold text-sm text-slate-900 dark:text-slate-100">{phase.title}</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{phase.desc}</p>
+                    <span className="text-[11px] font-mono text-cyan-600 dark:text-cyan-400 block pt-1">
                       Key Skills: {phase.tools}
                     </span>
                   </div>

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Markdown from 'react-markdown';
 import { EBookItem } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { copyToClipboard } from '../../utils/clipboard';
@@ -67,6 +68,13 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
   const [aiQuestion, setAiQuestion] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
   const [aiChatHistory, setAiChatHistory] = useState<{ role: 'user' | 'assistant'; text: string }[]>([]);
+  const aiChatEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (activeTab === 'ai-tutor') {
+      aiChatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [aiChatHistory, aiLoading, activeTab]);
 
   // Quiz State
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
@@ -149,8 +157,8 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode: 'concept',
-          topic: `${book.title} - ${currentChapter.title}: ${query}`,
-          context: `Book: ${book.title} by ${book.author}. Chapter: ${currentChapter.title}. Category: ${book.category}. Chapter Summary: ${currentChapter.summary}`
+          topic: `${book.title} — ${currentChapter.title}: ${query}`,
+          context: `Book: ${book.title} (${book.category}) by ${book.author}.\nActive Chapter: ${currentChapter.title}.\nChapter Summary: ${currentChapter.summary}`
         })
       });
       const data = await res.json();
@@ -161,7 +169,7 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
         ...prev, 
         { 
           role: 'assistant', 
-          text: `⚠️ HK VELORA AI: Unable to connect to learning engine. Please review the high-yield study notes and code examples in the Study Guide tab!` 
+          text: `⚠️ HK VELORA AI: Could not complete your request. Please check your connection and try again.` 
         }
       ]);
     } finally {
@@ -396,16 +404,16 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
       >
         {/* Top Header Bar */}
         <div className={`p-3 sm:p-4 border-b flex items-center justify-between gap-2 sm:gap-3 ${headerTheme[readingTheme]}`}>
-          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 overflow-hidden">
             <div className="p-2 sm:p-2.5 rounded-2xl bg-indigo-600 text-white shrink-0 shadow-sm">
               <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1 overflow-hidden">
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="text-[9px] sm:text-[10px] font-mono uppercase font-bold px-1.5 sm:px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400">
+                <span className="text-[9px] sm:text-[10px] font-mono uppercase font-bold px-1.5 sm:px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 shrink-0">
                   {book.category}
                 </span>
-                <span className="text-[9px] sm:text-[10px] text-slate-400 hidden xs:inline">
+                <span className="text-[9px] sm:text-[10px] text-slate-400 hidden xs:inline shrink-0">
                   {book.pages} Pages
                 </span>
               </div>
@@ -904,39 +912,57 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
 
             {/* 2. AI TUTOR TAB */}
             {activeTab === 'ai-tutor' && (
-              <div className="space-y-6">
-                <div className="p-6 rounded-2xl bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-slate-900 border border-indigo-500/30 space-y-3">
-                  <div className="flex items-center gap-2 text-indigo-400 text-xs font-bold uppercase">
-                    <Sparkles className="w-4 h-4" />
-                    <span>HK VELORA AI TUTOR — {currentChapter.title}</span>
+              <div className="space-y-4 max-w-4xl mx-auto pb-4">
+                {/* Header Banner */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-indigo-950/50 via-purple-950/40 to-slate-900 border border-indigo-500/30 space-y-2.5">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 text-indigo-400 text-xs font-bold uppercase tracking-wider truncate">
+                      <Sparkles className="w-4 h-4 shrink-0 text-indigo-400" />
+                      <span className="truncate">HK VELORA AI Tutor • {currentChapter.title}</span>
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>AI Engine Online</span>
+                    </span>
                   </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white">
-                    Ask doubts about this chapter in English or Hindi
+
+                  <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+                    Ask any doubt about this chapter in English, Hindi, or Hinglish
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    Have trouble understanding a concept, mathematical formula, or algorithm? Ask HK VELORA AI Tutor to break it down using everyday analogies or step-by-step proofs.
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Stuck on a concept, formula, algorithm, or theorem? Ask HK VELORA AI Tutor for instant step-by-step explanations, real-world analogies, and working code.
                   </p>
 
-                  {/* Quick Prompt Chips */}
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {getAiQuickPrompts().map((promptText, i) => (
-                      <button
-                        key={i}
-                        onClick={() => handleAskAi(promptText)}
-                        className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white border border-slate-700 text-xs transition-colors"
-                      >
-                        ⚡ {promptText}
-                      </button>
-                    ))}
+                  {/* Suggested Quick Prompts - Horizontal Scrollable Chips on mobile */}
+                  <div className="pt-1">
+                    <div className="text-[11px] font-semibold text-slate-400 mb-1.5 flex items-center gap-1">
+                      <span>Suggested Prompts:</span>
+                    </div>
+                    <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                      {getAiQuickPrompts().map((promptText, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => handleAskAi(promptText)}
+                          disabled={aiLoading}
+                          className="px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-indigo-600 hover:text-white text-indigo-300 border border-slate-700 hover:border-indigo-500 text-xs font-medium whitespace-nowrap transition-all shrink-0 active:scale-95 disabled:opacity-50"
+                        >
+                          ⚡ {promptText}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
                 {/* Chat History */}
-                <div className="space-y-4">
+                <div className="space-y-3 min-h-[220px]">
                   {aiChatHistory.length === 0 ? (
-                    <div className="text-center py-10 text-slate-500 text-xs space-y-2">
-                      <MessageSquare className="w-8 h-8 text-slate-600 mx-auto" />
-                      <p>Type your question below or click any quick prompt above to begin.</p>
+                    <div className="text-center py-10 px-4 rounded-2xl bg-slate-900/40 border border-slate-800 text-slate-400 text-xs space-y-2">
+                      <MessageSquare className="w-8 h-8 text-indigo-400/60 mx-auto" />
+                      <p className="font-semibold text-slate-200 text-sm">No questions asked yet for this chapter.</p>
+                      <p className="text-slate-400 max-w-md mx-auto">
+                        Tap any suggested prompt above or type your specific question in the box below!
+                      </p>
                     </div>
                   ) : (
                     aiChatHistory.map((msg, i) => (
@@ -944,36 +970,63 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
                         key={i}
                         className={`p-4 rounded-2xl border ${
                           msg.role === 'user'
-                            ? 'bg-indigo-600/20 border-indigo-500/40 ml-8 text-slate-100'
-                            : 'bg-slate-900/90 border-slate-800 mr-8 text-slate-200'
+                            ? 'bg-indigo-600/20 border-indigo-500/40 ml-4 sm:ml-8 text-slate-100'
+                            : 'bg-slate-900/90 border-slate-800 mr-4 sm:mr-8 text-slate-200'
                         }`}
                       >
-                        <div className="flex items-center justify-between mb-1.5">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">
-                            {msg.role === 'user' ? 'You' : 'HK VELORA AI Tutor'}
+                        <div className="flex items-center justify-between mb-2">
+                          <span className={`text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 ${
+                            msg.role === 'user' ? 'text-indigo-300' : 'text-emerald-400'
+                          }`}>
+                            {msg.role === 'user' ? (
+                              <span>You</span>
+                            ) : (
+                              <>
+                                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                                <span>HK VELORA AI Tutor</span>
+                              </>
+                            )}
                           </span>
                           {msg.role === 'assistant' && (
                             <button
                               onClick={() => handleCopyText(msg.text, `ai_msg_${i}`)}
-                              className="text-xs text-slate-400 hover:text-slate-200"
+                              className="text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1"
                             >
-                              {copiedNote === `ai_msg_${i}` ? 'Copied!' : 'Copy'}
+                              {copiedNote === `ai_msg_${i}` ? (
+                                <>
+                                  <Check className="w-3 h-3 text-emerald-400" />
+                                  <span className="text-emerald-400">Copied</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="w-3 h-3" />
+                                  <span>Copy</span>
+                                </>
+                              )}
                             </button>
                           )}
                         </div>
-                        <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-line">
-                          {msg.text}
-                        </p>
+                        {msg.role === 'user' ? (
+                          <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-line font-medium text-slate-100">
+                            {msg.text}
+                          </p>
+                        ) : (
+                          <div className="prose prose-invert prose-xs sm:prose-sm max-w-none text-xs sm:text-sm leading-relaxed text-slate-200 space-y-2.5 [&_h1]:text-base [&_h2]:text-sm [&_h3]:text-xs [&_h3]:font-bold [&_h3]:text-indigo-300 [&_pre]:bg-slate-950 [&_pre]:p-3.5 [&_pre]:rounded-xl [&_pre]:border [&_pre]:border-slate-800 [&_pre]:overflow-x-auto [&_code]:text-indigo-300 [&_code]:font-mono [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-2">
+                            <Markdown>{msg.text}</Markdown>
+                          </div>
+                        )}
                       </div>
                     ))
                   )}
 
                   {aiLoading && (
-                    <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 mr-8 flex items-center gap-3 text-xs text-indigo-300">
+                    <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 mr-4 sm:mr-8 flex items-center gap-3 text-xs text-indigo-300 shadow-sm animate-pulse">
                       <div className="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin shrink-0" />
-                      <span>HK VELORA AI is formulating your answer...</span>
+                      <span>HK VELORA AI is analyzing chapter concepts and preparing your answer...</span>
                     </div>
                   )}
+
+                  <div ref={aiChatEndRef} />
                 </div>
 
                 {/* Input Bar */}
@@ -989,12 +1042,12 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
                     value={aiQuestion}
                     onChange={(e) => setAiQuestion(e.target.value)}
                     placeholder={`Ask a question about ${currentChapter.title}...`}
-                    className="flex-1 px-4 py-3 rounded-2xl bg-slate-900 border border-slate-800 text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 outline-none focus:border-indigo-500"
+                    className="flex-1 px-4 py-3 rounded-2xl bg-slate-900 border border-slate-800 text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 outline-none focus:border-indigo-500 shadow-xs"
                   />
                   <button
                     type="submit"
                     disabled={!aiQuestion.trim() || aiLoading}
-                    className="px-5 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white text-xs sm:text-sm font-semibold flex items-center gap-2 transition-colors shadow-sm"
+                    className="px-5 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all shadow-sm shrink-0 active:scale-95"
                   >
                     <Send className="w-4 h-4" />
                     <span>Ask</span>

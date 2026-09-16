@@ -104,21 +104,21 @@ export const StudentZone: React.FC = () => {
     <div id="student-zone-container" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header Banner */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-400 text-xs font-semibold">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-600 dark:text-pink-400 text-xs font-semibold">
           <GraduationCap className="w-3.5 h-3.5" />
           <span>Student Digital Empowerment</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-100 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
           Student Tech & Academic Zone
         </h1>
-        <p className="text-sm text-slate-400 leading-relaxed">
+        <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
           Curated guides, GPA & percentage converters, student software discounts, and semester project roadmaps tailored for college and university learners.
         </p>
       </div>
 
       {/* Navigation Tabs */}
       <div className="flex items-center justify-center">
-        <div className="flex items-center p-1.5 rounded-2xl bg-slate-900 border border-slate-800 overflow-x-auto max-w-full">
+        <div className="flex items-center p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-x-auto max-w-full shadow-xs scrollbar-none">
           {[
             { id: 'study-hub', label: 'Student Tech Guides', icon: <BookOpen className="w-4 h-4" /> },
             { id: 'ebooks-shelf', label: 'E-Books & Textbooks', icon: <BookMarked className="w-4 h-4" /> },
@@ -133,7 +133,7 @@ export const StudentZone: React.FC = () => {
               className={`px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 whitespace-nowrap transition-colors ${
                 activeTab === tab.id
                   ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'text-slate-400 hover:text-slate-200'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               {tab.icon}
@@ -147,53 +147,53 @@ export const StudentZone: React.FC = () => {
       {activeTab === 'study-hub' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-              <div className="p-3 rounded-xl bg-indigo-600/20 text-indigo-400 w-fit">
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+              <div className="p-3 rounded-xl bg-indigo-500/10 dark:bg-indigo-600/20 text-indigo-600 dark:text-indigo-400 w-fit">
                 <Laptop className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-slate-100">Engineering & BCA Laptop Buying Checklist</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">Engineering & BCA Laptop Buying Checklist</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                 What hardware specifications actually matter for 4 years of college without overspending:
               </p>
-              <ul className="space-y-2 text-xs text-slate-300">
+              <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span><strong>RAM:</strong> 16GB is the minimum sweet spot for running IDEs, Android emulators, and Docker containers simultaneously. Avoid 8GB non-upgradable laptops.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span><strong>Processor:</strong> At least 6-8 cores (Intel Core i5 13th gen+, AMD Ryzen 5 7000+, or Apple M2/M3).</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span><strong>Storage:</strong> 512GB NVMe SSD. Mechanical HDDs are obsolete.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span><strong>Battery & Weight:</strong> Aim for 6+ hours actual battery life and under 1.8kg for commuting between lecture halls.</span>
                 </li>
               </ul>
             </div>
 
-            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-              <div className="p-3 rounded-xl bg-cyan-600/20 text-cyan-400 w-fit">
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+              <div className="p-3 rounded-xl bg-cyan-500/10 dark:bg-cyan-600/20 text-cyan-600 dark:text-cyan-400 w-fit">
                 <GraduationCap className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-slate-100">Must-Have Free Productivity Apps</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">Must-Have Free Productivity Apps</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                 Software tools used by top university students to keep notes organized and retain concepts:
               </p>
-              <ul className="space-y-2 text-xs text-slate-300">
+              <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-cyan-500 dark:text-cyan-400 shrink-0 mt-0.5" />
                   <span><strong>Obsidian / Notion:</strong> Markdown-based note-taking and knowledge graph linking for interconnected syllabus concepts.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-cyan-500 dark:text-cyan-400 shrink-0 mt-0.5" />
                   <span><strong>Anki:</strong> Spaced repetition flashcards with active recall algorithms for memorizing formulas, definitions, and syntax.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-cyan-500 dark:text-cyan-400 shrink-0 mt-0.5" />
                   <span><strong>Zotero:</strong> Automatic reference and academic citation manager for research papers and thesis reports.</span>
                 </li>
               </ul>
@@ -211,7 +211,7 @@ export const StudentZone: React.FC = () => {
                 Official Open-Access Engineering Library
               </span>
               <h3 className="text-xl font-bold text-white">Recommended Textbooks & Handbooks</h3>
-              <p className="text-xs text-slate-400 max-w-xl">
+              <p className="text-xs text-slate-300 max-w-xl">
                 Free standard computer science and software engineering books for coursework, university semester exams, and placement preparation.
               </p>
             </div>
@@ -228,32 +228,32 @@ export const StudentZone: React.FC = () => {
             {EBOOKS_DATA.slice(0, 6).map(book => (
               <div
                 key={book.id}
-                className="group rounded-2xl bg-slate-900 border border-slate-800 hover:border-indigo-500/50 p-5 flex flex-col justify-between space-y-4 hover:shadow-lg transition-all"
+                className="group rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/50 p-5 flex flex-col justify-between space-y-4 shadow-xs hover:shadow-lg transition-all"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400">
+                    <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
                       {book.category}
                     </span>
-                    <span className="flex items-center gap-1 text-amber-300 font-bold text-xs">
+                    <span className="flex items-center gap-1 text-amber-500 dark:text-amber-300 font-bold text-xs">
                       <Star className="w-3.5 h-3.5 fill-current" />
                       {book.rating}
                     </span>
                   </div>
 
-                  <h4 className="font-bold text-slate-100 text-base group-hover:text-indigo-400 transition-colors line-clamp-2">
+                  <h4 className="font-bold text-slate-900 dark:text-slate-100 text-base group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
                     {book.title}
                   </h4>
-                  <p className="text-xs text-slate-400 line-clamp-2">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
                     {book.description}
                   </p>
 
-                  <div className="text-[11px] text-slate-500">
+                  <div className="text-[11px] text-slate-400 dark:text-slate-500">
                     By {book.author} • {book.pages} pages
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
+                <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2">
                   <button
                     onClick={() => setActiveReadingBook(book)}
                     className="flex-1 py-1.5 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold flex items-center justify-center gap-1 transition-colors"
@@ -266,7 +266,7 @@ export const StudentZone: React.FC = () => {
                     href={book.downloadUrl || book.readOnlineUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs"
+                    className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-xs"
                     title="Download / Open Source"
                   >
                     <Download className="w-3.5 h-3.5" />
@@ -282,22 +282,22 @@ export const StudentZone: React.FC = () => {
       {activeTab === 'gpa-calc' && (
         <div className="space-y-6 max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-5 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 text-center">
-              <span className="text-xs font-semibold text-indigo-300 uppercase">Calculated Semester GPA</span>
-              <h3 className="text-4xl font-black text-white mt-1">{gpaResult.gpa}</h3>
-              <p className="text-xs text-slate-400 mt-1">Based on {gpaResult.totalCredits} total credits</p>
+            <div className="p-5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30 text-center shadow-xs">
+              <span className="text-xs font-semibold text-indigo-700 dark:text-indigo-300 uppercase">Calculated Semester GPA</span>
+              <h3 className="text-4xl font-black text-slate-900 dark:text-white mt-1">{gpaResult.gpa}</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Based on {gpaResult.totalCredits} total credits</p>
             </div>
-            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 text-center">
-              <span className="text-xs font-semibold text-slate-400 uppercase">Equivalent Percentage</span>
-              <h3 className="text-4xl font-black text-emerald-400 mt-1">{gpaResult.percentage}%</h3>
-              <p className="text-xs text-slate-400 mt-1">Multiplier: {cgpaMultiplier}x</p>
+            <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center shadow-xs">
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Equivalent Percentage</span>
+              <h3 className="text-4xl font-black text-emerald-600 dark:text-emerald-400 mt-1">{gpaResult.percentage}%</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Multiplier: {cgpaMultiplier}x</p>
             </div>
-            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
-              <span className="text-xs font-semibold text-slate-400 uppercase block">Percentage Formula Multiplier</span>
+            <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2 shadow-xs">
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase block">Percentage Formula Multiplier</span>
               <select
                 value={cgpaMultiplier}
                 onChange={e => setCgpaMultiplier(parseFloat(e.target.value))}
-                className="w-full p-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 outline-none"
+                className="w-full p-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 outline-none"
               >
                 <option value={9.5}>CBSE / Standard (9.5x)</option>
                 <option value={10}>Direct 10-Point Scale (10x)</option>
@@ -307,9 +307,9 @@ export const StudentZone: React.FC = () => {
           </div>
 
           {/* Courses Table */}
-          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
-              <h4 className="font-bold text-slate-100 text-sm">Course Grades & Credit Hours</h4>
+              <h4 className="font-bold text-slate-900 dark:text-slate-100 text-sm">Course Grades & Credit Hours</h4>
               <button
                 onClick={addCourse}
                 className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold flex items-center gap-1"
@@ -323,7 +323,7 @@ export const StudentZone: React.FC = () => {
               {courses.map(course => (
                 <div
                   key={course.id}
-                  className="grid grid-cols-12 gap-3 items-center p-2.5 rounded-xl bg-slate-950 border border-slate-800"
+                  className="grid grid-cols-12 gap-3 items-center p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800"
                 >
                   <div className="col-span-6">
                     <input
@@ -333,7 +333,7 @@ export const StudentZone: React.FC = () => {
                         const val = e.target.value;
                         setCourses(prev => prev.map(c => c.id === course.id ? { ...c, name: val } : c));
                       }}
-                      className="w-full bg-transparent text-xs text-slate-200 font-medium outline-none"
+                      className="w-full bg-transparent text-xs text-slate-800 dark:text-slate-200 font-medium outline-none"
                     />
                   </div>
                   <div className="col-span-3">
@@ -343,7 +343,7 @@ export const StudentZone: React.FC = () => {
                         const val = parseFloat(e.target.value);
                         setCourses(prev => prev.map(c => c.id === course.id ? { ...c, gradePoint: val } : c));
                       }}
-                      className="w-full p-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-slate-200 outline-none"
+                      className="w-full p-1.5 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 outline-none"
                     >
                       <option value={10}>O / A+ (10 pts)</option>
                       <option value={9}>A (9 pts)</option>
@@ -364,13 +364,13 @@ export const StudentZone: React.FC = () => {
                         const val = parseInt(e.target.value) || 1;
                         setCourses(prev => prev.map(c => c.id === course.id ? { ...c, credits: val } : c));
                       }}
-                      className="w-full p-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-slate-200 text-center outline-none"
+                      className="w-full p-1.5 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 text-center outline-none"
                     />
                   </div>
                   <div className="col-span-1 flex justify-end">
                     <button
                       onClick={() => removeCourse(course.id)}
-                      className="p-1 text-slate-500 hover:text-rose-400"
+                      className="p-1 text-slate-400 hover:text-rose-500"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -426,24 +426,24 @@ export const StudentZone: React.FC = () => {
             ].map((pack, idx) => (
               <div
                 key={idx}
-                className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 flex flex-col justify-between"
+                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between"
               >
                 <div className="space-y-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 font-mono">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-mono">
                     100% Free Benefit
                   </span>
-                  <h4 className="font-bold text-slate-100 text-sm">{pack.name}</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">{pack.benefit}</p>
-                  <p className="text-[11px] text-slate-500 pt-1">
+                  <h4 className="font-bold text-slate-900 dark:text-slate-100 text-sm">{pack.name}</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{pack.benefit}</p>
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500 pt-1">
                     <strong>Eligibility:</strong> {pack.req}
                   </p>
                 </div>
-                <div className="pt-2 border-t border-slate-800">
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
                   <a
                     href={pack.link}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1"
+                    className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 flex items-center gap-1"
                   >
                     <span>Claim Student Offer</span>
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -458,19 +458,19 @@ export const StudentZone: React.FC = () => {
       {/* 4. College Project Idea Generator */}
       {activeTab === 'project-generator' && (
         <div className="space-y-6 max-w-4xl mx-auto">
-          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-            <h3 className="text-lg font-bold text-slate-100">Semester Project Specification Generator</h3>
-            <p className="text-xs text-slate-400">
+          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">Semester Project Specification Generator</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Need a standout mini or final-year capstone project? Select your domain and generate an engineering blueprint with deliverables:
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-semibold text-slate-400 mb-1 block">Domain</label>
+                <label className="text-xs font-semibold text-slate-700 dark:text-slate-400 mb-1 block">Domain</label>
                 <select
                   value={selectedDomain}
                   onChange={e => setSelectedDomain(e.target.value)}
-                  className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 outline-none"
+                  className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 outline-none"
                 >
                   <option value="Web Development">Fullstack Web Development</option>
                   <option value="AI / Machine Learning">AI & Machine Learning</option>
@@ -478,11 +478,11 @@ export const StudentZone: React.FC = () => {
                 </select>
               </div>
               <div>
-                <label className="text-xs font-semibold text-slate-400 mb-1 block">Difficulty</label>
+                <label className="text-xs font-semibold text-slate-700 dark:text-slate-400 mb-1 block">Difficulty</label>
                 <select
                   value={selectedDifficulty}
                   onChange={e => setSelectedDifficulty(e.target.value)}
-                  className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 outline-none"
+                  className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 outline-none"
                 >
                   <option value="Beginner">Beginner (1st/2nd Year)</option>
                   <option value="Intermediate">Intermediate (3rd Year)</option>
@@ -493,7 +493,7 @@ export const StudentZone: React.FC = () => {
 
             <button
               onClick={generateProjectBrief}
-              className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs flex items-center gap-2 transition-colors"
+              className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs flex items-center gap-2 transition-colors shadow-xs"
             >
               <Sparkles className="w-4 h-4" />
               <span>Generate Project Blueprint</span>
@@ -501,24 +501,24 @@ export const StudentZone: React.FC = () => {
           </div>
 
           {generatedBrief && (
-            <div className="p-6 rounded-2xl bg-slate-900/90 border border-indigo-500/40 space-y-4">
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-900/90 border border-indigo-200 dark:border-indigo-500/40 shadow-xs space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono font-bold uppercase text-indigo-400">
+                <span className="text-xs font-mono font-bold uppercase text-indigo-600 dark:text-indigo-400">
                   {selectedDomain} • {selectedDifficulty}
                 </span>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold">
+                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-500/30">
                   Approved College Scope
                 </span>
               </div>
 
-              <h4 className="text-xl font-bold text-white">{generatedBrief.title}</h4>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{generatedBrief.desc}</p>
+              <h4 className="text-xl font-bold text-slate-900 dark:text-white">{generatedBrief.title}</h4>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{generatedBrief.desc}</p>
 
-              <div className="space-y-1.5 pt-2 border-t border-slate-800">
-                <span className="text-xs font-bold text-slate-200">Key Functional Requirements:</span>
+              <div className="space-y-1.5 pt-2 border-t border-slate-200 dark:border-slate-800">
+                <span className="text-xs font-bold text-slate-900 dark:text-slate-200">Key Functional Requirements:</span>
                 {generatedBrief.features.map((f: string, i: number) => (
-                  <div key={i} className="text-xs text-slate-400 flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <div key={i} className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                     <span>{f}</span>
                   </div>
                 ))}
@@ -526,7 +526,7 @@ export const StudentZone: React.FC = () => {
 
               <div className="flex flex-wrap gap-1.5 pt-2">
                 {generatedBrief.tech.map((t: string, i: number) => (
-                  <span key={i} className="text-[11px] px-2.5 py-0.5 rounded-md bg-slate-800 text-indigo-300 font-mono">
+                  <span key={i} className="text-[11px] px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-300 font-mono border border-slate-200 dark:border-slate-700">
                     {t}
                   </span>
                 ))}

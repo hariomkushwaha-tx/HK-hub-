@@ -25,8 +25,7 @@ export const BookSubmissionModal: React.FC<BookSubmissionModalProps> = ({
   const [category, setCategory] = useState<string>(EBOOK_CATEGORIES[1] || 'Coding & Programming');
   const [description, setDescription] = useState('');
   const [whatYoullLearnInput, setWhatYoullLearnInput] = useState('');
-  const [priceType, setPriceType] = useState<'free' | 'paid'>('free');
-  const [price, setPrice] = useState('0');
+  const [licenseType, setLicenseType] = useState<'cc-by' | 'mit' | 'open-edu'>('open-edu');
   const [copyrightDeclared, setCopyrightDeclared] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -48,8 +47,9 @@ export const BookSubmissionModal: React.FC<BookSubmissionModalProps> = ({
       author: authorName,
       category,
       description,
-      price: priceType === 'free' ? 0 : parseInt(price) || 99,
-      isFree: priceType === 'free',
+      price: 0,
+      isFree: true,
+      licenseType,
       status: 'Under Review'
     };
 
@@ -132,47 +132,52 @@ export const BookSubmissionModal: React.FC<BookSubmissionModalProps> = ({
                 </div>
 
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-300">Pricing Model</label>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => { setPriceType('free'); setPrice('0'); }}
-                      className={`flex-1 py-2 rounded-xl border text-center font-semibold transition-all ${
-                        priceType === 'free'
-                          ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                          : 'bg-slate-950 border-slate-800 text-slate-400'
-                      }`}
-                    >
-                      ₹0 Free Open Access
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => { setPriceType('paid'); setPrice('99'); }}
-                      className={`flex-1 py-2 rounded-xl border text-center font-semibold transition-all ${
-                        priceType === 'paid'
-                          ? 'bg-indigo-500/20 border-indigo-500 text-indigo-300'
-                          : 'bg-slate-950 border-slate-800 text-slate-400'
-                      }`}
-                    >
-                      Paid Royalty
-                    </button>
+                  <label className="font-bold text-slate-300">Open Access Model</label>
+                  <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-2 text-emerald-300 text-xs font-semibold">
+                    <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>100% Free Open Educational Resource</span>
                   </div>
                 </div>
               </div>
 
-              {priceType === 'paid' && (
-                <div className="space-y-1">
-                  <label className="font-bold text-slate-300">Set Price in INR (₹)</label>
-                  <input
-                    type="number"
-                    min="1"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 focus:outline-none focus:border-indigo-500 font-mono"
-                  />
-                  <p className="text-[10px] text-slate-400">Authors receive 85% of royalty after platform and processing fees.</p>
+              <div className="space-y-1">
+                <label className="font-bold text-slate-300">License Attribution</label>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setLicenseType('open-edu')}
+                    className={`p-2 rounded-xl border text-center font-medium transition-all ${
+                      licenseType === 'open-edu'
+                        ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300'
+                        : 'bg-slate-950 border-slate-800 text-slate-400'
+                    }`}
+                  >
+                    Open Education
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLicenseType('cc-by')}
+                    className={`p-2 rounded-xl border text-center font-medium transition-all ${
+                      licenseType === 'cc-by'
+                        ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300'
+                        : 'bg-slate-950 border-slate-800 text-slate-400'
+                    }`}
+                  >
+                    Creative Commons
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLicenseType('mit')}
+                    className={`p-2 rounded-xl border text-center font-medium transition-all ${
+                      licenseType === 'mit'
+                        ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300'
+                        : 'bg-slate-950 border-slate-800 text-slate-400'
+                    }`}
+                  >
+                    MIT / Public
+                  </button>
                 </div>
-              )}
+              </div>
 
               <div className="space-y-1">
                 <label className="font-bold text-slate-300">Book Overview & Abstract *</label>

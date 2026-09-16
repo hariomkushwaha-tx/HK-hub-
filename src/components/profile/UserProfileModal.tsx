@@ -68,14 +68,14 @@ export const UserProfileModal: React.FC = () => {
         onClick={e => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center text-white font-extrabold text-sm">
               {displayName.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h3 className="font-bold text-base">{displayName}</h3>
-              <p className="text-xs text-slate-400">@{userProfile?.username || 'tech_explorer'} • Student & Tech Explorer</p>
+              <h3 className="font-bold text-base text-slate-900 dark:text-slate-100">{displayName}</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">@{userProfile?.username || 'tech_explorer'} • Student & Tech Explorer</p>
             </div>
           </div>
 
@@ -83,21 +83,21 @@ export const UserProfileModal: React.FC = () => {
             {!isEditing ? (
               <button
                 onClick={() => setIsEditing(true)}
-                className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold"
+                className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold transition-colors"
               >
                 Edit Profile
               </button>
             ) : (
               <button
                 onClick={() => setIsEditing(false)}
-                className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 text-xs"
+                className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 text-xs transition-colors"
               >
                 Cancel
               </button>
             )}
             <button
               onClick={() => setUserModalOpen(false)}
-              className="p-1 text-slate-400 hover:text-white"
+              className="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -108,58 +108,58 @@ export const UserProfileModal: React.FC = () => {
         <div className="p-6 overflow-y-auto space-y-6 text-xs sm:text-sm">
           {/* Edit Form or Profile Bio */}
           {isEditing ? (
-            <form onSubmit={handleSaveProfile} className="space-y-3 p-4 rounded-xl bg-slate-950 border border-slate-800">
+            <form onSubmit={handleSaveProfile} className="space-y-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
               <div>
-                <label className="text-xs font-semibold text-slate-400 mb-1 block">Full Name</label>
+                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1 block">Full Name</label>
                 <input
                   type="text"
                   value={name}
                   onChange={e => setName(e.target.value)}
-                  className="w-full p-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 outline-none"
+                  className="w-full p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 outline-none"
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-slate-400 mb-1 block">Handle / Username</label>
+                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1 block">Handle / Username</label>
                 <input
                   type="text"
                   value={username}
                   onChange={e => setUsername(e.target.value)}
-                  className="w-full p-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 outline-none"
+                  className="w-full p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 outline-none"
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-slate-400 mb-1 block">Bio</label>
+                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1 block">Bio</label>
                 <input
                   type="text"
                   value={bio}
                   onChange={e => setBio(e.target.value)}
-                  className="w-full p-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 outline-none"
+                  className="w-full p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 outline-none"
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-slate-400 mb-1 block">Skills (Comma separated)</label>
+                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1 block">Skills (Comma separated)</label>
                 <input
                   type="text"
                   value={skillsInput}
                   onChange={e => setSkillsInput(e.target.value)}
-                  className="w-full p-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 outline-none"
+                  className="w-full p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 outline-none"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs"
+                className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs transition-colors"
               >
                 Save Profile Updates
               </button>
             </form>
           ) : (
             <div className="space-y-3">
-              <p className="text-slate-300 text-sm leading-relaxed">{userProfile.bio}</p>
+              <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">{userProfile.bio}</p>
               <div className="flex flex-wrap gap-1.5">
                 {userProfile.skills.map((skill, idx) => (
                   <span
                     key={idx}
-                    className="text-[11px] px-2.5 py-0.5 rounded-md bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 font-mono font-medium"
+                    className="text-[11px] px-2.5 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-600/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 font-mono font-medium"
                   >
                     {skill}
                   </span>
@@ -170,8 +170,8 @@ export const UserProfileModal: React.FC = () => {
 
           {/* Badges / Achievements */}
           <div className="space-y-3">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Award className="w-4 h-4 text-amber-400" />
+            <h4 className="font-bold text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <Award className="w-4 h-4 text-amber-500 dark:text-amber-400" />
               <span>Learner Achievements</span>
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -181,9 +181,9 @@ export const UserProfileModal: React.FC = () => {
                 { title: 'Privacy First', desc: 'Client-side processing', icon: '🔒' },
                 { title: 'Scholar', desc: 'Saved student guides', icon: '🎓' },
               ].map((b, i) => (
-                <div key={i} className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-center space-y-1">
+                <div key={i} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-center space-y-1">
                   <span className="text-xl block">{b.icon}</span>
-                  <span className="font-bold text-xs text-slate-200 block">{b.title}</span>
+                  <span className="font-bold text-xs text-slate-800 dark:text-slate-200 block">{b.title}</span>
                   <span className="text-[10px] text-slate-500 block">{b.desc}</span>
                 </div>
               ))}
@@ -193,8 +193,8 @@ export const UserProfileModal: React.FC = () => {
           {/* Bookmarked Tools */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Star className="w-4 h-4 text-amber-500 dark:text-amber-400 fill-amber-400" />
                 <span>Saved Tools ({savedTools.length})</span>
               </h4>
             </div>
@@ -208,13 +208,13 @@ export const UserProfileModal: React.FC = () => {
                       openTool(tool.id);
                       setUserModalOpen(false);
                     }}
-                    className="p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500/40 cursor-pointer flex items-center justify-between"
+                    className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500/40 cursor-pointer flex items-center justify-between transition-colors"
                   >
                     <div className="min-w-0 pr-2">
-                      <p className="font-semibold text-xs text-slate-200 truncate">{tool.name}</p>
-                      <p className="text-[11px] text-slate-400 truncate">{tool.category}</p>
+                      <p className="font-semibold text-xs text-slate-800 dark:text-slate-200 truncate">{tool.name}</p>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{tool.category}</p>
                     </div>
-                    <span className="text-xs text-indigo-400 font-semibold shrink-0">Open →</span>
+                    <span className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold shrink-0">Open →</span>
                   </div>
                 ))}
               </div>
@@ -225,8 +225,8 @@ export const UserProfileModal: React.FC = () => {
 
           {/* Bookmarked Guides */}
           <div className="space-y-3">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <BookOpen className="w-4 h-4 text-blue-400" />
+            <h4 className="font-bold text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <BookOpen className="w-4 h-4 text-blue-500 dark:text-blue-400" />
               <span>Saved Guides ({savedGuides.length})</span>
             </h4>
 
@@ -239,13 +239,13 @@ export const UserProfileModal: React.FC = () => {
                       openGuide(guide.id);
                       setUserModalOpen(false);
                     }}
-                    className="p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500/40 cursor-pointer flex items-center justify-between"
+                    className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500/40 cursor-pointer flex items-center justify-between transition-colors"
                   >
                     <div className="min-w-0 pr-2">
-                      <p className="font-semibold text-xs text-slate-200 truncate">{guide.title}</p>
-                      <p className="text-[11px] text-slate-400">{guide.readTime} • {guide.category}</p>
+                      <p className="font-semibold text-xs text-slate-800 dark:text-slate-200 truncate">{guide.title}</p>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400">{guide.readTime} • {guide.category}</p>
                     </div>
-                    <span className="text-xs text-indigo-400 font-semibold shrink-0">Read →</span>
+                    <span className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold shrink-0">Read →</span>
                   </div>
                 ))}
               </div>
@@ -256,7 +256,7 @@ export const UserProfileModal: React.FC = () => {
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-3 bg-slate-950 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="px-6 py-3 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-3">
             <button
               type="button"
@@ -264,18 +264,18 @@ export const UserProfileModal: React.FC = () => {
                 setUserModalOpen(false);
                 setActiveComplianceModal('privacy');
               }}
-              className="flex items-center gap-1 text-slate-400 hover:text-indigo-400 transition-colors underline-offset-2 hover:underline"
+              className="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors underline-offset-2 hover:underline"
             >
               Privacy Policy
             </button>
-            <span className="text-slate-700">•</span>
+            <span className="text-slate-300 dark:text-slate-700">•</span>
             <button
               type="button"
               onClick={() => {
                 setUserModalOpen(false);
                 setActiveComplianceModal('security');
               }}
-              className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition-colors font-medium"
+              className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors font-medium"
             >
               <ShieldCheck className="w-3.5 h-3.5" />
               Security Guarantee (सुरक्षा गारंटी)
@@ -283,7 +283,7 @@ export const UserProfileModal: React.FC = () => {
           </div>
           <button
             onClick={() => setUserModalOpen(false)}
-            className="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium"
+            className="px-4 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium transition-colors"
           >
             Close
           </button>

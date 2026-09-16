@@ -342,23 +342,18 @@ export const AdminBooksModal: React.FC<AdminBooksModalProps> = ({
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="font-bold text-slate-300">Price (₹) — Set 0 for 100% Free</label>
-                      <input
-                        type="number"
-                        value={editingBook.price}
-                        onChange={(e) => {
-                          const val = Number(e.target.value);
-                          setEditingBook({ ...editingBook, price: val, isFree: val === 0 });
-                        }}
-                        className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 focus:border-indigo-500 outline-none font-mono"
-                      />
+                      <label className="font-bold text-slate-300">Access Model</label>
+                      <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-bold flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-emerald-400" />
+                        <span>100% Free Open Educational Access</span>
+                      </div>
                     </div>
                     <div className="space-y-1">
-                      <label className="font-bold text-slate-300">Discount Percentage (%)</label>
+                      <label className="font-bold text-slate-300">Pages Count</label>
                       <input
                         type="number"
-                        value={editingBook.discountPercentage || 0}
-                        onChange={(e) => setEditingBook({ ...editingBook, discountPercentage: Number(e.target.value) })}
+                        value={editingBook.pages || 100}
+                        onChange={(e) => setEditingBook({ ...editingBook, pages: Number(e.target.value) })}
                         className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 focus:border-indigo-500 outline-none font-mono"
                       />
                     </div>
@@ -478,11 +473,7 @@ export const AdminBooksModal: React.FC<AdminBooksModalProps> = ({
                               </span>
                             </td>
                             <td className="p-3 font-mono font-bold">
-                              {book.isFree ? (
-                                <span className="text-emerald-400">FREE (₹0)</span>
-                              ) : (
-                                <span className="text-indigo-400">₹{book.price}</span>
-                              )}
+                              <span className="text-emerald-400 text-xs">100% FREE</span>
                             </td>
                             <td className="p-3">
                               <div className="flex items-center gap-1.5 flex-wrap">
@@ -552,7 +543,7 @@ export const AdminBooksModal: React.FC<AdminBooksModalProps> = ({
                 <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Books</span>
                   <p className="text-2xl font-black text-slate-100">{analyticsData.totalBooks}</p>
-                  <p className="text-[10px] text-emerald-400 font-semibold">{analyticsData.freeBooks} Free • {analyticsData.paidBooks} Paid</p>
+                  <p className="text-[10px] text-emerald-400 font-semibold">100% Free Open Access</p>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
@@ -562,15 +553,15 @@ export const AdminBooksModal: React.FC<AdminBooksModalProps> = ({
                 </div>
 
                 <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Previews & Hits</span>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Active Learners</span>
                   <p className="text-2xl font-black text-purple-400">{analyticsData.totalPreviews.toLocaleString()}</p>
-                  <p className="text-[10px] text-slate-400">Chapters & TOC clicks</p>
+                  <p className="text-[10px] text-slate-400">Monthly student sessions</p>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Est. Sales / Unlocks</span>
-                  <p className="text-2xl font-black text-emerald-400">₹{analyticsData.estimatedRevenue.toLocaleString()}</p>
-                  <p className="text-[10px] text-slate-400">{analyticsData.totalPurchases} paid unlocks</p>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Education Value</span>
+                  <p className="text-2xl font-black text-emerald-400">Free Forever</p>
+                  <p className="text-[10px] text-slate-400">Universal Student Access</p>
                 </div>
               </div>
 
@@ -646,7 +637,10 @@ export const AdminBooksModal: React.FC<AdminBooksModalProps> = ({
                     </p>
 
                     <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
-                      <span className="text-slate-400 font-mono">Proposed Price: ₹{sub.proposedPrice}</span>
+                      <span className="text-emerald-400 font-semibold text-xs flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        100% Free Open Access
+                      </span>
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleUpdateSubmissionStatus(sub.id, 'Approved')}

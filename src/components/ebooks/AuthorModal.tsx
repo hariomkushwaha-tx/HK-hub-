@@ -132,7 +132,7 @@ export const AuthorModal: React.FC<AuthorModalProps> = ({
 
                   <div className="flex items-center gap-2 shrink-0">
                     <span className="text-xs font-bold text-emerald-400">
-                      {book.isFree ? 'FREE' : `₹${book.price}`}
+                      100% FREE
                     </span>
                     <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-slate-300 group-hover:translate-x-0.5 transition-all" />
                   </div>
