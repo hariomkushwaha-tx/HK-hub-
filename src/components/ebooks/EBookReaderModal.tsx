@@ -158,7 +158,8 @@ export const EBookReaderModal: React.FC<EBookReaderModalProps> = ({ book, onClos
         body: JSON.stringify({
           mode: 'concept',
           topic: `${book.title} — ${currentChapter.title}: ${query}`,
-          context: `Book: ${book.title} (${book.category}) by ${book.author}.\nActive Chapter: ${currentChapter.title}.\nChapter Summary: ${currentChapter.summary}`
+          context: `Book: ${book.title} (${book.category}) by ${book.author}.\nActive Chapter: ${currentChapter.title}.\nChapter Summary: ${currentChapter.summary}`,
+          history: aiChatHistory.slice(-6).map(m => ({ role: m.role, text: m.text }))
         })
       });
       const data = await res.json();

@@ -17,6 +17,7 @@ import { BATCH_B_BOOKS_DATA } from './batchBBooksData';
 import { NEW_SPECIAL_BOOKS_DATA } from './newSpecialBooksData';
 import { NATIONAL_HEROES_AND_CORE_EXAMS_DATA } from './nationalHeroesAndCoreExamsData';
 import { BHARATVARSH_EBOOK_ITEM } from './bharatvarshBookItem';
+import { WEAPON_EBOOK_ITEM } from './weaponBookItem';
 import { MEGA_CATALOG_PART1_DATA } from './megaCatalogPart1Data';
 import { MEGA_CATALOG_EXTENDED_DATA } from './megaCatalogExtendedData';
 import { MEGA_CATALOG_PART3_DATA } from './megaCatalogPart3Data';
@@ -1203,6 +1204,7 @@ CMD ["node", "dist/server.cjs"]`
 ];
 
 const RAW_EBOOKS_DATA: EBookItem[] = [
+  WEAPON_EBOOK_ITEM,
   BHARATVARSH_EBOOK_ITEM,
   ...CORE_TECH_EBOOKS,
   ...BATCH_B_BOOKS_DATA,

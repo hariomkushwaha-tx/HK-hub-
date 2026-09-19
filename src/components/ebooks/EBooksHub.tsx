@@ -10,6 +10,8 @@ import { BookSubmissionModal } from './BookSubmissionModal';
 import { AdminBooksModal } from './AdminBooksModal';
 import { BharatvarshReaderModal } from './BharatvarshReaderModal';
 import { BHARATVARSH_EBOOK_ITEM } from '../../data/bharatvarshBookItem';
+import { WeaponReaderModal } from './WeaponReaderModal';
+import { WEAPON_EBOOK_ITEM } from '../../data/weaponBookItem';
 import { SchoolLibraryView } from './SchoolLibraryView';
 import { StoriesLibraryView } from './StoriesLibraryView';
 import { PuzzlesLibraryView } from './PuzzlesLibraryView';
@@ -78,7 +80,7 @@ export const EBooksHub: React.FC = () => {
     if (bookParam) {
       const target = booksList.find(b => b.id === bookParam || b.slug === bookParam);
       if (target) {
-        setActiveReadingBook(target);
+        setActiveReadingBook(prev => prev?.id === target.id ? prev : target);
         return;
       }
     }
@@ -86,7 +88,7 @@ export const EBooksHub: React.FC = () => {
     if (activeBookId) {
       const target = booksList.find(b => b.id === activeBookId);
       if (target) {
-        setActiveReadingBook(target);
+        setActiveReadingBook(prev => prev?.id === target.id ? prev : target);
       }
     }
   }, [activeBookId, booksList]);
@@ -990,7 +992,29 @@ export const EBooksHub: React.FC = () => {
       )}
 
       {/* 2. Interactive Chapter Reader Modal */}
-      {activeReadingBook && activeReadingBook.id === 'bharatvarsh-maha-granth' ? (
+      {activeReadingBook && (activeReadingBook.id === 'hk-weapon' || activeReadingBook.slug === 'hk-weapon') ? (
+        <WeaponReaderModal
+          initialChapterNumber={
+            (() => {
+              const urlCh = new URLSearchParams(window.location.search).get('chapter');
+              if (urlCh && !isNaN(parseInt(urlCh, 10))) {
+                const parsed = parseInt(urlCh, 10);
+                if (parsed >= 1 && parsed <= 75) return parsed;
+              }
+              return (readingProgressMap['hk-weapon']?.currentChapterIndex || 0) + 1;
+            })()
+          }
+          onClose={() => {
+            setActiveReadingBook(null);
+            setActiveBookId(null);
+            // Clean URL
+            const url = new URL(window.location.href);
+            url.searchParams.delete('book');
+            url.searchParams.delete('chapter');
+            window.history.replaceState({}, '', url.toString());
+          }}
+        />
+      ) : activeReadingBook && activeReadingBook.id === 'bharatvarsh-maha-granth' ? (
         <BharatvarshReaderModal
           initialChapterNumber={
             (() => {

@@ -20,7 +20,13 @@ import {
   Code2,
   Terminal,
   Cpu,
-  GraduationCap
+  GraduationCap,
+  Volume2,
+  VolumeX,
+  RotateCcw,
+  HelpCircle,
+  Wand2,
+  CheckCircle2
 } from 'lucide-react';
 
 export const AiHub: React.FC = () => {
@@ -30,10 +36,15 @@ export const AiHub: React.FC = () => {
   // AI Assistant Chat State
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const [aiMode, setAiMode] = useState<'concept' | 'eli5' | 'code_explain' | 'debug_code' | 'exam_prep' | 'quiz_generator' | 'study_plan'>('concept');
+  const [aiLanguage, setAiLanguage] = useState<'auto' | 'hi' | 'hinglish' | 'en'>('auto');
+  const [speakingIndex, setSpeakingIndex] = useState<number | null>(null);
+  const [copiedMsgIndex, setCopiedMsgIndex] = useState<number | null>(null);
+
   const [chatHistory, setChatHistory] = useState<{ role: 'user' | 'assistant'; text: string; time: string }[]>([
     {
       role: 'assistant',
-      text: 'Hello! I am HK VELORA AI, your dedicated Study & Technology Assistant. Ask me to explain complex programming concepts, analyze tech architecture, debug code snippets, or provide study frameworks!',
+      text: 'Namaste! I am **HK VELORA AI**, your dedicated academic, coding, and technological mentor. \n\nSelect any mode above (💡 **Concepts**, 👶 **ELI5**, 💻 **Code & Debug**, 🎯 **Exam Prep**, or 📝 **Smart Quiz**) and ask away in English, हिन्दी, or Hinglish!',
       time: 'Just now'
     }
   ]);
@@ -50,6 +61,70 @@ export const AiHub: React.FC = () => {
   useEffect(() => {
     chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatHistory, loading]);
+
+  // Cleanup speech on unmount
+  useEffect(() => {
+    return () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  const getDynamicStarters = () => {
+    switch (aiMode) {
+      case 'eli5':
+        return [
+          'Explain how the Internet works like I am 5',
+          'What is Cloud Computing in simple story form?',
+          'Next-Token Prediction ko saral Hindi me samjhao',
+          'How does Artificial Intelligence actually learn?'
+        ];
+      case 'code_explain':
+        return [
+          'Explain Dijkstra algorithm logic and Big-O',
+          'How does JavaScript Event Loop & Microtask queue work?',
+          'Explain React useEffect dependency array best practices',
+          'Show clean Python code for Binary Search with edge cases'
+        ];
+      case 'debug_code':
+        return [
+          'Fix Python: TypeError: list indices must be integers or slices, not str',
+          'Debug: Cannot read properties of undefined (reading map) in React',
+          'Fix memory leak: Can\'t perform state update on unmounted component',
+          'Why is my SQL query doing a slow Full Table Scan?'
+        ];
+      case 'exam_prep':
+        return [
+          'Class 12 Physics: Derivation of Lens Maker Formula',
+          'Top 5 repeated questions on OSI Model in Computer Networks',
+          'Class 10 Math: Quadratic Equations high-yield exam points',
+          'Most frequent OOPs concepts asked in tech interviews'
+        ];
+      case 'quiz_generator':
+        return [
+          'Generate 3 MCQs on Data Structures (Trees & Graphs)',
+          'Generate 3 MCQs on Indian History (Harappan Civilization)',
+          'Generate 3 MCQs on Operating Systems & CPU Scheduling',
+          'Generate 3 MCQs on Python OOPs Concepts'
+        ];
+      case 'study_plan':
+        return [
+          '14-Day Roadmap to master Full-Stack Web Development',
+          '7-Day Crash Plan for Class 12 Board Exam revision',
+          '30-Day Roadmap to crack Data Structures & Algorithms',
+          '10-Day Plan to learn Python for Machine Learning'
+        ];
+      case 'concept':
+      default:
+        return [
+          'Explain Recursion simply with an everyday analogy',
+          'Difference between HTTP/2 vs HTTP/3',
+          'How does Wi-Fi 7 improve over Wi-Fi 6?',
+          'Explain ACID properties in relational databases'
+        ];
+    }
+  };
 
   const filteredAiTools = useMemo(() => {
     return AI_TOOLS_DIRECTORY.filter(t => {
@@ -86,7 +161,13 @@ export const AiHub: React.FC = () => {
       const res = await fetch('/api/ai/assist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: textToSend })
+        body: JSON.stringify({ 
+          mode: aiMode,
+          language: aiLanguage,
+          prompt: textToSend,
+          question: textToSend,
+          history: chatHistory.slice(-8).map(m => ({ role: m.role, text: m.text }))
+        })
       });
 
       const data = await res.json();
@@ -115,6 +196,49 @@ export const AiHub: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSpeakMessage = (text: string, idx: number) => {
+    if (!('speechSynthesis' in window)) return;
+    if (speakingIndex === idx) {
+      window.speechSynthesis.cancel();
+      setSpeakingIndex(null);
+      return;
+    }
+    window.speechSynthesis.cancel();
+    // Clean text for speech
+    const cleanText = text.replace(/[*#`_~[\]]/g, '').slice(0, 600);
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    if (aiLanguage === 'hi') {
+      utterance.lang = 'hi-IN';
+    } else {
+      utterance.lang = 'en-US';
+    }
+    utterance.rate = 1.0;
+    utterance.onend = () => setSpeakingIndex(null);
+    utterance.onerror = () => setSpeakingIndex(null);
+    setSpeakingIndex(idx);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const handleCopyMessage = async (text: string, idx: number) => {
+    await copyToClipboard(text);
+    setCopiedMsgIndex(idx);
+    setTimeout(() => setCopiedMsgIndex(null), 2000);
+  };
+
+  const handleClearChat = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      setSpeakingIndex(null);
+    }
+    setChatHistory([
+      {
+        role: 'assistant',
+        text: 'Conversation reset! 🚀 Choose any study mode and ask your next question in English, हिन्दी, or Hinglish.',
+        time: 'Just now'
+      }
+    ]);
   };
 
   const copyPrompt = async (promptText: string, idx: number) => {
@@ -167,28 +291,111 @@ export const AiHub: React.FC = () => {
 
       {/* 1. AI Study Assistant */}
       {activeTab === 'assistant' && (
-        <div className="max-w-3xl mx-auto space-y-4">
-          {/* Quick Starter Chips */}
+        <div className="max-w-4xl mx-auto space-y-4">
+          {/* Smart Modes Bar */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider shrink-0 mr-1 flex items-center gap-1">
+                <Wand2 className="w-3.5 h-3.5 text-indigo-500" />
+                <span>Mode:</span>
+              </span>
+              {[
+                { id: 'concept', label: '💡 Concepts', desc: 'Concept Explainer' },
+                { id: 'eli5', label: '👶 ELI5', desc: 'Simple / Story' },
+                { id: 'code_explain', label: '💻 Code', desc: 'Step-by-Step Code' },
+                { id: 'debug_code', label: '🐛 Debug', desc: 'Fix Bugs & Errors' },
+                { id: 'exam_prep', label: '🎯 Exam Prep', desc: 'Board & Tech Q&A' },
+                { id: 'quiz_generator', label: '📝 Smart Quiz', desc: 'MCQs & Test' },
+                { id: 'study_plan', label: '📅 Plan', desc: 'Roadmap' },
+              ].map(m => (
+                <button
+                  key={m.id}
+                  type="button"
+                  onClick={() => setAiMode(m.id as any)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 ${
+                    aiMode === m.id
+                      ? 'bg-indigo-600 text-white shadow-xs scale-[1.02]'
+                      : 'bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                  }`}
+                  title={m.desc}
+                >
+                  <span>{m.label}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Language & Actions */}
+            <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                {[
+                  { id: 'auto', label: '🌐 Auto' },
+                  { id: 'hi', label: '🇮🇳 हिन्दी' },
+                  { id: 'hinglish', label: '🔤 Hinglish' },
+                  { id: 'en', label: '🇬🇧 EN' },
+                ].map(l => (
+                  <button
+                    key={l.id}
+                    type="button"
+                    onClick={() => setAiLanguage(l.id as any)}
+                    className={`px-2 py-1 rounded-lg text-[11px] font-semibold transition-colors ${
+                      aiLanguage === l.id
+                        ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                        : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                    }`}
+                  >
+                    {l.label}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleClearChat}
+                title="Reset conversation"
+                className="p-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
+              >
+                <RotateCcw className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Dynamic Quick Starter Chips */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs scrollbar-none">
-            <span className="text-slate-500 dark:text-slate-400 shrink-0 font-medium">Quick Starters:</span>
-            {[
-              'Explain Recursion simply with an analogy',
-              'Difference between HTTP vs HTTPS',
-              'How does Wi-Fi 7 improve over Wi-Fi 6?',
-              'Best study roadmap to learn Python',
-            ].map((chip, idx) => (
+            <span className="text-slate-500 dark:text-slate-400 shrink-0 font-medium flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+              <span>Recommended for {aiMode.replace('_', ' ')}:</span>
+            </span>
+            {getDynamicStarters().map((chip, idx) => (
               <button
                 key={idx}
+                type="button"
                 onClick={() => handleSendMessage(chip)}
-                className="px-3 py-1.5 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/50 text-slate-700 dark:text-slate-300 whitespace-nowrap transition-colors shrink-0 shadow-xs"
+                disabled={loading}
+                className="px-3 py-1.5 rounded-full bg-white dark:bg-slate-900 hover:bg-indigo-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/50 text-slate-700 dark:text-slate-300 text-xs whitespace-nowrap transition-colors shrink-0 shadow-xs disabled:opacity-50"
               >
-                {chip}
+                ⚡ {chip}
               </button>
             ))}
           </div>
 
           {/* Chat Container */}
-          <div className="rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col h-[520px] overflow-hidden">
+          <div className="rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col h-[560px] overflow-hidden">
+            {/* Header sub-bar */}
+            <div className="px-4 py-2.5 bg-slate-50 dark:bg-slate-950/70 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="font-semibold text-slate-700 dark:text-slate-300">
+                  HK VELORA Neural Engine
+                </span>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-medium border border-indigo-500/20">
+                  Mode: {aiMode.toUpperCase().replace('_', ' ')}
+                </span>
+              </div>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                Memory: Active (Last 8 turns)
+              </span>
+            </div>
+
             {/* Chat Messages */}
             <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4">
               {chatHistory.map((msg, index) => (
@@ -202,7 +409,7 @@ export const AiHub: React.FC = () => {
                     </div>
                   )}
                   <div
-                    className={`max-w-[85%] rounded-2xl p-4 text-xs sm:text-sm leading-relaxed ${
+                    className={`max-w-[88%] sm:max-w-[82%] rounded-2xl p-4 text-xs sm:text-sm leading-relaxed ${
                       msg.role === 'user'
                         ? 'bg-indigo-600 text-white rounded-tr-xs shadow-xs'
                         : 'bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-xs shadow-xs'
@@ -215,9 +422,48 @@ export const AiHub: React.FC = () => {
                         <Markdown>{msg.text}</Markdown>
                       </div>
                     )}
-                    <span className={`block text-[10px] mt-1.5 ${msg.role === 'user' ? 'text-indigo-200' : 'text-slate-400 dark:text-slate-500'}`}>
-                      {msg.time}
-                    </span>
+                    
+                    {/* Timestamp & Actions */}
+                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-200/50 dark:border-slate-800/60 text-[10px]">
+                      <span className={msg.role === 'user' ? 'text-indigo-200' : 'text-slate-400 dark:text-slate-500'}>
+                        {msg.time}
+                      </span>
+                      {msg.role === 'assistant' && (
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleSpeakMessage(msg.text, index)}
+                            className="p-1 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors flex items-center gap-1"
+                            title={speakingIndex === index ? "Stop voice" : "Listen aloud"}
+                          >
+                            {speakingIndex === index ? (
+                              <VolumeX className="w-3.5 h-3.5 text-rose-500 animate-pulse" />
+                            ) : (
+                              <Volume2 className="w-3.5 h-3.5" />
+                            )}
+                            <span className="hidden sm:inline">{speakingIndex === index ? 'Mute' : 'Listen'}</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleCopyMessage(msg.text, index)}
+                            className="p-1 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors flex items-center gap-1"
+                            title="Copy answer"
+                          >
+                            {copiedMsgIndex === index ? (
+                              <>
+                                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                                <span className="text-emerald-500 font-medium">Copied</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3.5 h-3.5" />
+                                <span className="hidden sm:inline">Copy</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                   {msg.role === 'user' && (
                     <div className="w-8 h-8 rounded-xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-300 shrink-0 mt-1">
@@ -233,7 +479,7 @@ export const AiHub: React.FC = () => {
                   </div>
                   <div className="px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
-                    <span>HK VELORA AI is generating explanation...</span>
+                    <span>HK VELORA AI is analyzing context and formulating explanation...</span>
                   </div>
                 </div>
               )}
@@ -250,13 +496,23 @@ export const AiHub: React.FC = () => {
                   type="text"
                   value={query}
                   onChange={e => setQuery(e.target.value)}
-                  placeholder="Ask any technology question, code query, or concept explanation..."
+                  placeholder={
+                    aiMode === 'debug_code'
+                      ? 'Paste code with errors or describe the bug...'
+                      : aiMode === 'exam_prep'
+                      ? 'Enter any topic for board/exam questions...'
+                      : aiMode === 'quiz_generator'
+                      ? 'Enter topic to generate practice MCQs...'
+                      : aiMode === 'eli5'
+                      ? 'Ask any difficult concept to explain simply...'
+                      : 'Ask any question in English, Hindi, or Hinglish...'
+                  }
                   className="flex-1 px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 text-xs sm:text-sm outline-none focus:border-indigo-500 shadow-xs transition-colors"
                 />
                 <button
                   type="submit"
                   disabled={loading || !query.trim()}
-                  className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white font-semibold text-xs flex items-center gap-1.5 transition-colors shadow-sm"
+                  className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white font-semibold text-xs flex items-center gap-1.5 transition-colors shadow-sm shrink-0 active:scale-95"
                 >
                   <Send className="w-4 h-4" />
                   <span className="hidden sm:inline">Ask AI</span>

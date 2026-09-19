@@ -197,77 +197,85 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button 
+                <a 
                   id="footer-legal-about"
-                  onClick={() => setActiveComplianceModal('about')} 
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                  href="#about"
+                  onClick={(e) => { e.preventDefault(); setActiveComplianceModal('about'); window.history.pushState(null, '', '#about'); }} 
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors block"
                 >
                   About HK VELORA
-                </button>
+                </a>
               </li>
               <li>
-                <button 
+                <a 
                   id="footer-legal-privacy"
-                  onClick={() => setActiveComplianceModal('privacy')} 
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                  href="#privacy"
+                  onClick={(e) => { e.preventDefault(); setActiveComplianceModal('privacy'); window.history.pushState(null, '', '#privacy'); }} 
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors block"
                 >
                   Privacy Policy (प्राइवेसी पॉलिसी)
-                </button>
+                </a>
               </li>
               <li>
-                <button 
+                <a 
                   id="footer-legal-security"
-                  onClick={() => setActiveComplianceModal('security')} 
+                  href="#security"
+                  onClick={(e) => { e.preventDefault(); setActiveComplianceModal('security'); window.history.pushState(null, '', '#security'); }} 
                   className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1 font-medium"
                 >
                   <ShieldCheck className="w-3.5 h-3.5" />
                   Security & Anti-Hacking (सुरक्षा गारंटी)
-                </button>
+                </a>
               </li>
               <li>
-                <button 
+                <a 
                   id="footer-legal-terms"
-                  onClick={() => setActiveComplianceModal('terms')} 
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                  href="#terms"
+                  onClick={(e) => { e.preventDefault(); setActiveComplianceModal('terms'); window.history.pushState(null, '', '#terms'); }} 
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors block"
                 >
                   Terms & Conditions
-                </button>
+                </a>
               </li>
               <li>
-                <button 
+                <a 
                   id="footer-legal-cookie"
-                  onClick={() => setActiveComplianceModal('cookie')} 
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                  href="#cookie"
+                  onClick={(e) => { e.preventDefault(); setActiveComplianceModal('cookie'); window.history.pushState(null, '', '#cookie'); }} 
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors block"
                 >
                   Cookie Policy
-                </button>
+                </a>
               </li>
               <li>
-                <button 
+                <a 
                   id="footer-legal-disclaimer"
-                  onClick={() => setActiveComplianceModal('disclaimer')} 
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                  href="#disclaimer"
+                  onClick={(e) => { e.preventDefault(); setActiveComplianceModal('disclaimer'); window.history.pushState(null, '', '#disclaimer'); }} 
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors block"
                 >
-                  Disclaimer
-                </button>
+                  Legal & Defence Disclaimer
+                </a>
               </li>
               <li>
-                <button 
+                <a 
                   id="footer-legal-guidelines"
-                  onClick={() => setActiveComplianceModal('community')} 
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                  href="#community"
+                  onClick={(e) => { e.preventDefault(); setActiveComplianceModal('community'); window.history.pushState(null, '', '#community'); }} 
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors block"
                 >
                   Community Guidelines
-                </button>
+                </a>
               </li>
               <li>
-                <button 
+                <a 
                   id="footer-legal-contact"
-                  onClick={() => setActiveComplianceModal('contact')} 
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                  href="#contact"
+                  onClick={(e) => { e.preventDefault(); setActiveComplianceModal('contact'); window.history.pushState(null, '', '#contact'); }} 
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors block"
                 >
-                  Contact & Support
-                </button>
+                  Contact & Support Desk
+                </a>
               </li>
             </ul>
           </div>

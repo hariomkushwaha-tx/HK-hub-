@@ -112,7 +112,45 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeTechCategory, setActiveTechCategory] = useState<string>('smartphones');
   const [globalSearchOpen, setGlobalSearchOpen] = useState<boolean>(false);
   const [userModalOpen, setUserModalOpen] = useState<boolean>(false);
-  const [activeComplianceModal, setActiveComplianceModal] = useState<'privacy' | 'terms' | 'cookie' | 'disclaimer' | 'community' | 'about' | 'contact' | 'security' | null>(null);
+  const [activeComplianceModal, setActiveComplianceModal] = useState<'privacy' | 'terms' | 'cookie' | 'disclaimer' | 'community' | 'about' | 'contact' | 'security' | null>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const path = window.location.pathname.toLowerCase();
+        const hash = window.location.hash.toLowerCase().replace('#', '');
+        const params = new URLSearchParams(window.location.search);
+        const page = (params.get('page') || params.get('modal') || hash || '').toLowerCase();
+        
+        if (page === 'privacy' || page === 'privacy-policy' || path.includes('privacy')) return 'privacy';
+        if (page === 'terms' || page === 'terms-and-conditions' || path.includes('terms')) return 'terms';
+        if (page === 'about' || page === 'about-us' || path.includes('about')) return 'about';
+        if (page === 'contact' || page === 'contact-us' || path.includes('contact')) return 'contact';
+        if (page === 'disclaimer' || path.includes('disclaimer')) return 'disclaimer';
+        if (page === 'security' || path.includes('security')) return 'security';
+        if (page === 'cookie' || path.includes('cookie')) return 'cookie';
+      } catch {}
+    }
+    return null;
+  });
+
+  // Listen for hash changes to support direct legal links
+  useEffect(() => {
+    const handleHashOrPopState = () => {
+      try {
+        const hash = window.location.hash.toLowerCase().replace('#', '');
+        const params = new URLSearchParams(window.location.search);
+        const page = (params.get('page') || hash || '').toLowerCase();
+        if (['privacy', 'terms', 'cookie', 'disclaimer', 'community', 'about', 'contact', 'security'].includes(page)) {
+          setActiveComplianceModal(page as any);
+        }
+      } catch {}
+    };
+    window.addEventListener('hashchange', handleHashOrPopState);
+    window.addEventListener('popstate', handleHashOrPopState);
+    return () => {
+      window.removeEventListener('hashchange', handleHashOrPopState);
+      window.removeEventListener('popstate', handleHashOrPopState);
+    };
+  }, []);
 
   // Multi-Language State
   const [currentLanguage, setCurrentLanguageState] = useState<SupportedLanguage>(() => {
@@ -476,12 +514,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return Array.isArray(wishlistBookIds) && wishlistBookIds.includes(bookId);
   };
 
-  const saveReadingProgress = (progress: ReadingProgress) => {
-    setReadingProgressMap(prev => ({
-      ...prev,
-      [progress.bookId]: progress
-    }));
-  };
+  const saveReadingProgress = useCallback((progress: ReadingProgress) => {
+    setReadingProgressMap(prev => {
+      const existing = prev[progress.bookId];
+      if (
+        existing &&
+        existing.currentChapterIndex === progress.currentChapterIndex &&
+        existing.percentage === progress.percentage &&
+        existing.currentChapterTitle === progress.currentChapterTitle
+      ) {
+        return prev;
+      }
+      return {
+        ...prev,
+        [progress.bookId]: progress
+      };
+    });
+  }, []);
 
   const getReadingProgress = (bookId: string) => {
     return readingProgressMap[bookId];

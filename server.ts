@@ -44,6 +44,109 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Google AdSense ads.txt explicit endpoint
+app.get('/ads.txt', (req, res) => {
+  res.type('text/plain');
+  res.send('google.com, pub-3347352682783898, DIRECT, f08c47fec0942fa0\n');
+});
+
+// Explicit robots.txt endpoint for AdSense crawler
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain');
+  res.send(`User-agent: Mediapartners-Google\nAllow: /\n\nUser-agent: Googlebot\nAllow: /\n\nUser-agent: *\nAllow: /\n\nSitemap: https://hk-velora.vercel.app/sitemap.xml\n`);
+});
+
+// Secure Access Control for HK WEAPON Book
+// Controlled via server-side environment variables: HK_WEAPON_SECURITY_KEY / HK_WEAPON_PASSWORD
+const WEAPON_ACCESS_LOGS: Array<{ timestamp: string; ip: string; action: string; email?: string }> = [];
+
+app.get('/api/books/weapon/status', (req, res) => {
+  // Open Academic Access for HK VELORA students, engineers, and researchers
+  res.json({
+    success: true,
+    requiresAuth: false,
+    isOpenAccess: true,
+    bookTitle: 'HK WEAPON — Advanced Defence Engineering',
+    author: 'Hariom Kushwaha (HK Tech World)',
+    totalChapters: 75,
+    maxSessionDurationHours: 24
+  });
+});
+
+app.post('/api/books/weapon/verify-access', (req, res) => {
+  try {
+    const { passkey, userEmail = 'student@hkvelora.internal' } = req.body || {};
+    const serverPassword = process.env.HK_WEAPON_SECURITY_KEY || process.env.HK_WEAPON_PASSWORD;
+    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
+
+    // If no secret key is enforced in environment, grant open educational access with watermark session
+    if (!serverPassword) {
+      const token = `hkw_token_${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
+      WEAPON_ACCESS_LOGS.push({
+        timestamp: new Date().toISOString(),
+        ip: String(clientIp),
+        action: 'OPEN_EDUCATIONAL_SESSION_GRANTED',
+        email: userEmail
+      });
+
+      return res.json({
+        success: true,
+        authenticated: true,
+        token,
+        watermark: `${userEmail} • HK VELORA DEFENCE ARCHIVE • ${new Date().toISOString().split('T')[0]}`,
+        expiresInHours: 12,
+        message: 'Academic access authorized. Watermarked session initialized.'
+      });
+    }
+
+    // Verify against server-side secret (never hardcoded in source)
+    if (passkey && passkey.trim() === serverPassword.trim()) {
+      const token = `hkw_token_${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
+      WEAPON_ACCESS_LOGS.push({
+        timestamp: new Date().toISOString(),
+        ip: String(clientIp),
+        action: 'SECURE_AUTH_SUCCESS',
+        email: userEmail
+      });
+
+      return res.json({
+        success: true,
+        authenticated: true,
+        token,
+        watermark: `${userEmail} • AUTHORIZED DEFENCE RESEARCH • ${new Date().toISOString().split('T')[0]}`,
+        expiresInHours: 12,
+        message: 'Security credentials verified. Access granted to HK WEAPON.'
+      });
+    }
+
+    // Invalid credentials
+    WEAPON_ACCESS_LOGS.push({
+      timestamp: new Date().toISOString(),
+      ip: String(clientIp),
+      action: 'AUTH_FAILED_INCORRECT_PASSKEY',
+      email: userEmail
+    });
+
+    return res.status(401).json({
+      success: false,
+      authenticated: false,
+      message: 'अमान्य सुरक्षा कोड (Invalid Passkey). कृपया HK VELORA एडमिन या अधिकृत संपर्क से सही कोड प्राप्त करें।'
+    });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message || 'Internal server error' });
+  }
+});
+
+app.get('/api/books/weapon/logs', (req, res) => {
+  // Returns recent audit logs for security observability
+  res.json({
+    success: true,
+    totalLogs: WEAPON_ACCESS_LOGS.length,
+    recentLogs: WEAPON_ACCESS_LOGS.slice(-20)
+  });
+});
+
+
 // AI Study Assistant & Explainer Endpoint
 app.post('/api/ai/assist', async (req, res) => {
   try {
@@ -104,6 +207,16 @@ Explain:
 2. Time & Space Complexity (Big-O)
 3. Edge cases and potential bugs
 4. Optimized/Clean production-grade version`;
+    } else if (mode === 'debug_code') {
+      prompt = `You are an expert software engineer. Debug and fix this code snippet:
+\`\`\`
+${code || queryTerm}
+\`\`\`
+Provide:
+1. 🐛 Root Cause: Explain exactly which lines have bugs, syntax issues, or logic flaws.
+2. 🛠️ Fixed & Working Code: Complete corrected code snippet with helpful comments.
+3. 🧪 Edge Cases: What inputs could break it and how your fix prevents failure.
+4. 💡 Pro-Tip / Performance Note: Best practices to avoid this bug in the future.`;
     } else if (mode === 'eli5') {
       prompt = `Explain this concept like I am a 10-year-old ("Explain Like I'm 5") using simple everyday stories, zero complex jargon, and intuitive metaphors: "${queryTerm}".`;
     } else if (mode === 'exam_prep') {
@@ -167,23 +280,33 @@ Cover historical context, archaeological/epigraphical evidence, timeline, cultur
     let usedModel = '';
 
     for (const modelName of candidateModels) {
-      try {
-        const response = await ai.models.generateContent({
-          model: modelName,
-          contents: contents.length === 1 ? contents[0].parts[0].text : contents,
-          config: {
-            systemInstruction,
-            temperature: 0.65,
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const response = await ai.models.generateContent({
+            model: modelName,
+            contents: contents.length === 1 ? contents[0].parts[0].text : contents,
+            config: {
+              systemInstruction,
+              temperature: 0.65,
+            }
+          });
+          if (response && response.text) {
+            resultText = response.text;
+            usedModel = modelName;
+            break;
           }
-        });
-        if (response && response.text) {
-          resultText = response.text;
-          usedModel = modelName;
+        } catch (err: any) {
+          const errMsg = err?.message || String(err);
+          console.warn(`Model ${modelName} (attempt ${attempt + 1}) error:`, errMsg);
+          if (attempt === 0 && (errMsg.includes('503') || errMsg.includes('UNAVAILABLE') || errMsg.includes('high demand'))) {
+            // Quick 1.2s backoff on temporary spikes
+            await new Promise(resolve => setTimeout(resolve, 1200));
+            continue;
+          }
           break;
         }
-      } catch (err: any) {
-        console.warn(`Model ${modelName} error:`, err?.message || err);
       }
+      if (resultText) break;
     }
 
     if (!resultText) {
@@ -218,18 +341,70 @@ Cover historical context, archaeological/epigraphical evidence, timeline, cultur
 
 function generateEducationalFallback(mode: string, topic?: string, code?: string): string {
   const query = topic || 'Computer Science Concept';
-  if (mode === 'code_explain') {
-    return `### 💡 Code Explanation & Analysis
+  if (mode === 'code_explain' || mode === 'debug_code') {
+    return `### 💻 Code Analysis & Debug Guide
+    
+**Snippet Examined:**
+\`\`\`
+${code || query}
+\`\`\`
 
-**Overview**:
-The provided code snippet demonstrates foundational programmatic logic.
+**Key Insights:**
+1. **Flow & Logic**: Execution proceeds sequentially through declared blocks. Ensure all variables are appropriately scoped before referencing them in inner loops or async closures.
+2. **Algorithmic Complexity**: Keep in mind time complexity: single iterations run in $O(N)$, whereas nested loops can degrade performance to $O(N^2)$.
+3. **Robustness & Defensiveness**: Guard against empty structures or boundary violations by performing explicit length and existence checks before dereferencing keys or indices.
 
-**Key Observations**:
-1. **Flow & Execution**: The instructions execute sequentially, allocating memory for input arguments and evaluating conditionals or loops.
-2. **Efficiency**: Consider standard algorithmic complexity (O(N) time for single loops, O(1) for hash lookups).
-3. **Edge Case Safety**: Always validate \`null\`, \`undefined\`, or empty arrays before accessing indexes or properties.
+*HK VELORA AI is ready to help you optimize and debug complex code.*`;
+  }
 
-*Tip: Powered by HK VELORA AI Engine — ask any doubts about algorithms, formulas, or code anytime.*`;
+  if (mode === 'eli5') {
+    return `### 🎈 **${query}** (सरल भाषा में / Like You're 5)
+
+Imagine you are playing with LEGO blocks in a big toy room:
+- Instead of searching through a huge messy box every time you need a specific red brick, you have a magic tray where your favorite bricks are sorted by color and size.
+- Whenever you need to build a tower, you grab the pieces from the organized tray in 1 second!
+- That is exactly how **${query}** works in modern technology — it keeps things sorted and ready so computer programs can work fast without getting confused or stuck!
+
+*💡 Takeaway:* Always keep things simple and structured!`;
+  }
+
+  if (mode === 'quiz_generator') {
+    return `### 📝 Practice Quiz: **${query}**
+
+**Question 1: What is the primary purpose of ${query}?**
+- A) To increase memory overhead unnecessarily
+- B) To provide structured, efficient, and consistent behavior
+- C) To disable all caching mechanisms
+- D) To limit network communication
+**Correct Option:** **B**
+*Explanation: ${query} is designed to provide consistency, reliability, and structured efficiency.*
+
+---
+
+**Question 2: Which consideration is most critical when implementing ${query}?**
+- A) Ignoring boundary/edge cases
+- B) Ensuring data validation and state integrity
+- C) Removing all security layers
+- D) Hardcoding configuration values
+**Correct Option:** **B**
+*Explanation: Data integrity and validation ensure the system operates reliably across diverse environments.*`;
+  }
+
+  if (mode === 'exam_prep') {
+    return `### 🎯 High-Yield Exam Guide: **${query}**
+
+**1. Most Probable 5-Mark Question:**
+> *"Define ${query}, explain its fundamental working principle, and list two practical real-world use cases."*
+
+**2. Standard Scoring Definition (For Full Marks):**
+**${query}** is defined as the structured mechanism or architectural principle that enables systems to process instructions, validate inputs, and maintain reliable operational state in computing environments.
+
+**3. Common Mistakes Where Students Lose Marks:**
+- Confusing theoretical syntax with practical runtime behavior.
+- Omitting the boundary / edge case analysis in long-form answers.
+
+**4. Quick Revision Summary:**
+Review the key formulas, definitions, and block diagrams before entering the exam hall!`;
   }
 
   if (mode === 'study_plan') {
