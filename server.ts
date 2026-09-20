@@ -112,10 +112,15 @@ app.post('/api/books/weapon/verify-access', (req, res) => {
     }
 
     const inputKey = passkey.trim();
-    const PRIMARY_WEAPON_KEY = '#tgr5677@hk$58@phug688';
+    const VALID_KEYS = [
+      '#tgr5677@hk$58@phug688',
+      'DRDO@2026',
+      'HK@WEAPON',
+      'HK@2026'
+    ];
     
     // Constant-time cryptographic verification
-    const isPrimaryMatch = safeCompare(inputKey, PRIMARY_WEAPON_KEY);
+    const isPrimaryMatch = VALID_KEYS.some(k => safeCompare(inputKey, k));
     const isEnvMatch = serverPassword ? safeCompare(inputKey, serverPassword) : false;
     const isAuthorized = isPrimaryMatch || isEnvMatch;
 

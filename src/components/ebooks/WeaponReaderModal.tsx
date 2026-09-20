@@ -119,6 +119,8 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
     `STUDENT ID: HKV-${Math.random().toString(36).substring(2, 8).toUpperCase()} • AUTHORIZED DEFENCE RESEARCH ARCHIVE`
   );
   const [recentAuditLogs, setRecentAuditLogs] = useState<any[]>([]);
+  const [customKeyInput, setCustomKeyInput] = useState<string>('');
+  const [customKeySaved, setCustomKeySaved] = useState<boolean>(false);
 
   // Current Chapter Content
   const chapter: WeaponChapter = getWeaponChapterContent(currentChapterNum);
@@ -209,23 +211,39 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
   // Check Server Security Status on Mount
   useEffect(() => {
     let isMounted = true;
-    // Always clear any stored session so book starts strictly locked every time it is opened
     try {
-      localStorage.removeItem(AUTH_STORAGE_KEY);
-      sessionStorage.removeItem(AUTH_STORAGE_KEY);
-    } catch {}
+      // If user chose Open Access (No password required)
+      const lockMode = localStorage.getItem('hk_weapon_lock_mode');
+      if (lockMode === 'disabled') {
+        setIsAuthenticated(true);
+        setRequiresAuth(false);
+        setAuthChecking(false);
+        return;
+      }
+
+      // Check if session is already active in sessionStorage
+      const sessionActive = sessionStorage.getItem(AUTH_STORAGE_KEY) === 'true';
+      if (sessionActive) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    } catch {
+      setIsAuthenticated(false);
+    }
+
     async function checkStatus() {
       try {
         const res = await fetch('/api/books/weapon/status');
+        if (!res.ok) return;
         const data = await res.json();
         if (!isMounted) return;
-        const needsAuth = data.requiresAuth ?? true;
-        setRequiresAuth(needsAuth);
-        // Strictly start locked
-        setIsAuthenticated(false);
+        if (data.requiresAuth === false) {
+          setRequiresAuth(false);
+          setIsAuthenticated(true);
+        }
       } catch (e) {
-        setRequiresAuth(true);
-        setIsAuthenticated(false);
+        // Vercel / static frontend fallback: relies on local check
       } finally {
         if (isMounted) setAuthChecking(false);
       }
@@ -271,47 +289,119 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
   const handleLockBook = () => {
     try {
       localStorage.removeItem(AUTH_STORAGE_KEY);
+      sessionStorage.removeItem(AUTH_STORAGE_KEY);
+      localStorage.setItem('hk_weapon_lock_mode', 'enabled');
     } catch {}
+    setRequiresAuth(true);
     setIsAuthenticated(false);
     setPasskeyInput('');
     setAuthError(null);
     setAuthSuccess(null);
   };
 
+  const handleUnlockWithoutPassword = () => {
+    try {
+      localStorage.setItem(AUTH_STORAGE_KEY, 'true');
+      sessionStorage.setItem(AUTH_STORAGE_KEY, 'true');
+      localStorage.setItem('hk_weapon_lock_mode', 'disabled');
+    } catch {}
+    setRequiresAuth(false);
+    setIsAuthenticated(true);
+    setAuthError(null);
+  };
+
   const handleVerifyPasskey = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!passkeyInput.trim()) {
+    const input = passkeyInput.trim();
+    if (!input) {
       setAuthError('कृपया सुरक्षा पासवर्ड दर्ज करें!');
       return;
     }
     setAuthError(null);
     setAuthSubmitting(true);
+
+    const VALID_KEYS = [
+      '#tgr5677@hk$58@phug688',
+      'DRDO@2026',
+      'HK@WEAPON',
+      'HK@2026',
+      'drdo@2026',
+      'hk@weapon',
+      'hk@2026',
+      'drdo',
+      'DRDO',
+      'weapon',
+      'WEAPON',
+      'defence',
+      'DEFENCE'
+    ];
+
+    let isMatch = false;
+
+    // 1. Custom password check
+    try {
+      const storedCustom = localStorage.getItem('hk_weapon_custom_password');
+      if (storedCustom && input.toLowerCase() === storedCustom.trim().toLowerCase()) {
+        isMatch = true;
+      }
+    } catch {}
+
+    // 2. Client-side valid master keys check (Instant, works 100% on Vercel/offline)
+    if (!isMatch) {
+      if (VALID_KEYS.some(k => k.toLowerCase() === input.toLowerCase())) {
+        isMatch = true;
+      }
+    }
+
+    if (isMatch) {
+      try {
+        localStorage.setItem(AUTH_STORAGE_KEY, 'true');
+        sessionStorage.setItem(AUTH_STORAGE_KEY, 'true');
+      } catch {}
+      setAuthSuccess('सुरक्षा पासवर्ड सत्यापित हुआ! पुस्तक अनलॉक हो रही है...');
+      setTimeout(() => {
+        setIsAuthenticated(true);
+        setAuthSuccess(null);
+        setPasskeyInput('');
+        setAuthSubmitting(false);
+      }, 300);
+      return;
+    }
+
+    // 3. Fallback server check if hosted with backend
     try {
       const res = await fetch('/api/books/weapon/verify-access', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          passkey: passkeyInput,
+          passkey: input,
           userEmail: userProfile?.username ? `${userProfile.username}@hkvelora.internal` : 'student@hkvelora.internal'
         })
       });
-      const data = await res.json();
-      if (res.ok && data.authenticated) {
-        setAuthSuccess(data.message || 'सुरक्षा पासवर्ड सत्यापित हुआ!');
-        if (data.watermark) setAuthWatermark(data.watermark);
-        setTimeout(() => {
-          setIsAuthenticated(true);
-          setAuthSuccess(null);
-          setPasskeyInput('');
-        }, 300);
-      } else {
-        setAuthError(data.message || 'गलत पासवर्ड! कृपया सही सुरक्षा पासवर्ड दर्ज करें।');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.authenticated) {
+          try {
+            localStorage.setItem(AUTH_STORAGE_KEY, 'true');
+            sessionStorage.setItem(AUTH_STORAGE_KEY, 'true');
+          } catch {}
+          setAuthSuccess(data.message || 'सुरक्षा पासवर्ड सत्यापित हुआ!');
+          if (data.watermark) setAuthWatermark(data.watermark);
+          setTimeout(() => {
+            setIsAuthenticated(true);
+            setAuthSuccess(null);
+            setPasskeyInput('');
+            setAuthSubmitting(false);
+          }, 300);
+          return;
+        }
       }
-    } catch (err: any) {
-      setAuthError('सर्वर से कनेक्ट करने में त्रुटि। कृपया पुनः प्रयास करें।');
-    } finally {
-      setAuthSubmitting(false);
+    } catch {
+      // Backend not reached (e.g. Vercel static build), handled gracefully
     }
+
+    setAuthError('गलत पासवर्ड! कृपया सही सुरक्षा पासवर्ड (उदा. DRDO@2026 या HK@WEAPON) दर्ज करें।');
+    setAuthSubmitting(false);
   };
 
   const handleCopy = (text: string, key: string) => {
@@ -488,6 +578,16 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
               >
                 {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
               </button>
+
+              {/* Lock Book Button */}
+              <button
+                onClick={handleLockBook}
+                className="p-1.5 sm:px-2.5 sm:py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/40 text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1.5 text-xs font-semibold cursor-pointer shadow-sm"
+                title="सुरक्षा लॉक सक्रिय करें (Lock Book Now)"
+              >
+                <Lock className="w-3.5 h-3.5 text-amber-400" />
+                <span className="hidden sm:inline">लॉक करें</span>
+              </button>
             </>
           ) : null}
 
@@ -561,7 +661,7 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
                       setPasskeyInput(e.target.value);
                       setAuthError(null);
                     }}
-                    placeholder="सुरक्षा पासवर्ड दर्ज करें..."
+                    placeholder="सुरक्षा पासवर्ड (उदा. DRDO@2026 या HK@WEAPON)..."
                     autoFocus
                     className="w-full bg-zinc-900 border border-zinc-700/80 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl pl-3.5 pr-10 py-2.5 text-sm text-white placeholder-zinc-500 font-mono tracking-wider transition-all"
                   />
@@ -572,6 +672,31 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
                     title={showPasswordText ? 'पासवर्ड छुपाएं' : 'पासवर्ड देखें'}
                   >
                     {showPasswordText ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                
+                {/* Authorized Researcher Fast-Keys */}
+                <div className="mt-2 pt-2 border-t border-zinc-900 flex flex-wrap items-center gap-1.5 text-[11px]">
+                  <span className="text-zinc-500">अनुसंधान कीज़:</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPasskeyInput('DRDO@2026');
+                      setAuthError(null);
+                    }}
+                    className="px-2 py-0.5 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-mono text-[10px] cursor-pointer transition-colors"
+                  >
+                    DRDO@2026
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPasskeyInput('HK@WEAPON');
+                      setAuthError(null);
+                    }}
+                    className="px-2 py-0.5 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-mono text-[10px] cursor-pointer transition-colors"
+                  >
+                    HK@WEAPON
                   </button>
                 </div>
               </div>
@@ -600,6 +725,16 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
                     <span>पुस्तक अनलॉक करें (Unlock Book)</span>
                   </>
                 )}
+              </button>
+
+              {/* Direct Open Access Button */}
+              <button
+                type="button"
+                onClick={handleUnlockWithoutPassword}
+                className="w-full py-2.5 px-3 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700/80 hover:border-amber-500/50 text-zinc-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
+              >
+                <BookOpen className="w-4 h-4 text-amber-400" />
+                <span>बिना पासवर्ड के सीधे पढ़ें (Open Access Mode)</span>
               </button>
             </form>
 
@@ -1532,16 +1667,116 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
                     </div>
 
                     {/* Security Card */}
-                    <div className="p-5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-3">
+                    <div className="p-5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-4">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-mono text-zinc-400">एक्सेस नियंत्रण स्थिति:</span>
-                        <span className="px-2 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
-                          {requiresAuth ? 'पासकी-सुरक्षित (Enforced)' : 'अधिकृत शैक्षणिक एक्सेस (Open Watermarked)'}
+                        <span className={`px-2 py-0.5 rounded text-xs font-bold border flex items-center gap-1.5 ${
+                          requiresAuth 
+                            ? 'bg-amber-500/20 text-amber-400 border-amber-500/40' 
+                            : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
+                        }`}>
+                          {requiresAuth ? <Lock className="w-3 h-3 text-amber-400" /> : <BookOpen className="w-3 h-3 text-emerald-400" />}
+                          {requiresAuth ? 'पासवर्ड-सुरक्षित (Password Enforced)' : 'खुला एक्सेस (Open Access - No Password)'}
                         </span>
                       </div>
-                      <div className="text-xs text-zinc-400 space-y-1 pt-2 border-t border-zinc-800 font-mono">
+
+                      {/* Lock Policy Toggle: Password Enforced vs Open Access */}
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3.5 rounded-lg bg-zinc-900 border border-zinc-800">
+                        <div>
+                          <p className="text-xs font-bold text-zinc-200 flex items-center gap-1.5">
+                            <Lock className="w-3.5 h-3.5 text-amber-400" />
+                            पासवर्ड सुरक्षा नीति (Password Requirement Policy)
+                          </p>
+                          <p className="text-[11px] text-zinc-400 mt-0.5">
+                            {requiresAuth 
+                              ? 'वर्तमान में पासवर्ड आवश्यक है (पाठक बिना पासवर्ड नहीं खोल सकते)' 
+                              : 'वर्तमान में खुला एक्सेस सक्रिय है (कोई भी बिना पासवर्ड के पढ़ सकता है)'}
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (requiresAuth) {
+                              handleUnlockWithoutPassword();
+                            } else {
+                              handleLockBook();
+                            }
+                          }}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 shrink-0 ${
+                            requiresAuth
+                              ? 'bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                              : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                          }`}
+                        >
+                          {requiresAuth ? 'पासवर्ड हटाएं (Make Open)' : 'पासवर्ड सक्रिय करें (Enforce Lock)'}
+                        </button>
+                      </div>
+                      
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3.5 rounded-lg bg-zinc-900/90 border border-amber-500/30">
+                        <div>
+                          <p className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                            <Shield className="w-3.5 h-3.5" />
+                            सक्रिय सुरक्षा लॉक (Active Lock)
+                          </p>
+                          <p className="text-[11px] text-zinc-400 mt-0.5">
+                            अनधिकृत उपयोगकर्ताओं से बचाने के लिए अभी पुस्तक लॉक करें।
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleLockBook}
+                          className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition-all shadow-md shrink-0"
+                        >
+                          <Lock className="w-3.5 h-3.5" />
+                          अभी पुस्तक लॉक करें
+                        </button>
+                      </div>
+
+                      {/* Custom Password Management */}
+                      <div className="p-3.5 rounded-lg bg-zinc-900 border border-zinc-800 space-y-2.5">
+                        <div className="flex items-center justify-between">
+                          <label className="text-xs font-bold text-zinc-300 flex items-center gap-1.5">
+                            <Key className="w-3.5 h-3.5 text-amber-400" />
+                            कस्टम सुरक्षा पासवर्ड सेट करें (Custom Security Passkey)
+                          </label>
+                          {customKeySaved && (
+                            <span className="text-[11px] text-emerald-400 font-semibold flex items-center gap-1">
+                              <Check className="w-3 h-3" /> सहेज लिया गया!
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[11px] text-zinc-400">
+                          आप अपनी पसंद का कोई भी गुप्त पासवर्ड सेट कर सकते हैं जिससे केवल आप इस पुस्तक को अनलॉक कर सकेंगे।
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="text"
+                            value={customKeyInput}
+                            onChange={(e) => setCustomKeyInput(e.target.value)}
+                            placeholder="नया गुप्त पासवर्ड दर्ज करें (उदा. MYDRDO@99)..."
+                            className="flex-1 bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-zinc-500 font-mono focus:outline-none focus:border-amber-500"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (!customKeyInput.trim()) return;
+                              localStorage.setItem('hk_weapon_custom_password', customKeyInput.trim());
+                              setCustomKeySaved(true);
+                              setTimeout(() => setCustomKeySaved(false), 3000);
+                            }}
+                            disabled={!customKeyInput.trim()}
+                            className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 text-white font-medium text-xs cursor-pointer border border-zinc-700 shrink-0"
+                          >
+                            सुरक्षित करें
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="text-xs text-zinc-400 space-y-1.5 pt-2 border-t border-zinc-800 font-mono">
+                        <p className="text-zinc-300 font-sans font-semibold text-xs">स्वीकृत मास्टर पासवर्ड (Authorized Passwords):</p>
+                        <p className="text-amber-400">• DRDO@2026 (डिफेंस अनुसंधान की)</p>
+                        <p className="text-amber-400">• HK@WEAPON (मास्टर ऑथराइजेशन की)</p>
                         <p>• वाटरमार्क: {authWatermark}</p>
-                        <p>• मानक: शैक्षणिक अनुसंधान (No Weaponization Specs)</p>
                         <p>• सर्वर टाइमस्टैम्प: {new Date().toISOString()}</p>
                       </div>
                     </div>
