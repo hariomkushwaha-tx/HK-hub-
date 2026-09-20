@@ -21,17 +21,47 @@ import {
 } from 'lucide-react';
 import { SafePracticalProject } from '../../../types/weapon';
 import { SAFE_PRACTICAL_PROJECTS } from '../../../data/weaponEngineeringData';
+import { ScramjetFlowSimulator } from './simulators/ScramjetFlowSimulator';
+import { DewLaserSimulator } from './simulators/DewLaserSimulator';
+import { QuantumRadarSimulator } from './simulators/QuantumRadarSimulator';
+import { SwarmIntelligenceSimulator } from './simulators/SwarmIntelligenceSimulator';
 
 interface PracticalSimulatorsViewProps {
   projects?: SafePracticalProject[];
   chapterTitle: string;
+  initialTab?: string;
 }
 
 export const PracticalSimulatorsView: React.FC<PracticalSimulatorsViewProps> = ({
   projects = SAFE_PRACTICAL_PROJECTS,
-  chapterTitle
+  chapterTitle,
+  initialTab
 }) => {
-  const [activeProjectTab, setActiveProjectTab] = useState<string>('uav-flight');
+  const [activeProjectTab, setActiveProjectTab] = useState<string>(() => {
+    if (initialTab) return initialTab;
+    if (chapterTitle.includes('हाइपरसोनिक') || chapterTitle.includes('43')) return 'scramjet-flow';
+    if (chapterTitle.includes('डायरेक्टेड') || chapterTitle.includes('लेजर') || chapterTitle.includes('48')) return 'dew-laser';
+    if (chapterTitle.includes('क्वांटम') || chapterTitle.includes('47')) return 'quantum-radar';
+    if (chapterTitle.includes('मानवरहित') || chapterTitle.includes('स्वार्म') || chapterTitle.includes('42')) return 'swarm-intelligence';
+    if (chapterTitle.includes('इंजन') || chapterTitle.includes('21')) return 'jet-engine';
+    return 'uav-flight';
+  });
+
+  useEffect(() => {
+    if (initialTab) {
+      setActiveProjectTab(initialTab);
+    } else if (chapterTitle.includes('हाइपरसोनिक') || chapterTitle.includes('43')) {
+      setActiveProjectTab('scramjet-flow');
+    } else if (chapterTitle.includes('डायरेक्टेड') || chapterTitle.includes('लेजर') || chapterTitle.includes('48')) {
+      setActiveProjectTab('dew-laser');
+    } else if (chapterTitle.includes('क्वांटम') || chapterTitle.includes('47')) {
+      setActiveProjectTab('quantum-radar');
+    } else if (chapterTitle.includes('मानवरहित') || chapterTitle.includes('स्वार्म') || chapterTitle.includes('42')) {
+      setActiveProjectTab('swarm-intelligence');
+    } else if (chapterTitle.includes('इंजन') || chapterTitle.includes('21')) {
+      setActiveProjectTab('jet-engine');
+    }
+  }, [chapterTitle, initialTab]);
 
   // -------------------------------------------------------------
   // 1. UAV Flight Dynamics State
@@ -195,6 +225,54 @@ export const PracticalSimulatorsView: React.FC<PracticalSimulatorsViewProps> = (
           >
             <Flame className="w-3.5 h-3.5 text-orange-400" />
             <span>4. टर्बोफैन जेट इंजन FADEC व ब्रेटन चक्र</span>
+          </button>
+
+          <button
+            onClick={() => setActiveProjectTab('scramjet-flow')}
+            className={`px-3 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-2 cursor-pointer ${
+              activeProjectTab === 'scramjet-flow'
+                ? 'bg-red-500 text-black font-bold shadow-md shadow-red-500/20'
+                : 'bg-zinc-950/60 hover:bg-zinc-800/60 text-zinc-400 border border-zinc-800'
+            }`}
+          >
+            <Wind className="w-3.5 h-3.5 text-red-400" />
+            <span>🚀 5. स्क्रैमजेट Mach 6+ फ्लो (Ch 43)</span>
+          </button>
+
+          <button
+            onClick={() => setActiveProjectTab('dew-laser')}
+            className={`px-3 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-2 cursor-pointer ${
+              activeProjectTab === 'dew-laser'
+                ? 'bg-amber-500 text-black font-bold shadow-md shadow-amber-500/20'
+                : 'bg-zinc-950/60 hover:bg-zinc-800/60 text-zinc-400 border border-zinc-800'
+            }`}
+          >
+            <Zap className="w-3.5 h-3.5 text-amber-400" />
+            <span>⚡ 6. 100 kW लेजर DEW (Ch 48)</span>
+          </button>
+
+          <button
+            onClick={() => setActiveProjectTab('quantum-radar')}
+            className={`px-3 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-2 cursor-pointer ${
+              activeProjectTab === 'quantum-radar'
+                ? 'bg-cyan-500 text-black font-bold shadow-md shadow-cyan-500/20'
+                : 'bg-zinc-950/60 hover:bg-zinc-800/60 text-zinc-400 border border-zinc-800'
+            }`}
+          >
+            <Radio className="w-3.5 h-3.5 text-cyan-400" />
+            <span>⚛️ 7. क्वांटम रडार (Ch 47)</span>
+          </button>
+
+          <button
+            onClick={() => setActiveProjectTab('swarm-intelligence')}
+            className={`px-3 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-2 cursor-pointer ${
+              activeProjectTab === 'swarm-intelligence'
+                ? 'bg-emerald-500 text-black font-bold shadow-md shadow-emerald-500/20'
+                : 'bg-zinc-950/60 hover:bg-zinc-800/60 text-zinc-400 border border-zinc-800'
+            }`}
+          >
+            <Cpu className="w-3.5 h-3.5 text-emerald-400" />
+            <span>🤖 8. स्वार्म MUM-T (Ch 42)</span>
           </button>
         </div>
       </div>
@@ -951,6 +1029,42 @@ export const PracticalSimulatorsView: React.FC<PracticalSimulatorsViewProps> = (
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* SIMULATOR 5: HYPERSONIC SCRAMJET FLOW SIMULATOR */}
+      {/* ========================================================= */}
+      {activeProjectTab === 'scramjet-flow' && (
+        <div className="animate-in fade-in duration-150">
+          <ScramjetFlowSimulator />
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* SIMULATOR 6: DIRECTED ENERGY WEAPON (DEW) LASER SIMULATOR */}
+      {/* ========================================================= */}
+      {activeProjectTab === 'dew-laser' && (
+        <div className="animate-in fade-in duration-150">
+          <DewLaserSimulator />
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* SIMULATOR 7: QUANTUM ILLUMINATION RADAR & QKD SIMULATOR */}
+      {/* ========================================================= */}
+      {activeProjectTab === 'quantum-radar' && (
+        <div className="animate-in fade-in duration-150">
+          <QuantumRadarSimulator />
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* SIMULATOR 8: AUTONOMOUS DRONE SWARM & MUM-T SIMULATOR */}
+      {/* ========================================================= */}
+      {activeProjectTab === 'swarm-intelligence' && (
+        <div className="animate-in fade-in duration-150">
+          <SwarmIntelligenceSimulator />
         </div>
       )}
     </div>

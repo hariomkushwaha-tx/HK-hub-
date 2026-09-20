@@ -16,6 +16,16 @@ import {
   BESPOKE_CHAPTER_21, 
   FIGHTER_JET_ENGINE_ENGINEERING_RECIPE_17 
 } from './fighterJetEngineRecipe';
+import {
+  BESPOKE_CHAPTER_42,
+  BESPOKE_CHAPTER_43,
+  BESPOKE_CHAPTER_47,
+  BESPOKE_CHAPTER_48,
+  SWARM_INTELLIGENCE_RECIPE_17,
+  HYPERSONIC_SCRAMJET_RECIPE_17,
+  QUANTUM_DEFENCE_RECIPE_17,
+  DIRECTED_ENERGY_WEAPON_RECIPE_17
+} from './futureWeaponsRecipes';
 
 export const WEAPON_STORAGE_KEY = 'hk_weapon_custom_edits';
 
@@ -302,68 +312,13 @@ const BESPOKE_WEAPON_CHAPTERS: Record<number, Partial<WeaponChapter>> = {
     ]
   },
 
-  43: {
-    introduction: 'हाइपरसोनिक प्रौद्योगिकी (Mach 5 से अधिक, यानी ध्वनि की गति से पांच गुना तेज — लगभग 6,100 किमी/घंटा से अधिक) आधुनिक वैमानिकी और रक्षा विज्ञान का सबसे चुनौतीपूर्ण क्षेत्र है। इस गति पर हवा सामान्य गैस की तरह व्यवहार नहीं करती, बल्कि तीव्र दबाव और तापमान के कारण अणुओं में टूटकर प्लाज्मा में बदलने लगती है।',
-    engineeringContext: 'हाइपरसोनिक वाहनों के दो मुख्य प्रकार होते हैं: हाइपरसोनिक क्रूज मिसाइल (HCM — जो स्क्रैमजेट एयर-ब्रीदिंग इंजन से उड़ती हैं) और हाइपरसोनिक ग्लाइड व्हीकल (HGV — जिन्हें रॉकेट द्वारा वायुमंडल के ऊपरी किनारे पर ले जाकर अत्यधिक गति से ग्लाइड कराया जाता है)। इस गति पर सबसे बड़ी चुनौती हवा में ईंधन का दहन (Supersonic Combustion) करना है, जिसे "तूफान में मोमबत्ती जलाने" के समान माना जाता है।',
-    coreScientificPrinciples: [
-      'सुपरसोनिक दहन (Scramjet Physics): रैमजेट में आने वाली हवा को सबसोनिक गति तक धीमा किया जाता है, लेकिन मैक 6 पर ऐसा करने से अत्यधिक तापमान और दबाव बढ़ जाएगा। स्क्रैमजेट में दहन कक्ष के भीतर भी हवा सुपरसोनिक गति से बहती है।',
-      'एयरो-थर्मोडायनामिक हीटिंग और शॉक वेव्स: अग्र भाग (Stagnation Point) पर तापमान 2000°C से ऊपर पहुँच जाता है, जहाँ नाइट्रोजन और ऑक्सीजन के अणु विभाजित (Dissociate) हो जाते हैं।',
-      'प्लाज्मा शीथ और ब्लैकआउट: उच्च तापमान से हवा आयनित होकर वाहन के चारों ओर प्लाज्मा की एक पतली परत बना देती है, जो रेडियो तरंगों को रोकती है।'
-    ],
-    systemArchitecture: {
-      title: 'हाइपरसोनिक टेक्नोलॉजी डिमॉन्स्ट्रेटर (HSTDV) का आर्किटेक्चर',
-      description: 'एयर-ब्रीदिंग हाइपरसोनिक वाहन का प्रणालीगत विन्यास:',
-      subsystems: [
-        { name: 'इंटेक और डिफ्यूजर (Compression Ramp)', function: 'हवा का संपीड़न', engineeringNotes: 'वाहन का निचला अगला हिस्सा ही शॉक वेव्स बनाकर हवा को संपीडित करता है (Waverider Geometry)।' },
-        { name: 'स्क्रैमजेट कम्बस्टर (Combustion Chamber)', function: 'सुपरसोनिक दहन', engineeringNotes: 'केरोसिन या हाइड्रोजन ईंधन को 1 मिलीसेकंड से भी कम समय में अत्यंत तीव्र प्रवाह में इंजेक्ट करके जलाया जाता है।' },
-        { name: 'एक्स्टर्नल एक्सपेंशन नोजल', function: 'थ्रस्ट उत्पादन', engineeringNotes: 'वाहन का निचला पिछला भाग नोजल का कार्य करता है जहाँ गैसें फैलकर प्रचंड थ्रस्ट देती हैं।' },
-        { name: 'अल्ट्रा-हाई टेम्परेचर सेरामिक्स (UHTC)', function: 'थर्मल सुरक्षा', engineeringNotes: 'जिरकोनियम डाइबोराइड (ZrB2) और हैफनियम कार्बाइड (HfC) जो 2500°C तक बिना पिघले टिक सकते हैं।' }
-      ]
-    },
-    diagramPlaceholder: {
-      title: 'Schematic 43.1: Air-Breathing Scramjet Engine Airflow & Shockwaves',
-      caption: 'हाइपरसोनिक स्क्रैमजेट का शॉक-वेव डायग्राम: कंप्रेशन रैंप, सुपरसोनिक कम्बस्टर, फ्यूल इंजेक्टर स्ट्रट्स और एक्सपेंशन नोजल।',
-      labels: ['Inlet Compression Shock Train', 'Supersonic Airflow (Mach 1.5+ in Chamber)', 'Fuel Injection Struts (Kerosene/H2)', 'Supersonic Flame-holding Cavity', 'Single-Expansion Ramp Nozzle (SERN)']
-    },
-    indianProgrammesAndHistory: {
-      programmeName: 'हाइपरसोनिक टेक्नोलॉजी डिमॉन्स्ट्रेटर व्हीकल (HSTDV)',
-      organization: 'Defence Research and Development Organisation (DRDO)',
-      historicalContext: '7 सितंबर 2020 को DRDO ने डॉ. एपीजे अब्दुल कलाम द्वीप (चांदीपुर) से HSTDV का ऐतिहासिक सफल उड़ान परीक्षण किया।',
-      indigenousMilestone: 'सॉलिड रॉकेट बूस्टर द्वारा वाहन को 30 किमी की ऊंचाई पर मैक 6 की गति पर ले जाने के बाद स्क्रैमजेट इंजन ने हवा में सफलतापूर्वक प्रज्वलन और निरंतर दहन कर विश्व में भारत का परचम लहराया।',
-      publicSources: ['DRDO Press Release & Official Monograph: HSTDV Flight Demonstration 2020', 'AIAA Aerospace Sciences Meeting: Scramjet Aerodynamics']
-    },
-    engineeringChallenges: [
-      'कम्बस्टर में ठहराव समय (Residence Time): दहन कक्ष में हवा केवल 1 मिलीसेकंड (0.001 सेकंड) के लिए रहती है। इतने कम समय में ईंधन को मिलाना, प्रज्वलित करना और पूर्ण दहन करना चरम भौतिक विज्ञान है।',
-      'एयरोडायनामिक ड्रैग और लिफ्ट संतुलन: हाइपरसोनिक गति पर वाहन को संतुलित ग्लाइड कराने के लिए "वेवराइडर" (Waverider) आकृतियों की आवश्यकता होती है।'
-    ],
-    manufacturingAndQuality: 'हाइपरसोनिक कम्बस्टर के आंतरिक स्ट्रट्स को विशेष 3D मेटल प्रिंटिंग (DMLS) और रीफ्रैक्टरी सुपरअलॉयज से बनाया जाता है ताकि वे तीव्र शॉक-वेव कंपन सह सकें।',
-    keyTakeaways: [
-      'हाइपरसोनिक स्क्रैमजेट तकनीक वर्तमान वायुगतिकी विज्ञान की सर्वोच्च सीमा है।',
-      'HSTDV की सफलता के साथ भारत उन गिने-चुने देशों के समूह में शामिल हो गया जिनके पास स्क्रैमजेट उड़ान की तकनीक है।',
-      'यह तकनीक भविष्य की लंबी दूरी की क्रूज मिसाइलों और अंतरिक्ष में उपग्रह प्रक्षेपण की लागत को क्रांतिकारी रूप से घटाने में सहायक होगी।'
-    ],
-    importantTerms: [
-      { term: 'Scramjet', definition: 'Supersonic Combustion Ramjet — एक ऐसा जेट इंजन जिसमें आंतरिक दहन कक्ष में भी वायु की गति ध्वनि से तेज (सुपरसोनिक) बनी रहती है।' },
-      { term: 'Waverider', definition: 'एक ऐसा विशेष हाइपरसोनिक विमान डिजाइन जो अपनी ही नाक द्वारा उत्पन्न शॉक-वेव की सवारी करता है, जिससे न्यूनतम ड्रैग पर अधिकतम लिफ्ट प्राप्त होती है।' }
-    ],
-    furtherLearning: [
-      { topic: 'Hypersonic and High-Temperature Gas Dynamics (John D. Anderson Jr.)', referenceDoc: 'AIAA Education Series' },
-      { topic: 'Scramjet Propulsion Systems', referenceDoc: 'Progress in Aerospace Sciences' }
-    ],
-    quiz: [
-      {
-        question: 'स्क्रैमजेट (Scramjet) इंजन और पारंपरिक रैमजेट इंजन के बीच सबसे महत्वपूर्ण वैज्ञानिक अंतर क्या है?',
-        options: [
-          'स्क्रैमजेट केवल पानी के भीतर काम करता है',
-          'स्क्रैमजेट के दहन कक्ष (combustor) में भी वायु का प्रवाह सुपरसोनिक (ध्वनि से तेज) रहता है',
-          'रैमजेट में पिस्टन और क्रैंकशाफ्ट होते हैं',
-          'स्क्रैमजेट में किसी ईंधन की आवश्यकता नहीं होती'
-        ],
-        answerIndex: 1,
-        explanation: 'स्क्रैमजेट का अर्थ ही है "सुपरसोनिक कम्बशन रैमजेट", जहाँ दहन कक्ष में आने वाली वायु को सबसोनिक गति तक धीमा नहीं किया जाता बल्कि सुपरसोनिक गति पर ही ईंधन का दहन कराया जाता है।'
-      }
-    ]
-  },
+  42: BESPOKE_CHAPTER_42,
+
+  43: BESPOKE_CHAPTER_43,
+
+  47: BESPOKE_CHAPTER_47,
+
+  48: BESPOKE_CHAPTER_48,
 
   61: {
     introduction: 'रक्षा अनुसंधान एवं विकास संगठन (DRDO) भारत की सामरिक रक्षा आत्मनिर्भरता का तकनीकी आधार-स्तंभ है। 50 से अधिक अत्याधुनिक प्रयोगशालाओं, 5000+ वैज्ञानिकों और 25,000+ तकनीकी कर्मियों के साथ DRDO का नेटवर्क पूरे देश में फैला हुआ है।',

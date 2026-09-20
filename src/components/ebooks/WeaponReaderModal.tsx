@@ -872,6 +872,66 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
             </button>
 
             <button
+              onClick={() => {
+                setCurrentChapterNum(43);
+                setActiveTab('recipe-17');
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 43 && activeTab === 'recipe-17'
+                  ? 'bg-red-500 text-black font-bold shadow-sm shadow-red-500/20'
+                  : 'bg-red-950/50 hover:bg-red-900/60 text-red-300 border border-red-800/60'
+              }`}
+              title="हाइपरसोनिक स्क्रैमजेट तकनीक (Ch 43): Mach 6+ HSTDV, UHTC 2500°C थर्मल बैरियर व सुपरसोनिक दहन रेसिपी"
+            >
+              <span>🚀 हाइपरसोनिक (Ch 43)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setCurrentChapterNum(48);
+                setActiveTab('recipe-17');
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 48 && activeTab === 'recipe-17'
+                  ? 'bg-amber-500 text-black font-bold shadow-sm shadow-amber-500/20'
+                  : 'bg-amber-950/50 hover:bg-amber-900/60 text-amber-300 border border-amber-800/60'
+              }`}
+              title="डायरेक्टेड एनर्जी लेजर वेपन्स (Ch 48): 100 kW DURGA-II बीम-डायरेक्टर, एडाप्टिव ऑप्टिक्स व थर्मल एब्लेशन रेसिपी"
+            >
+              <span>⚡ 100 kW लेजर DEW (Ch 48)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setCurrentChapterNum(47);
+                setActiveTab('recipe-17');
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 47 && activeTab === 'recipe-17'
+                  ? 'bg-cyan-500 text-black font-bold shadow-sm shadow-cyan-500/20'
+                  : 'bg-cyan-950/50 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-800/60'
+              }`}
+              title="क्वांटम रडार एवं QKD एनक्रिप्शन (Ch 47): उलझे हुए फोटॉन, क्वांटम डिस्कोर्ड व एंटी-स्टेल्थ पहचान रेसिपी"
+            >
+              <span>⚛️ क्वांटम रडार (Ch 47)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setCurrentChapterNum(42);
+                setActiveTab('recipe-17');
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 42 && activeTab === 'recipe-17'
+                  ? 'bg-emerald-500 text-black font-bold shadow-sm shadow-emerald-500/20'
+                  : 'bg-emerald-950/50 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-800/60'
+              }`}
+              title="ऑटोनॉमस ड्रोन स्वॉर्म इंटेलिजेंस (Ch 42): CATS Warrior MUM-T, मेश MANET व रेनॉल्ड्स फ्लॉकिंग रेसिपी"
+            >
+              <span>🤖 स्वार्म MUM-T (Ch 42)</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('levels')}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
                 activeTab === 'levels'
@@ -1014,7 +1074,7 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
                           <div className="flex items-center gap-2 flex-shrink-0">
                             <button
                               onClick={() => {
-                                if (chapter.chapterNumber !== 15 && chapter.chapterNumber !== 21 && chapter.chapterNumber !== 23 && chapter.chapterNumber !== 24) {
+                                if (!chapter.engineeringRecipe && chapter.chapterNumber !== 15 && chapter.chapterNumber !== 21 && chapter.chapterNumber !== 23 && chapter.chapterNumber !== 24 && chapter.chapterNumber !== 42 && chapter.chapterNumber !== 43 && chapter.chapterNumber !== 47 && chapter.chapterNumber !== 48) {
                                   setCurrentChapterNum(15);
                                 }
                                 setActiveTab('recipe-17');
@@ -1206,6 +1266,52 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
                     chapterTitle={chapter.title}
                     chapterNumber={chapter.chapterNumber}
                   />
+                )}
+
+                {activeTab === 'recipe-17' && !chapter.engineeringRecipe && (
+                  <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-150 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800">
+                    <div className="text-center space-y-2">
+                      <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs font-bold border border-amber-500/30">
+                        17-Step Defence Engineering Recipes
+                      </span>
+                      <h3 className="text-xl font-bold text-zinc-100">
+                        विशेष 17-चरणीय रक्षा प्रौद्योगिकी निर्माण रेसिपीज
+                      </h3>
+                      <p className="text-xs text-zinc-400 max-w-xl mx-auto">
+                        वर्तमान अध्याय ({chapter.chapterNumber}) में सैद्धांतिक अध्ययन उपलब्ध है। निम्नलिखित प्रमुख रक्षा प्रणालियों की संपूर्ण 17-चरणीय व्यावहारिक निर्माण विधि देखने के लिए चयन करें:
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
+                      {[
+                        { num: 15, tag: 'Fighter Aircraft', title: 'फाइटर जेट निर्माण रेसिपी', desc: 'Mach 2+, VLO स्टेल्थ, DFBW फ्लाइट कंट्रोल, GaN AESA रडार', color: 'cyan', icon: '✈️' },
+                        { num: 21, tag: 'Jet Engine', title: 'टर्बोफैन इंजन निर्माण रेसिपी', desc: 'ब्रेटन चक्र, SX सिंगल-क्रिस्टल ब्लेड्स, आफ्टरबर्नर, FADEC', color: 'amber', icon: '🔥' },
+                        { num: 43, tag: 'Hypersonic', title: 'हाइपरसोनिक स्क्रैमजेट रेसिपी', desc: 'Mach 6+ HSTDV, UHTC 2500°C थर्मल बैरियर, सुपरसोनिक कम्बशन', color: 'red', icon: '🚀' },
+                        { num: 48, tag: 'DEW Laser', title: '100 kW लेजर वेपन रेसिपी', desc: 'DURGA-II फाइबर लेजर, एडाप्टिव ऑप्टिक्स, थर्मल एब्लेशन', color: 'orange', icon: '⚡' },
+                        { num: 47, tag: 'Quantum Defense', title: 'क्वांटम रडार व QKD रेसिपी', desc: 'उलझे हुए फोटॉन, SPDC, एंटी-स्टेल्थ पहचान व क्वांटम एन्क्रिप्शन', color: 'purple', icon: '⚛️' },
+                        { num: 42, tag: 'Swarm & MUM-T', title: 'स्वायत्त ड्रोन स्वार्म रेसिपी', desc: 'CATS Warrior, रेनॉल्ड्स फ्लॉकिंग, मेश MANET ऑटोनॉमी', color: 'emerald', icon: '🤖' }
+                      ].map((item) => (
+                        <button
+                          key={item.num}
+                          onClick={() => setCurrentChapterNum(item.num)}
+                          className="p-4 rounded-xl bg-zinc-950/80 hover:bg-zinc-800/80 border border-zinc-800 hover:border-zinc-700 text-left transition-all group cursor-pointer space-y-1.5"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-xl">{item.icon}</span>
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">
+                              Ch {item.num}
+                            </span>
+                          </div>
+                          <div className="font-bold text-sm text-zinc-200 group-hover:text-amber-400 transition-colors">
+                            {item.title}
+                          </div>
+                          <div className="text-[11px] text-zinc-400 leading-snug">
+                            {item.desc}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 )}
 
                 {/* TAB 3: 5 PROGRESSIVE LEARNING LEVELS */}
