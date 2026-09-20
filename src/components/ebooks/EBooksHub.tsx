@@ -1007,6 +1007,10 @@ export const EBooksHub: React.FC = () => {
           onClose={() => {
             setActiveReadingBook(null);
             setActiveBookId(null);
+            try {
+              localStorage.removeItem('hk_weapon_auth_session');
+              sessionStorage.removeItem('hk_weapon_auth_session');
+            } catch {}
             // Clean URL
             const url = new URL(window.location.href);
             url.searchParams.delete('book');

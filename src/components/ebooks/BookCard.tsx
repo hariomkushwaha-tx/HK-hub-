@@ -63,9 +63,16 @@ export const BookCard: React.FC<BookCardProps> = ({
 
           {/* Top Badges */}
           <div className="relative pl-2 flex items-center justify-between gap-1.5 z-10">
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-black/40 backdrop-blur-md border border-white/15 text-white">
-              {book.bookType || 'E-Book'}
-            </span>
+            {book.id === 'hk-weapon' ? (
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-amber-500 backdrop-blur-md border border-amber-300 text-black flex items-center gap-1 shadow-sm">
+                <Lock className="w-3 h-3" />
+                <span>पासवर्ड सुरक्षित</span>
+              </span>
+            ) : (
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-black/40 backdrop-blur-md border border-white/15 text-white">
+                {book.bookType || 'E-Book'}
+              </span>
+            )}
 
             <div className="flex items-center gap-1">
               {book.hasAudioBook && (
@@ -163,35 +170,67 @@ export const BookCard: React.FC<BookCardProps> = ({
         </div>
       </div>
 
-      {/* Pricing & Footer Actions (100% Free Open Education) */}
+      {/* Pricing & Footer Actions */}
       <div className="pt-3 mt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2">
-        {/* 100% Free Open Access badge */}
-        <div className="flex flex-col">
-          <div className="flex items-center gap-1.5">
-            <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 uppercase tracking-wider flex items-center gap-1">
-              <Sparkles className="w-3 h-3" />
-              100% FREE
-            </span>
-          </div>
-          <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-            Open Access E-Book
-          </span>
-        </div>
+        {book.id === 'hk-weapon' ? (
+          <>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1.5">
+                <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 uppercase tracking-wider flex items-center gap-1">
+                  <Lock className="w-3 h-3 text-amber-500" />
+                  पासवर्ड सुरक्षित
+                </span>
+              </div>
+              <span className="text-[10px] text-amber-600/90 dark:text-amber-400/90 mt-0.5 font-medium">
+                Password Required
+              </span>
+            </div>
 
-        {/* Read / Action button */}
-        <div className="flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onStartReading(book);
-            }}
-            className="px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white shadow-xs transition-all hover:scale-[1.02]"
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>{progress && progress.percentage > 0 ? 'Continue Reading' : 'Read Book'}</span>
-          </button>
-        </div>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onStartReading(book);
+                }}
+                className="px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black shadow-xs transition-all hover:scale-[1.02] cursor-pointer"
+              >
+                <Lock className="w-3.5 h-3.5" />
+                <span>अनलॉक करें</span>
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* 100% Free Open Access badge */}
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1.5">
+                <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 uppercase tracking-wider flex items-center gap-1">
+                  <Sparkles className="w-3 h-3" />
+                  100% FREE
+                </span>
+              </div>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+                Open Access E-Book
+              </span>
+            </div>
+
+            {/* Read / Action button */}
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onStartReading(book);
+                }}
+                className="px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white shadow-xs transition-all hover:scale-[1.02]"
+              >
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>{progress && progress.percentage > 0 ? 'Continue Reading' : 'Read Book'}</span>
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

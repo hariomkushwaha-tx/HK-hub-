@@ -5,6 +5,10 @@ import {
   Shield, 
   Lock, 
   Unlock, 
+  LockOpen,
+  Eye,
+  EyeOff,
+  ShieldAlert,
   Search, 
   ChevronLeft, 
   ChevronRight, 
@@ -102,12 +106,15 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
   const [aiResponse, setAiResponse] = useState<string | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
 
-  // Access Control & Security Passkey State (Default 100% Free Open Academic Access)
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
-  const [requiresAuth, setRequiresAuth] = useState<boolean>(false);
+  // Access Control & Security Passkey State (Strict Password Protection - Never auto-unlock)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [requiresAuth, setRequiresAuth] = useState<boolean>(true);
   const [authChecking, setAuthChecking] = useState<boolean>(false);
   const [passkeyInput, setPasskeyInput] = useState('');
+  const [showPasswordText, setShowPasswordText] = useState(false);
+  const [authSubmitting, setAuthSubmitting] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [authSuccess, setAuthSuccess] = useState<string | null>(null);
   const [authWatermark, setAuthWatermark] = useState<string>(
     `STUDENT ID: HKV-${Math.random().toString(36).substring(2, 8).toUpperCase()} • AUTHORIZED DEFENCE RESEARCH ARCHIVE`
   );
@@ -202,16 +209,23 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
   // Check Server Security Status on Mount
   useEffect(() => {
     let isMounted = true;
+    // Always clear any stored session so book starts strictly locked every time it is opened
+    try {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      sessionStorage.removeItem(AUTH_STORAGE_KEY);
+    } catch {}
     async function checkStatus() {
       try {
         const res = await fetch('/api/books/weapon/status');
         const data = await res.json();
         if (!isMounted) return;
-        setRequiresAuth(false);
-        setIsAuthenticated(true);
+        const needsAuth = data.requiresAuth ?? true;
+        setRequiresAuth(needsAuth);
+        // Strictly start locked
+        setIsAuthenticated(false);
       } catch (e) {
-        setRequiresAuth(false);
-        setIsAuthenticated(true);
+        setRequiresAuth(true);
+        setIsAuthenticated(false);
       } finally {
         if (isMounted) setAuthChecking(false);
       }
@@ -254,9 +268,24 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
     }
   }, [activeTab]);
 
+  const handleLockBook = () => {
+    try {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+    } catch {}
+    setIsAuthenticated(false);
+    setPasskeyInput('');
+    setAuthError(null);
+    setAuthSuccess(null);
+  };
+
   const handleVerifyPasskey = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!passkeyInput.trim()) {
+      setAuthError('कृपया सुरक्षा पासवर्ड दर्ज करें!');
+      return;
+    }
     setAuthError(null);
+    setAuthSubmitting(true);
     try {
       const res = await fetch('/api/books/weapon/verify-access', {
         method: 'POST',
@@ -268,21 +297,20 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
       });
       const data = await res.json();
       if (res.ok && data.authenticated) {
-        setIsAuthenticated(true);
+        setAuthSuccess(data.message || 'सुरक्षा पासवर्ड सत्यापित हुआ!');
         if (data.watermark) setAuthWatermark(data.watermark);
-        // Persist session
-        const sessionPayload = {
-          token: data.token,
-          expiresAt: Date.now() + (data.expiresInHours || 12) * 3600 * 1000,
-          watermark: data.watermark
-        };
-        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(sessionPayload));
-        setPasskeyInput('');
+        setTimeout(() => {
+          setIsAuthenticated(true);
+          setAuthSuccess(null);
+          setPasskeyInput('');
+        }, 300);
       } else {
-        setAuthError(data.message || 'सुरक्षा कोड अमान्य है।');
+        setAuthError(data.message || 'गलत पासवर्ड! कृपया सही सुरक्षा पासवर्ड दर्ज करें।');
       }
     } catch (err: any) {
       setAuthError('सर्वर से कनेक्ट करने में त्रुटि। कृपया पुनः प्रयास करें।');
+    } finally {
+      setAuthSubmitting(false);
     }
   };
 
@@ -345,105 +373,129 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
           </div>
           <div className="hidden sm:block h-4 w-px bg-zinc-800 flex-shrink-0" />
           <div className="min-w-0 flex items-center gap-1.5">
-            <span className="sm:hidden px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-amber-400 font-bold flex-shrink-0">
-              Ch {chapter.chapterNumber}
-            </span>
-            <h1 className="text-xs sm:text-sm font-medium text-zinc-200 truncate hidden sm:block">
-              Ch {chapter.chapterNumber}: {chapter.title}
-            </h1>
-            <p className="text-[11px] text-zinc-400 truncate hidden lg:block">
-              • {chapter.partTitle}
-            </p>
+            {isAuthenticated ? (
+              <>
+                <span className="sm:hidden px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-amber-400 font-bold flex-shrink-0">
+                  Ch {chapter.chapterNumber}
+                </span>
+                <h1 className="text-xs sm:text-sm font-medium text-zinc-200 truncate hidden sm:block">
+                  Ch {chapter.chapterNumber}: {chapter.title}
+                </h1>
+                <p className="text-[11px] text-zinc-400 truncate hidden lg:block">
+                  • {chapter.partTitle}
+                </p>
+              </>
+            ) : (
+              <span className="text-xs sm:text-sm font-medium text-amber-300 flex items-center gap-1.5 truncate">
+                <Lock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <span>सुरक्षित रक्षा अध्ययन • पासवर्ड आवश्यक (Passkey Required)</span>
+              </span>
+            )}
           </div>
         </div>
 
         {/* Action Controls */}
         <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-          {/* Bookmark */}
-          <button
-            id="weapon-bookmark-btn"
-            onClick={() => toggleBookmark('hk-weapon')}
-            className={`p-1.5 rounded-lg border transition-colors ${
-              isBookmarked('hk-weapon')
-                ? 'bg-amber-500/20 border-amber-500/40 text-amber-400'
-                : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
-            }`}
-            title="Bookmark Book"
-          >
-            <Bookmark className="w-4 h-4" />
-          </button>
+          {isAuthenticated ? (
+            <>
+              {/* Lock Book Button */}
+              <button
+                id="weapon-lock-book-btn"
+                onClick={handleLockBook}
+                className="px-2.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                title="पुस्तक पुनः लॉक करें (Lock Book)"
+              >
+                <Lock className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">पुस्तक लॉक करें</span>
+              </button>
 
-          {/* Share */}
-          <button
-            id="weapon-share-btn"
-            onClick={handleShare}
-            className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors relative"
-            title="Share Chapter Link"
-          >
-            {shareSuccess ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
-          </button>
+              {/* Bookmark */}
+              <button
+                id="weapon-bookmark-btn"
+                onClick={() => toggleBookmark('hk-weapon')}
+                className={`p-1.5 rounded-lg border transition-colors ${
+                  isBookmarked('hk-weapon')
+                    ? 'bg-amber-500/20 border-amber-500/40 text-amber-400'
+                    : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
+                }`}
+                title="Bookmark Book"
+              >
+                <Bookmark className="w-4 h-4" />
+              </button>
 
-          {/* Theme switcher */}
-          <div className="flex items-center bg-zinc-900 border border-zinc-800 rounded-lg p-0.5">
-            <button
-              onClick={() => setReadingTheme('dark')}
-              className={`p-1 rounded ${readingTheme === 'dark' ? 'bg-zinc-800 text-amber-400' : 'text-zinc-400'}`}
-              title="Dark Mode"
-            >
-              <Moon className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={() => setReadingTheme('sepia')}
-              className={`p-1 rounded ${readingTheme === 'sepia' ? 'bg-amber-900/40 text-amber-300' : 'text-zinc-400'}`}
-              title="Sepia Mode"
-            >
-              <span className="text-[11px] font-bold px-0.5">S</span>
-            </button>
-            <button
-              onClick={() => setReadingTheme('light')}
-              className={`p-1 rounded ${readingTheme === 'light' ? 'bg-zinc-200 text-zinc-900' : 'text-zinc-400'}`}
-              title="Light Mode"
-            >
-              <Sun className="w-3.5 h-3.5" />
-            </button>
-          </div>
+              {/* Share */}
+              <button
+                id="weapon-share-btn"
+                onClick={handleShare}
+                className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors relative"
+                title="Share Chapter Link"
+              >
+                {shareSuccess ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
+              </button>
 
-          {/* Font Size */}
-          <div className="hidden sm:flex items-center bg-zinc-900 border border-zinc-800 rounded-lg p-0.5 text-xs">
-            <button
-              onClick={() => setFontSize('sm')}
-              className={`px-1.5 py-0.5 rounded ${fontSize === 'sm' ? 'bg-zinc-800 text-white font-semibold' : 'text-zinc-400'}`}
-            >
-              A-
-            </button>
-            <button
-              onClick={() => setFontSize('base')}
-              className={`px-1.5 py-0.5 rounded ${fontSize === 'base' ? 'bg-zinc-800 text-white font-semibold' : 'text-zinc-400'}`}
-            >
-              A
-            </button>
-            <button
-              onClick={() => setFontSize('lg')}
-              className={`px-1.5 py-0.5 rounded ${fontSize === 'lg' ? 'bg-zinc-800 text-white font-semibold' : 'text-zinc-400'}`}
-            >
-              A+
-            </button>
-          </div>
+              {/* Theme switcher */}
+              <div className="flex items-center bg-zinc-900 border border-zinc-800 rounded-lg p-0.5">
+                <button
+                  onClick={() => setReadingTheme('dark')}
+                  className={`p-1 rounded ${readingTheme === 'dark' ? 'bg-zinc-800 text-amber-400' : 'text-zinc-400'}`}
+                  title="Dark Mode"
+                >
+                  <Moon className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={() => setReadingTheme('sepia')}
+                  className={`p-1 rounded ${readingTheme === 'sepia' ? 'bg-amber-900/40 text-amber-300' : 'text-zinc-400'}`}
+                  title="Sepia Mode"
+                >
+                  <span className="text-[11px] font-bold px-0.5">S</span>
+                </button>
+                <button
+                  onClick={() => setReadingTheme('light')}
+                  className={`p-1 rounded ${readingTheme === 'light' ? 'bg-zinc-200 text-zinc-900' : 'text-zinc-400'}`}
+                  title="Light Mode"
+                >
+                  <Sun className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
-          {/* Fullscreen */}
-          <button
-            onClick={() => setIsFullscreen(!isFullscreen)}
-            className="hidden md:flex p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors"
-            title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-          >
-            {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-          </button>
+              {/* Font Size */}
+              <div className="hidden sm:flex items-center bg-zinc-900 border border-zinc-800 rounded-lg p-0.5 text-xs">
+                <button
+                  onClick={() => setFontSize('sm')}
+                  className={`px-1.5 py-0.5 rounded ${fontSize === 'sm' ? 'bg-zinc-800 text-white font-semibold' : 'text-zinc-400'}`}
+                >
+                  A-
+                </button>
+                <button
+                  onClick={() => setFontSize('base')}
+                  className={`px-1.5 py-0.5 rounded ${fontSize === 'base' ? 'bg-zinc-800 text-white font-semibold' : 'text-zinc-400'}`}
+                >
+                  A
+                </button>
+                <button
+                  onClick={() => setFontSize('lg')}
+                  className={`px-1.5 py-0.5 rounded ${fontSize === 'lg' ? 'bg-zinc-800 text-white font-semibold' : 'text-zinc-400'}`}
+                >
+                  A+
+                </button>
+              </div>
+
+              {/* Fullscreen */}
+              <button
+                onClick={() => setIsFullscreen(!isFullscreen)}
+                className="hidden md:flex p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors"
+                title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+              >
+                {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+              </button>
+            </>
+          ) : null}
 
           {/* Close Modal */}
           <button
             id="weapon-close-modal-btn"
             onClick={onClose}
-            className="p-1.5 rounded-lg bg-red-950/40 border border-red-800/40 text-red-400 hover:bg-red-900/60 hover:text-white transition-colors ml-1"
+            className="p-1.5 rounded-lg bg-red-950/40 border border-red-800/40 text-red-400 hover:bg-red-900/60 hover:text-white transition-colors ml-1 cursor-pointer"
             title="Close Book"
           >
             <X className="w-4 h-4" />
@@ -451,8 +503,126 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
         </div>
       </header>
 
-      {/* Main Reader Workspace */}
-      <div className="flex-1 flex overflow-hidden relative">
+      {/* Main Reader Workspace OR Passkey Lock Screen */}
+      {!isAuthenticated ? (
+        <div className="flex-1 flex items-center justify-center p-4 sm:p-6 bg-gradient-to-b from-zinc-950 via-zinc-900 to-black overflow-y-auto relative">
+          <div className="max-w-md w-full bg-zinc-950 border border-amber-500/30 rounded-2xl shadow-2xl p-6 sm:p-8 space-y-6 relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            {/* Background Glow */}
+            <div className="absolute top-0 right-0 w-36 h-36 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-36 h-36 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+
+            {/* Security Icon Header */}
+            <div className="text-center space-y-3">
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-amber-500/10 border border-amber-500/40 flex items-center justify-center text-amber-400 shadow-xl shadow-amber-500/10">
+                <Lock className="w-8 h-8 text-amber-400" />
+              </div>
+              <div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[11px] font-mono font-bold tracking-wider uppercase mb-1.5">
+                  <Shield className="w-3 h-3" />
+                  <span>प्रतिबंधित शैक्षणिक अनुसंधान (Restricted Access)</span>
+                </div>
+                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                  HK WEAPON
+                </h2>
+                <p className="text-xs text-zinc-400 mt-1">
+                  उन्नत रक्षा प्रौद्योगिकी एवं एयरोस्पेस इंजीनियरिंग • 75 व्यापक अध्याय
+                </p>
+              </div>
+            </div>
+
+            {/* Security Info Notice */}
+            <div className="p-3.5 rounded-xl bg-zinc-900/80 border border-zinc-800 text-xs text-zinc-300 leading-relaxed space-y-1">
+              <p className="font-semibold text-amber-300 flex items-center gap-1.5">
+                <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0" />
+                सुरक्षा पासवर्ड आवश्यक (Passkey Required)
+              </p>
+              <p className="text-[11px] text-zinc-400">
+                यह पुस्तक रक्षा, रडार, स्टील्थ, मिसाइल डायनेमिक्स व एवियोनिक्स इंजीनियरिंग से संबंधित है। अनधिकृत पहुंच रोकने के लिए यह सुरक्षित रखी गई है। पुस्तक पढ़ने के लिए कृपया पासवर्ड दर्ज करें।
+              </p>
+            </div>
+
+            {/* Password Form */}
+            <form onSubmit={handleVerifyPasskey} className="space-y-4">
+              <div>
+                <div className="flex items-center justify-between text-xs font-medium text-zinc-300 mb-1.5">
+                  <span>सुरक्षा पासवर्ड दर्ज करें:</span>
+                  {authError && (
+                    <span className="text-[11px] text-red-400 font-semibold">
+                      {authError}
+                    </span>
+                  )}
+                </div>
+                <div className="relative">
+                  <input
+                    id="weapon-passkey-input"
+                    type={showPasswordText ? 'text' : 'password'}
+                    value={passkeyInput}
+                    onChange={(e) => {
+                      setPasskeyInput(e.target.value);
+                      setAuthError(null);
+                    }}
+                    placeholder="सुरक्षा पासवर्ड दर्ज करें..."
+                    autoFocus
+                    className="w-full bg-zinc-900 border border-zinc-700/80 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl pl-3.5 pr-10 py-2.5 text-sm text-white placeholder-zinc-500 font-mono tracking-wider transition-all"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPasswordText(!showPasswordText)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white p-1 cursor-pointer"
+                    title={showPasswordText ? 'पासवर्ड छुपाएं' : 'पासवर्ड देखें'}
+                  >
+                    {showPasswordText ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              {authSuccess && (
+                <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs flex items-center gap-2">
+                  <Check className="w-4 h-4 shrink-0" />
+                  <span>{authSuccess}</span>
+                </div>
+              )}
+
+              <button
+                id="weapon-unlock-submit-btn"
+                type="submit"
+                disabled={authSubmitting || !passkeyInput.trim()}
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              >
+                {authSubmitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    <span>सत्यापित किया जा रहा है...</span>
+                  </>
+                ) : (
+                  <>
+                    <LockOpen className="w-4 h-4" />
+                    <span>पुस्तक अनलॉक करें (Unlock Book)</span>
+                  </>
+                )}
+              </button>
+            </form>
+
+            {/* Security Notice & Exit */}
+            <div className="pt-3 border-t border-zinc-900 space-y-2 text-center">
+              <p className="text-[11px] text-zinc-400">
+                🔒 <strong>अत्यंत गोपनीय एवं सुरक्षित:</strong> केवल पासवर्ड धारक अधिकृत पाठक ही इस पुस्तक को खोल सकते हैं।
+              </p>
+              <div className="pt-1">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer underline"
+                >
+                  रद्द करें व बाहर जाएं (Cancel & Exit)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Main Reader Workspace */
+        <div className="flex-1 flex overflow-hidden relative">
         {/* Mobile TOC Backdrop */}
         {showTocMobile && (
           <div
@@ -657,6 +827,51 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
             </button>
 
             <button
+              onClick={() => {
+                setCurrentChapterNum(15);
+                setActiveTab('recipe-17');
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 15 && activeTab === 'recipe-17'
+                  ? 'bg-cyan-500 text-black font-bold shadow-sm shadow-cyan-500/20'
+                  : 'bg-cyan-950/50 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-800/60'
+              }`}
+              title="फाइटर एयरक्राफ्ट तकनीक निर्माण की संपूर्ण 17-चरणीय मास्टर रेसिपी (Mach 2+, Stealth, DFBW, GaN AESA)"
+            >
+              <span>✈️ फाइटर रेसिपी (Ch 15)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setCurrentChapterNum(21);
+                setActiveTab('recipe-17');
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 21 && activeTab === 'recipe-17'
+                  ? 'bg-amber-500 text-black font-bold shadow-sm shadow-amber-500/20'
+                  : 'bg-amber-950/50 hover:bg-amber-900/60 text-amber-300 border border-amber-800/60'
+              }`}
+              title="फाइटर जेट इंजन तकनीक रेसिपी (Ch 21): टर्बोफैन ब्रेटन चक्र, सिंगल-क्रिस्टल ब्लेड्स, आफ्टरबर्नर व FADEC"
+            >
+              <span>🔥 जेट इंजन रेसिपी (Ch 21)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setCurrentChapterNum(24);
+                setActiveTab('study-guide');
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 24
+                  ? 'bg-purple-500 text-black font-bold shadow-sm shadow-purple-500/20'
+                  : 'bg-purple-950/50 hover:bg-purple-900/60 text-purple-300 border border-purple-800/60'
+              }`}
+              title="5th व 6th जनरेशन फाइटर तकनीक: AMCA स्टेल्थ, MUM-T लॉयल विंगमैन ड्रोन्स, कॉग्निटिव EW और DEW लेजर वेपन्स"
+            >
+              <span>⚡ 5th/6th Gen AMCA (Ch 24)</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('levels')}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
                 activeTab === 'levels'
@@ -774,6 +989,65 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
                         {chapter.subtitle}
                       </p>
                     </div>
+
+                    {/* Fighter Aircraft Master Recipe Highlight Card for Part 3 (Chapters 15-24) */}
+                    {(chapter.chapterNumber >= 15 && chapter.chapterNumber <= 24) && (
+                      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-zinc-900 to-cyan-500/10 border border-amber-500/40 shadow-lg space-y-3">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div className="space-y-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500 text-black uppercase tracking-wider">
+                                ✈️ BEST AEROSPACE TECH RECIPE
+                              </span>
+                              <span className="text-[11px] font-medium text-cyan-400">
+                                4.5+ &amp; 5th/6th Gen Stealth Framework
+                              </span>
+                            </div>
+                            <h3 className="text-base sm:text-lg font-bold text-zinc-100">
+                              फाइटर एयरक्राफ्ट तकनीक निर्माण की 17-चरणीय मास्टर रेसिपी
+                            </h3>
+                            <p className="text-xs text-zinc-300 leading-relaxed max-w-2xl">
+                              सुपरसोनिक विटकॉम्ब एरिया रूल, वोर्टेक्स लिफ्ट, गैलियम नाइट्राइड (GaN) AESA रडार, DFBW फ्लाइट कंट्रोल, आफ्टरबर्निंग टर्बोफैन (3D TVC), कार्बन कंपोजिट्स, और AI लॉयल विंगमैन MUM-T तकनीक की संपूर्ण चरणबद्ध विधि।
+                            </p>
+                          </div>
+
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            <button
+                              onClick={() => {
+                                if (chapter.chapterNumber !== 15 && chapter.chapterNumber !== 21 && chapter.chapterNumber !== 23 && chapter.chapterNumber !== 24) {
+                                  setCurrentChapterNum(15);
+                                }
+                                setActiveTab('recipe-17');
+                              }}
+                              className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs shadow-md shadow-amber-500/20 flex items-center gap-1.5 transition-all cursor-pointer"
+                            >
+                              <Layers className="w-4 h-4 text-black" />
+                              <span>17-स्टेप रेसिपी देखें</span>
+                              <ChevronRight className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Key Specs Pills */}
+                        <div className="pt-2 border-t border-zinc-800/80 flex flex-wrap items-center gap-2 text-[11px] font-mono text-zinc-300">
+                          <span className="px-2 py-0.5 rounded bg-zinc-950/80 border border-zinc-800 text-amber-300">
+                            ⚡ Mach 2.0+ Supercruise
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-zinc-950/80 border border-zinc-800 text-cyan-300">
+                            🛡️ Stealth RCS &lt; 0.005 m²
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-zinc-950/80 border border-zinc-800 text-emerald-300">
+                            📡 GaN AESA (1200+ T/R)
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-zinc-950/80 border border-zinc-800 text-indigo-300">
+                            🎛️ Quad DFBW &amp; +9g
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-zinc-950/80 border border-zinc-800 text-purple-300">
+                            🤖 AI Loyal Wingman MUM-T
+                          </span>
+                        </div>
+                      </div>
+                    )}
 
                     {/* 1. Introduction */}
                     <section className={`p-5 rounded-xl border ${contentBg} space-y-3`}>
@@ -1333,6 +1607,7 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
           )}
         </main>
       </div>
+      )}
     </div>
   );
 };

@@ -84,6 +84,32 @@ export const DEFENCE_CASE_STUDIES: Record<string, DefenceCaseStudy> = {
     productionScale: 'टाटा एडवांस्ड सिस्टम्स और एलएंडटी (L&T) द्वारा लॉन्चर व कमांड पोस्ट्स तथा म्यूनिशन्स इंडिया लिमिटेड (MIL) द्वारा रॉकेट्स का पूर्ण निजी-सार्वजनिक उत्पादन।',
     deploymentStatus: 'भारतीय थलसेना की 10 से अधिक आर्टिलरी रेजिमेंट्स में पूरी तरह तैनात; आर्मेनिया जैसे मित्र देशों को ऐतिहासिक रक्षा निर्यात।',
     upgradesAndRoadmap: 'पिनाका Mk-2 (90 किमी रेंज), गाइडेड एक्सटेंडेड रेंज पिनाका (120 किमी), और एरिया डिनायल म्यूनिशन वारहेड्स।'
+  },
+  'amca-5th-gen': {
+    programmeName: 'Advanced Medium Combat Aircraft (AMCA) 5th Gen Stealth Programme',
+    leadAgency: 'Aeronautical Development Agency (ADA), DRDO & Indian Air Force',
+    historicalBackground: 'भविष्य के अत्यधिक सघन वायु रक्षा क्षेत्रों (A2/AD) को भेदने और 2030 के बाद भारत की हवाई संप्रभुता सुनिश्चित करने के लिए 5वीं व 5.5वीं पीढ़ी के स्टेल्थ फाइटर का राष्ट्रीय मिशन।',
+    researchProblem: 'अत्यंत निम्न रडार क्रॉस सेक्शन (Serpentine Air Intake, Internal Weapons Bay), सुपरक्रूज़, 110 kN थ्रस्ट क्लास का नेक्स्ट-जेन टर्बोफैन, और 360° मल्टी-स्पेक्ट्रल सेंसर फ्यूजन का विकास।',
+    technologyDevelopment: 'DSI (Diverterless Supersonic Inlet), सर्पेन्टाइन एस-डक्ट एयर इनटेक (जो रडार से इंजन ब्लेड्स को छुपाता है), गैलियम नाइट्राइड (GaN) AESA रडार, और ऑटोमेटेड कार्बन कंपोजिट एयरफ्रेम।',
+    prototypeMilestone: 'सुरक्षा मामलों की मंत्रिमंडलीय समिति (CCS) द्वारा मार्च 2024 में 15,000 करोड़ रुपये के पूर्ण विकास व 5 प्रोटोटाइप निर्माण को ऐतिहासिक मंजूरी।',
+    testingMethod: 'पूर्ण आकार के रडार क्रॉस-सेक्शन (RCS) टेस्ट रिग, बंगलुरू स्थित विंड टनल में सुपरसोनिक परीक्षण, और आयरन बर्ड ग्राउंड सिमुलेटर पर फ्लाइट कंट्रोल परीक्षण।',
+    evaluationResults: 'कंप्यूटर मॉडलिंग और स्केल मॉडल्स ने स्टेल्थ ज्यामिति, आंतरिक हथियार बे की संरचनात्मक अखंडता और सुपरक्रूज़ क्षमता का सफल प्रमाण दिया।',
+    productionScale: 'सार्वजनिक-निजी भागीदारी (SPV मॉडल) के तहत HAL और भारतीय निजी एयरोस्पेस कंपनियों द्वारा बड़े पैमाने पर संयुक्त विनिर्माण।',
+    deploymentStatus: 'प्रोटोटाइप निर्माण एवं धातु कटिंग का कार्य प्रगति पर; 2028-2029 में प्रथम उड़ान का लक्ष्य।',
+    upgradesAndRoadmap: 'AMCA Mk-1 (GE-F414 इंजन) से आगे बढ़कर AMCA Mk-2 (स्वदेशी 110 kN इंजन, डायरेक्टेड एनर्जी लेजर वेपन्स, और 6th Gen AI लॉयल विंगमैन MUM-T क्षमता)।'
+  },
+  'kaveri-engine': {
+    programmeName: 'Kaveri Gas Turbine Engine Programme & 110 kN Next-Gen Propulsion',
+    leadAgency: 'Gas Turbine Research Establishment (GTRE), DRDO, Bengaluru',
+    historicalBackground: '1986 में भारत ने स्वदेशी लड़ाकू विमान LCA तेजस के लिए 81 kN क्लास आफ्टरबर्निंग टर्बोफैन इंजन विकसित करने हेतु कावेरी कार्यक्रम शुरू किया। उस समय भारत के पास सैन्य एयरो-इंजन की मौलिक डिजाइन, सुपरअलॉय सामग्री और उच्च-तापमान परीक्षण सुविधाओं का अभाव था।',
+    researchProblem: 'अत्यंत गर्म भारतीय मौसम (45°C+ तापमान व उच्च आर्द्रता) में 81 kN थ्रस्ट उत्पन्न करना, बिना विदेशी मदद के सिंगल-क्रिस्टल ब्लेड्स बनाना, और कम्बशन चैंबर व आफ्टरबर्नर में 1800K तापमान पर धातुओं को पिघलने से बचाना।',
+    technologyDevelopment: 'GTRE ने DMRL हैदराबाद के साथ मिलकर स्वदेशी निकेल सुपरअलॉय, सिंगल-क्रिस्टल ब्लेड कास्टिंग, फ्लैट-रेटेड कंट्रोल लॉज, और भारत का पहला डुअल-चैनल स्वदेशी FADEC डिजिटल इंजन कंट्रोलर विकसित किया।',
+    prototypeMilestone: '9 पूर्ण कावेरी प्रोटोटाइप्स और 4 कबीनी कोर इंजनों का निर्माण; रूस के ग्रोमोव फ्लाइट रिसर्च इंस्टीट्यूट में IL-76 फ्लाइंग टेस्टबेड पर 73 सफल उड़ानों (कुल 57 घंटे) में 12 किमी ऊंचाई तक परीक्षण।',
+    testingMethod: 'बंगलुरू स्थित सी-लेवल टेस्ट फैसिलिटी (SLTB), रूस के मॉस्को में CIAM अल्टीट्यूड टेस्ट फैसिलिटी (ATF), और IL-76 फ्लाइंग टेस्टबेड पर वास्तविक उड़ान परीक्षण।',
+    evaluationResults: 'कावेरी इंजन ने 70.4 kN से 74 kN का वेट थ्रस्ट हासिल किया, जो तेजस Mk1 की तत्कालीन 81-85 kN की आवश्यकता से थोड़ा कम था, परंतु इसने भारत को सैन्य प्रोपल्शन का अमूल्य तकनीकी आधार दिया।',
+    productionScale: 'कावेरी के नॉन-आफ्टरबर्निंग संस्करण ‘ड्राई कावेरी’ (46 से 50 kN) का सफल पुनर्जन्म हुआ, जिसने भारत के गुप्त स्टेल्थ फ्लाइंग-विंग लड़ाकू ड्रोन ‘घातक’ (Ghatak UCAV / SWiFT) को शक्ति दी।',
+    deploymentStatus: 'ड्राई कावेरी का प्रोटोटाइप उत्पादन HAL इंजन डिवीजन द्वारा जारी; भारतीय नौसेना के फ्रिगेट्स हेतु मरीन गैस टर्बाइन (KMGT) का सफल विकास।',
+    upgradesAndRoadmap: '5वीं व 5.5वीं पीढ़ी के AMCA फाइटर जेट के लिए फ्रांस (Safran) / यूके (Rolls-Royce) के साथ 100% टेक्नोलॉजी ट्रांसफर और संयुक्त IP के तहत 110-120 kN के नए स्वदेशी टर्बोफैन का विकास।'
   }
 };
 
@@ -203,6 +229,36 @@ export const SAFE_PRACTICAL_PROJECTS: SafePracticalProject[] = [
     ],
     furtherImprovements: ['H-infinity रोबस्ट कंट्रोल एल्गोरिदम का समावेश।'],
     interactiveSimulatorType: 'control-loop'
+  },
+  {
+    id: 'proj-jet-engine-sim',
+    title: 'आफ्टरबर्निंग टर्बोफैन इंजन FADEC व ब्रेटन चक्र थर्मोडायनामिक सिमुलेटर',
+    category: 'Gas Turbine Propulsion & FADEC',
+    objective: 'लो-बाईपास आफ्टरबर्निंग टर्बोफैन के थर्मोडायनामिक ब्रेटन चक्र (Brayton Cycle), टर्बाइन इनलेट टेम्परेचर (TIT), N1/N2 स्पूल RPM, विशिष्ट ईंधन खपत (SFC) और 3D थ्रस्ट वेक्टरिंग डायनामिक्स का अध्ययन।',
+    requiredLearning: [
+      'ब्रेटन चक्र समीकरण: थ्रस्ट F = m_dot * (V_exit - V_inlet) + (P_exit - P_amb) * A_exit',
+      'कंप्रेसर प्रेशर रेशियो (OPR 28:1) और सर्ज मार्जिन (> 20%)',
+      'सिंगल-क्रिस्टल टर्बाइन कूलिंग इफेक्टिवनेस और थर्मल बैरियर कोटिंग (TBC) मार्जिन',
+      'आफ्टरबर्नर रीहीट कम्बशन और कम्बशन स्क्रीच डैम्पिंग'
+    ],
+    systemArchitecture: [
+      'इनपुट सेंसर स्तर: थ्रॉटल लिवर एंगल (TLA 0-110%), इनलेट टेम्परेचर T1, N1/N2 स्पीड सेंसर्स',
+      'प्रोसेसर स्तर: डुअल-चैनल FADEC (32-बिट माइक्रो-कंट्रोलर लूप 10 ms)',
+      'एक्चुएटर स्तर: हाइड्रो-मैकेनिकल फ्यूल मीटरिंग यूनिट (FMU) एवं वेरिएबल नोजल एक्चुएटर्स'
+    ],
+    softwareOrSimulation: 'कम्प्यूटेशनल गैस टर्बाइन थर्मोडायनामिक डिजिटल-ट्विन सिमुलेटर।',
+    implementationConcept: 'थ्रॉटल को आइडल (Idle 10%) से ड्राई मिलिट्री पावर (100%) और आफ्टरबर्नर (110%) पर ले जाने पर थ्रस्ट, फ्यूल फ्लो और टर्बाइन तापमान के वास्तविक परिवर्तन को देखना।',
+    testing: [
+      'आफ्टरबर्नर स्लैम टेस्ट: आइडल से फुल रीहीट 3.8 सेकंड में ले जाना और कंप्रेसर सर्ज मार्जिन की जांच।',
+      'थर्मल लिमिट टेस्ट: TIT को 1900 K पर ले जाकर सिंगल क्रिस्टल ब्लेड कूलिंग मार्जिन का सत्यापन।'
+    ],
+    expectedResult: 'फुल आफ्टरबर्नर पर 82 kN (ग्रोथ 110 kN) थ्रस्ट, 1900 K टर्बाइन गैस तापमान के बावजूद ब्लेड तापमान 1100°C के भीतर सुरक्षित रहता है।',
+    troubleshooting: [
+      { issue: 'कंप्रेसर में सर्ज (Surge) का खतरा', resolution: 'वेरिएबल स्टेटर वेन्स (VSV) के कोण को स्वतः री-एडजस्ट करें और ब्लीड वाल्व खोलें।' },
+      { issue: 'टर्बाइन ओवर-टेम्परेचर अलार्म', resolution: 'FADEC द्वारा फ्यूल फ्लो को तात्कालिक रूप से सीमित करें और कूलिंग एयर मास फ्लो बढ़ाएं।' }
+    ],
+    furtherImprovements: ['थ्री-स्ट्रीम एडैप्टिव साइकिल इंजन (ACE) वेरिएबल बाईपास मॉडल जोड़ना।'],
+    interactiveSimulatorType: 'digital-twin'
   }
 ];
 
@@ -210,6 +266,31 @@ export const SAFE_PRACTICAL_PROJECTS: SafePracticalProject[] = [
 // 4. EDUCATIONAL DIAGRAMS CATALOG
 // ==========================================
 export const EDUCATIONAL_DIAGRAMS: EducationalDiagram[] = [
+  {
+    id: 'diag-jet-engine',
+    title: 'Fighter Low-Bypass Turbofan Engine Gas Flow Architecture',
+    type: 'aircraft',
+    description: 'सुपरसोनिक इनटेक से लेकर फैन ब्लिस्क, हाई-प्रेशर कंप्रेसर, कम्बस्टर, सिंगल क्रिस्टल टर्बाइन, आफ्टरबर्नर और 3D TVC नोजल तक का संपूर्ण आंतरिक गैस प्रवाह आर्किटेक्चर।',
+    nodes: [
+      { id: 'dsi', label: '1. Supersonic DSI Intake', role: 'Inlet Air', details: 'बाउंड्री लेयर बंप हवा को संपीड़ित करता है और सेरपेन्टाइन डक्ट रडार से कंप्रेसर को छुपाता है।' },
+      { id: 'fan', label: '2. 3-Stage Transonic Blisk', role: 'LP Compressor (N1)', details: 'सॉलिड टाइटेनियम ब्लिस्क हवा को 3.8 गुना संपीड़ित कर बाईपास डक्ट व कोर में बांटता है।' },
+      { id: 'hpc', label: '3. 6-Stage HPC with VSV', role: 'HP Compressor (N2)', details: 'वेरिएबल स्टेटर वेन्स युक्त 6 चरण जो समग्र दबाव को 32:1 (3.2 MPa) तक पहुंचाते हैं।' },
+      { id: 'cmb', label: '4. Annular Low-NOx Combustor', role: 'Combustion', details: '16x एयर-ब्लास्ट नोजल्स ईंधन वाष्पीकृत कर गैस तापमान को 1850-1950 K तक ले जाते हैं।' },
+      { id: 'hpt', label: '5. SX Cooled HP Turbine', role: 'Expansion & Power', details: 'सिंगल-क्रिस्टल CMSX-4 ब्लेड्स 32,000 RPM पर कंप्रेसर को 28,000 HP की शक्ति देते हैं।' },
+      { id: 'lpt', label: '6. LP Turbine Spool', role: 'Fan Drive', details: 'गैस विस्तार की शेष ऊर्जा से फ्रंट फैन ब्लिस्क (N1 स्पूल) और एक्सेसरी गियरबॉक्स को घुमाना।' },
+      { id: 'ab', label: '7. Reheat Afterburner', role: 'Combat Boost', details: 'V-गटर फ्लेमहोल्डर्स में अतिरिक्त ईंधन छिड़काव; तापमान 2200 K; थ्रस्ट में +60% की वृद्धि।' },
+      { id: 'tvc', label: '8. 3D Con-Di TVC Nozzle', role: 'Vectoring & Thrust', details: 'सुपरसोनिक विस्तार और ±20° 3D थ्रस्ट वेक्टरिंग द्वारा पोस्ट-स्टॉल युद्धाभ्यास।' }
+    ],
+    connections: [
+      { from: 'dsi', to: 'fan', label: 'Mach 0.5 Diffused Air' },
+      { from: 'fan', to: 'hpc', label: 'Core Flow (70% Air)' },
+      { from: 'hpc', to: 'cmb', label: 'High Pressure 3.2 MPa' },
+      { from: 'cmb', to: 'hpt', label: '1900 K Hot Gas' },
+      { from: 'hpt', to: 'lpt', label: 'Drives HP Shaft (N2)' },
+      { from: 'lpt', to: 'ab', label: 'Drives Fan Shaft (N1)' },
+      { from: 'ab', to: 'tvc', label: '2200 K Supersonic Exhaust' }
+    ]
+  },
   {
     id: 'diag-lifecycle',
     title: 'Defence Technology Lifecycle: 8-Phase Pipeline',

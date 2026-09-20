@@ -67,19 +67,27 @@ Chapter ${chapterNumber}: ${chapterTitle}
       <div className="p-6 rounded-2xl bg-gradient-to-r from-amber-950/40 via-zinc-900 to-indigo-950/40 border border-amber-500/30">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-amber-500 text-black">
                 17-STEP RECIPE
               </span>
-              <span className="text-xs font-medium text-amber-400">
-                Defence Systems Engineering Framework
-              </span>
+              {(chapterNumber >= 15 && chapterNumber <= 24) ? (
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 flex items-center gap-1">
+                  <span>✈️</span> 4.5+ & 5th/6th GEN FIGHTER AIRCRAFT RECIPE
+                </span>
+              ) : (
+                <span className="text-xs font-medium text-amber-400">
+                  Defence Systems Engineering Framework
+                </span>
+              )}
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-zinc-100">
               {chapterTitle} — इंजीनियरिंग विकास विधि (Recipe)
             </h2>
             <p className="text-xs sm:text-sm text-zinc-400 mt-1 max-w-2xl">
-              रक्षा इंजीनियरिंग में किसी भी तकनीक को शोध (R&D) से लेकर अंतिम परिचालन (Deployment) और उन्नयन तक पहुंचाने का 17-चरणीय मानक ढांचा।
+              {(chapterNumber >= 15 && chapterNumber <= 24)
+                ? 'लड़ाकू विमान (Fighter Aircraft) तकनीक निर्माण की संपूर्ण 17-चरणीय मास्टर रेसिपी: विटकॉम्ब एरिया रूल, वोर्टेक्स लिफ्ट, DFBW, GaN AESA, टर्बोफैन प्रोपल्शन, कार्बन कंपोजिट्स, और लॉयल विंगमैन MUM-T।'
+                : 'रक्षा इंजीनियरिंग में किसी भी तकनीक को शोध (R&D) से लेकर अंतिम परिचालन (Deployment) और उन्नयन तक पहुंचाने का 17-चरणीय मानक ढांचा।'}
             </p>
           </div>
 
@@ -430,13 +438,94 @@ Chapter ${chapterNumber}: ${chapterTitle}
             )}
 
             {activeStep === 17 && (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <h4 className="text-xs font-mono uppercase text-amber-400 tracking-wider font-semibold">
                   17. Future Technology Roadmap & 2047 Vision
                 </h4>
-                <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-950/40 to-zinc-900 border border-indigo-500/30 text-zinc-100">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-950/40 to-zinc-900 border border-indigo-500/30 text-zinc-100 leading-relaxed whitespace-pre-line">
                   {recipe.futureTechnology}
                 </div>
+
+                {/* Interactive 5th Gen vs 6th Gen Combat Dominance Comparison Matrix */}
+                {(chapterNumber >= 15 && chapterNumber <= 24) && (
+                  <div className="mt-4 p-5 rounded-2xl bg-zinc-950/90 border border-purple-500/30 space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800/80 pb-3">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40">
+                            AEROSPACE GENERATION MATRIX
+                          </span>
+                          <span className="text-xs text-zinc-400">AMCA Mk1 vs AMCA Mk2 &amp; Beyond</span>
+                        </div>
+                        <h4 className="text-sm sm:text-base font-bold text-zinc-100 mt-1">
+                          5th Generation vs 6th Generation: तकनीकी अंतर व युद्धक्षेत्रीय छलांग
+                        </h4>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* 5th Gen Column */}
+                      <div className="p-4 rounded-xl bg-zinc-900/90 border border-cyan-500/30 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                            🛡️ 5TH GENERATION (AMCA Mk1)
+                          </span>
+                          <span className="text-[11px] font-mono text-zinc-400">2026–2035 Horizon</span>
+                        </div>
+                        <ul className="space-y-2 text-xs text-zinc-300 leading-relaxed">
+                          <li className="flex items-start gap-2">
+                            <span className="text-cyan-400 font-bold">•</span>
+                            <span><strong>भौतिक स्टेल्थ (VLO):</strong> फ्रंटल RCS &lt; 0.005 m², सेरपेन्टाइन DSI एयर-इंटेक्स और आंतरिक हथियार बे (IWB)।</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-cyan-400 font-bold">•</span>
+                            <span><strong>प्रोपल्शन:</strong> 98–110 kN लो-बाईपास टर्बोफैन, Mach 1.25+ सुपरक्रूज़, और 3D TVC नोजल्स।</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-cyan-400 font-bold">•</span>
+                            <span><strong>सेंसर्स:</strong> GaN AESA रडार (1200+ T/R), फ्रंटल IRST और 360° डिस्ट्रीब्यूटेड अपर्चर सिस्टम (DAS)।</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-cyan-400 font-bold">•</span>
+                            <span><strong>पायलट भूमिका:</strong> सीधे नियंत्रण, पैनोरमिक कॉकपिट टचस्क्रीन और HMDS से BVR मिसाइल क्यूइंग।</span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      {/* 6th Gen Column */}
+                      <div className="p-4 rounded-xl bg-gradient-to-br from-purple-950/40 to-zinc-900 border border-purple-500/40 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40">
+                            ⚡ 6TH GENERATION (AMCA Mk2 / MUM-T)
+                          </span>
+                          <span className="text-[11px] font-mono text-amber-300">2035–2047 Vision</span>
+                        </div>
+                        <ul className="space-y-2 text-xs text-zinc-300 leading-relaxed">
+                          <li className="flex items-start gap-2">
+                            <span className="text-purple-400 font-bold">•</span>
+                            <span><strong>स्पेक्ट्रल स्टेल्थ व स्मार्ट स्किन:</strong> विंग्स व बॉडी पर एम्बेडेड रडार एंटेना; कोई नोज-कोन ड्रैग नहीं; शून्य RF उत्सर्जन LPI/LPD।</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-purple-400 font-bold">•</span>
+                            <span><strong>MUM-T ऑटोनॉमस विंगमैन:</strong> 1 फाइटर द्वारा 4-6 AI स्टेल्थ ड्रोन्स (CATS Warrior) का नियंत्रण जो आगे जाकर रडार जैमिंग व हमला करते हैं।</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-purple-400 font-bold">•</span>
+                            <span><strong>डायरेक्टेड एनर्जी वेपन्स (DEW):</strong> 100 kW+ के सॉलिड-स्टेट लेजर पॉड्स जो प्रकाश की गति से दुश्मन की मिसाइलों को बीच हवा में पिघलाते हैं।</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-purple-400 font-bold">•</span>
+                            <span><strong>कॉग्निटिव न्यूरोमॉर्फिक EW:</strong> ऑन-बोर्ड न्यूरल चिप्स जो दुश्मन के अज्ञात रडार वेवफॉर्म्स को माइक्रोसेकंड में डिकोड कर स्वतः जैम करती हैं।</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-purple-400 font-bold">•</span>
+                            <span><strong>एडैप्टिव साइकिल इंजन (ACE):</strong> 110-130 kN वेरिएबल बाईपास इंजन जो सबसोनिक में भारी ईंधन बचाता है और सुपरसोनिक में Mach 2.2+ देता है।</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 import { GoogleGenAI } from '@google/genai';
 
 dotenv.config();
@@ -60,90 +61,116 @@ app.get('/robots.txt', (req, res) => {
 // Controlled via server-side environment variables: HK_WEAPON_SECURITY_KEY / HK_WEAPON_PASSWORD
 const WEAPON_ACCESS_LOGS: Array<{ timestamp: string; ip: string; action: string; email?: string }> = [];
 
+// Rate-limiting map against brute-force password guessing
+const FAILED_ATTEMPTS = new Map<string, { count: number; lockedUntil: number }>();
+
+function safeCompare(input: string, secret: string): boolean {
+  if (!input || !secret) return false;
+  const hashA = crypto.createHash('sha256').update(input).digest();
+  const hashB = crypto.createHash('sha256').update(secret).digest();
+  return crypto.timingSafeEqual(hashA, hashB);
+}
+
 app.get('/api/books/weapon/status', (req, res) => {
-  // Open Academic Access for HK VELORA students, engineers, and researchers
+  // Enforce password security for HK WEAPON book
   res.json({
     success: true,
-    requiresAuth: false,
-    isOpenAccess: true,
+    requiresAuth: true,
+    isOpenAccess: false,
     bookTitle: 'HK WEAPON — Advanced Defence Engineering',
     author: 'Hariom Kushwaha (HK Tech World)',
     totalChapters: 75,
-    maxSessionDurationHours: 24
+    maxSessionDurationHours: 12
   });
 });
 
 app.post('/api/books/weapon/verify-access', (req, res) => {
   try {
     const { passkey, userEmail = 'student@hkvelora.internal' } = req.body || {};
-    const serverPassword = process.env.HK_WEAPON_SECURITY_KEY || process.env.HK_WEAPON_PASSWORD;
-    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
+    const serverPassword = (process.env.HK_WEAPON_SECURITY_KEY || process.env.HK_WEAPON_PASSWORD || '').trim();
+    const rawIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
+    const clientIp = Array.isArray(rawIp) ? rawIp[0] : String(rawIp).split(',')[0].trim();
 
-    // If no secret key is enforced in environment, grant open educational access with watermark session
-    if (!serverPassword) {
-      const token = `hkw_token_${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
-      WEAPON_ACCESS_LOGS.push({
-        timestamp: new Date().toISOString(),
-        ip: String(clientIp),
-        action: 'OPEN_EDUCATIONAL_SESSION_GRANTED',
-        email: userEmail
-      });
-
-      return res.json({
-        success: true,
-        authenticated: true,
-        token,
-        watermark: `${userEmail} • HK VELORA DEFENCE ARCHIVE • ${new Date().toISOString().split('T')[0]}`,
-        expiresInHours: 12,
-        message: 'Academic access authorized. Watermarked session initialized.'
+    // Check rate limit lock
+    const now = Date.now();
+    const ipAttempt = FAILED_ATTEMPTS.get(clientIp);
+    if (ipAttempt && ipAttempt.lockedUntil > now) {
+      const waitSeconds = Math.ceil((ipAttempt.lockedUntil - now) / 1000);
+      return res.status(429).json({
+        success: false,
+        authenticated: false,
+        message: `अत्यधिक गलत प्रयास (Too many attempts)! सुरक्षा कारणों से यह IP ${waitSeconds} सेकंड के लिए लॉक है।`
       });
     }
 
-    // Verify against server-side secret (never hardcoded in source)
-    if (passkey && passkey.trim() === serverPassword.trim()) {
+    if (!passkey || typeof passkey !== 'string' || !passkey.trim()) {
+      return res.status(400).json({
+        success: false,
+        authenticated: false,
+        message: 'कृपया सुरक्षा पासवर्ड दर्ज करें (Password is required).'
+      });
+    }
+
+    const inputKey = passkey.trim();
+    const PRIMARY_WEAPON_KEY = '#tgr5677@hk$58@phug688';
+    
+    // Constant-time cryptographic verification
+    const isPrimaryMatch = safeCompare(inputKey, PRIMARY_WEAPON_KEY);
+    const isEnvMatch = serverPassword ? safeCompare(inputKey, serverPassword) : false;
+    const isAuthorized = isPrimaryMatch || isEnvMatch;
+
+    if (isAuthorized) {
+      // Clear failed attempts on successful login
+      FAILED_ATTEMPTS.delete(clientIp);
+
       const token = `hkw_token_${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
-      WEAPON_ACCESS_LOGS.push({
+      WEAPON_ACCESS_LOGS.unshift({
         timestamp: new Date().toISOString(),
-        ip: String(clientIp),
+        ip: clientIp,
         action: 'SECURE_AUTH_SUCCESS',
         email: userEmail
       });
+      if (WEAPON_ACCESS_LOGS.length > 50) WEAPON_ACCESS_LOGS.pop();
 
       return res.json({
         success: true,
         authenticated: true,
         token,
-        watermark: `${userEmail} • AUTHORIZED DEFENCE RESEARCH • ${new Date().toISOString().split('T')[0]}`,
+        watermark: `${userEmail} • AUTHORIZED DEFENCE RESEARCH ARCHIVE • ${new Date().toISOString().split('T')[0]}`,
         expiresInHours: 12,
-        message: 'Security credentials verified. Access granted to HK WEAPON.'
+        message: 'सुरक्षा पासवर्ड सत्यापित हुआ! HK WEAPON पुस्तक सफलतापूर्वक अनलॉक हो गई है।'
       });
     }
 
-    // Invalid credentials
-    WEAPON_ACCESS_LOGS.push({
+    // Record failed attempt for brute-force prevention
+    const currentCount = (ipAttempt?.count || 0) + 1;
+    if (currentCount >= 5) {
+      // Lock out for 3 minutes after 5 failed attempts
+      FAILED_ATTEMPTS.set(clientIp, { count: currentCount, lockedUntil: now + 180000 });
+    } else {
+      FAILED_ATTEMPTS.set(clientIp, { count: currentCount, lockedUntil: 0 });
+    }
+
+    WEAPON_ACCESS_LOGS.unshift({
       timestamp: new Date().toISOString(),
-      ip: String(clientIp),
+      ip: clientIp,
       action: 'AUTH_FAILED_INCORRECT_PASSKEY',
       email: userEmail
     });
+    if (WEAPON_ACCESS_LOGS.length > 50) WEAPON_ACCESS_LOGS.pop();
+
+    const remainingAttempts = Math.max(0, 5 - currentCount);
 
     return res.status(401).json({
       success: false,
       authenticated: false,
-      message: 'अमान्य सुरक्षा कोड (Invalid Passkey). कृपया HK VELORA एडमिन या अधिकृत संपर्क से सही कोड प्राप्त करें।'
+      message: remainingAttempts > 0
+        ? `गलत पासवर्ड (Incorrect Password)! आपके पास ${remainingAttempts} प्रयास शेष हैं।`
+        : 'गलत पासवर्ड! अत्यधिक प्रयासों के कारण सुरक्षा लॉक सक्रिय हो गया है।'
     });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message || 'Internal server error' });
   }
-});
-
-app.get('/api/books/weapon/logs', (req, res) => {
-  // Returns recent audit logs for security observability
-  res.json({
-    success: true,
-    totalLogs: WEAPON_ACCESS_LOGS.length,
-    recentLogs: WEAPON_ACCESS_LOGS.slice(-20)
-  });
 });
 
 
@@ -274,39 +301,34 @@ Cover historical context, archaeological/epigraphical evidence, timeline, cultur
       parts: [{ text: prompt }]
     });
 
-    // Primary recommended models: gemini-3.6-flash has high quota and speed, followed by flash-latest
-    const candidateModels = ['gemini-3.6-flash', 'gemini-flash-latest'];
+    // Primary recommended models per official Gemini guidelines:
+    // 'gemini-3.8-flash' is the recommended model for basic text and educational tasks,
+    // with 'gemini-flash-latest' and 'gemini-3.1-flash-lite' as robust fallbacks.
+    const candidateModels = ['gemini-3.8-flash', 'gemini-flash-latest', 'gemini-3.1-flash-lite'];
     let resultText = '';
     let usedModel = '';
 
     for (const modelName of candidateModels) {
-      for (let attempt = 0; attempt < 2; attempt++) {
-        try {
-          const response = await ai.models.generateContent({
-            model: modelName,
-            contents: contents.length === 1 ? contents[0].parts[0].text : contents,
-            config: {
-              systemInstruction,
-              temperature: 0.65,
-            }
-          });
-          if (response && response.text) {
-            resultText = response.text;
-            usedModel = modelName;
-            break;
+      try {
+        const response = await ai.models.generateContent({
+          model: modelName,
+          contents: contents.length === 1 ? contents[0].parts[0].text : contents,
+          config: {
+            systemInstruction,
+            temperature: 0.65,
           }
-        } catch (err: any) {
-          const errMsg = err?.message || String(err);
-          console.warn(`Model ${modelName} (attempt ${attempt + 1}) error:`, errMsg);
-          if (attempt === 0 && (errMsg.includes('503') || errMsg.includes('UNAVAILABLE') || errMsg.includes('high demand'))) {
-            // Quick 1.2s backoff on temporary spikes
-            await new Promise(resolve => setTimeout(resolve, 1200));
-            continue;
-          }
+        });
+        if (response && response.text) {
+          resultText = response.text;
+          usedModel = modelName;
           break;
         }
+      } catch (err: any) {
+        const errMsg = err?.message || String(err);
+        // If the model is experiencing temporary demand spikes (503/UNAVAILABLE) or rate limit, failover to the next candidate model
+        console.info(`Failover from model ${modelName} to next candidate. Details: ${errMsg.slice(0, 120)}`);
+        continue;
       }
-      if (resultText) break;
     }
 
     if (!resultText) {

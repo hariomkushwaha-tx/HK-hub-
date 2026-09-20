@@ -293,43 +293,74 @@ export const BookDetailsModal: React.FC<BookDetailsModalProps> = ({
                 </div>
               </div>
 
-              {/* 100% Free Open Education Badge & Action */}
+              {/* Pricing / Access Status & Action */}
               <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center justify-between flex-wrap gap-3">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 uppercase tracking-wider flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5" />
-                      100% Free Open Access
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-slate-400 mt-1">
-                    Free for all students and learners • Full edition unlocked
-                  </p>
-                </div>
+                {book.id === 'hk-weapon' ? (
+                  <>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500/20 text-amber-400 border border-amber-500/40 uppercase tracking-wider flex items-center gap-1.5">
+                          <Lock className="w-3.5 h-3.5" />
+                          पासवर्ड सुरक्षित (Password Protected)
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-zinc-400 mt-1">
+                        सुरक्षित रक्षा शोध पुस्तक • पढ़ने के लिए सुरक्षा पासवर्ड अनिवार्य है
+                      </p>
+                    </div>
 
-                {/* Action Buttons */}
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => {
-                      onClose();
-                      onStartReading(book);
-                    }}
-                    className="px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/20 flex items-center gap-2 transition-all hover:scale-[1.02]"
-                  >
-                    <BookOpen className="w-4 h-4" />
-                    <span>Read Online Now</span>
-                  </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => {
+                          onClose();
+                          onStartReading(book);
+                        }}
+                        className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-xs shadow-lg shadow-amber-500/20 flex items-center gap-2 transition-all hover:scale-[1.02] cursor-pointer"
+                      >
+                        <Lock className="w-4 h-4" />
+                        <span>पासवर्ड डालकर खोलें (Unlock Book)</span>
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 uppercase tracking-wider flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5" />
+                          100% Free Open Access
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-400 mt-1">
+                        Free for all students and learners • Full edition unlocked
+                      </p>
+                    </div>
 
-                  <a
-                    href={book.downloadUrl || book.readOnlineUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-colors"
-                    title="Download PDF or Open-Source Portal"
-                  >
-                    <Download className="w-4 h-4" />
-                  </a>
-                </div>
+                    {/* Action Buttons */}
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => {
+                          onClose();
+                          onStartReading(book);
+                        }}
+                        className="px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/20 flex items-center gap-2 transition-all hover:scale-[1.02]"
+                      >
+                        <BookOpen className="w-4 h-4" />
+                        <span>Read Online Now</span>
+                      </button>
+
+                      <a
+                        href={book.downloadUrl || book.readOnlineUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="p-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-colors"
+                        title="Download PDF or Open-Source Portal"
+                      >
+                        <Download className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* What You'll Learn Box */}

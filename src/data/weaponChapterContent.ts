@@ -7,6 +7,15 @@ import {
   SAFE_PRACTICAL_PROJECTS, 
   EDUCATIONAL_DIAGRAMS 
 } from './weaponEngineeringData';
+import { 
+  BESPOKE_CHAPTER_15, 
+  BESPOKE_CHAPTER_24, 
+  FIGHTER_AIRCRAFT_ENGINEERING_RECIPE_17 
+} from './fighterAircraftRecipe';
+import { 
+  BESPOKE_CHAPTER_21, 
+  FIGHTER_JET_ENGINE_ENGINEERING_RECIPE_17 
+} from './fighterJetEngineRecipe';
 
 export const WEAPON_STORAGE_KEY = 'hk_weapon_custom_edits';
 
@@ -160,6 +169,8 @@ const BESPOKE_WEAPON_CHAPTERS: Record<number, Partial<WeaponChapter>> = {
     ]
   },
 
+  15: BESPOKE_CHAPTER_15,
+
   23: {
     introduction: 'लाइट कॉम्बैट एयरक्राफ्ट (LCA) तेजस की विकास यात्रा भारत के एयरोस्पेस इंजीनियरिंग इतिहास का सबसे प्रेरणादायक और चुनौतीपूर्ण अध्याय है। 1980 के दशक में जब भारत ने एक 4.5 पीढ़ी का सुपरसोनिक, टेललेस कंपाउंड-डेल्टा विंग लड़ाकू विमान बनाने का संकल्प लिया, तो देश के पास न तो फ्लाई-बाय-वायर सॉफ्टवेयर का अनुभव था, न ही कार्बन कंपोजिट विनिर्माण का ढांचा।',
     engineeringContext: 'तेजस को जानबूझकर स्टैटिकली अनस्टेबल (Statically Unstable) डिजाइन किया गया था ताकि वह हवा में बिजली की तेजी से कलाबाजियां खा सके। लेकिन ऐसे विमान को बिना कंप्यूटर सहायता के कोई भी मानव पायलट स्थिर नहीं रख सकता। इसके लिए क्वाड-रिडंडेंट (Quad-redundant) डिजिटल फ्लाई-बाय-वायर (DFBW) फ्लाइट कंट्रोल सिस्टम की आवश्यकता थी, जिसे भारतीय वैज्ञानिकों ने पूरी तरह स्वदेशी रूप से विकसित किया।',
@@ -220,8 +231,13 @@ const BESPOKE_WEAPON_CHAPTERS: Record<number, Partial<WeaponChapter>> = {
         answerIndex: 1,
         explanation: 'तेजस के एयरफ्रेम में कार्बन फाइबर कंपोजिट्स (CFRP) का व्यापक उपयोग किया गया है, जिससे यह हल्का, जंग-रोधी और अत्यधिक मजबूत बनता है।'
       }
-    ]
+    ],
+    engineeringRecipe: FIGHTER_AIRCRAFT_ENGINEERING_RECIPE_17
   },
+
+  21: BESPOKE_CHAPTER_21,
+
+  24: BESPOKE_CHAPTER_24,
 
   26: {
     introduction: 'AESA (Active Electronically Scanned Array) रडार आधुनिक सैन्य रडार तकनीक का शिखर है। पारंपरिक रडारों में एक ही ट्रांसमीटर ट्यूब होती थी और एंटीना को यांत्रिक रूप से घुमाकर दिशा बदली जाती थी। इसके विपरीत AESA में हजारों स्वतंत्र, लघु ट्रांसमिट/रिसीव (T/R) मॉड्यूल होते हैं जो प्रकाश की गति से बीम को मोड़ते हैं।',
