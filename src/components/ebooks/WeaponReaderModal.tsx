@@ -221,8 +221,8 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
         return;
       }
 
-      // Check if session is already active in sessionStorage
-      const sessionActive = sessionStorage.getItem(AUTH_STORAGE_KEY) === 'true';
+      // Check if session is already active in sessionStorage or localStorage
+      const sessionActive = sessionStorage.getItem(AUTH_STORAGE_KEY) === 'true' || localStorage.getItem(AUTH_STORAGE_KEY) === 'true';
       if (sessionActive) {
         setIsAuthenticated(true);
       } else {
@@ -488,39 +488,28 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
         <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
           {isAuthenticated ? (
             <>
-              {/* Lock Book Button */}
-              <button
-                id="weapon-lock-book-btn"
-                onClick={handleLockBook}
-                className="px-2.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
-                title="पुस्तक पुनः लॉक करें (Lock Book)"
-              >
-                <Lock className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">पुस्तक लॉक करें</span>
-              </button>
-
               {/* Bookmark */}
               <button
                 id="weapon-bookmark-btn"
                 onClick={() => toggleBookmark('hk-weapon')}
-                className={`p-1.5 rounded-lg border transition-colors ${
+                className={`p-1.5 sm:p-2 rounded-lg border transition-colors ${
                   isBookmarked('hk-weapon')
                     ? 'bg-amber-500/20 border-amber-500/40 text-amber-400'
                     : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
                 }`}
-                title="Bookmark Book"
+                title="अध्याय बुकमार्क करें"
               >
-                <Bookmark className="w-4 h-4" />
+                <Bookmark className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
 
               {/* Share */}
               <button
                 id="weapon-share-btn"
                 onClick={handleShare}
-                className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors relative"
-                title="Share Chapter Link"
+                className="p-1.5 sm:p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors relative"
+                title="अध्याय लिंक कॉपी करें"
               >
-                {shareSuccess ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
+                {shareSuccess ? <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
               </button>
 
               {/* Theme switcher */}
@@ -530,21 +519,21 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
                   className={`p-1 rounded ${readingTheme === 'dark' ? 'bg-zinc-800 text-amber-400' : 'text-zinc-400'}`}
                   title="Dark Mode"
                 >
-                  <Moon className="w-3.5 h-3.5" />
+                  <Moon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </button>
                 <button
                   onClick={() => setReadingTheme('sepia')}
                   className={`p-1 rounded ${readingTheme === 'sepia' ? 'bg-amber-900/40 text-amber-300' : 'text-zinc-400'}`}
                   title="Sepia Mode"
                 >
-                  <span className="text-[11px] font-bold px-0.5">S</span>
+                  <span className="text-[10px] sm:text-[11px] font-bold px-0.5">S</span>
                 </button>
                 <button
                   onClick={() => setReadingTheme('light')}
                   className={`p-1 rounded ${readingTheme === 'light' ? 'bg-zinc-200 text-zinc-900' : 'text-zinc-400'}`}
                   title="Light Mode"
                 >
-                  <Sun className="w-3.5 h-3.5" />
+                  <Sun className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </button>
               </div>
 
@@ -577,16 +566,6 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
                 title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
               >
                 {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-              </button>
-
-              {/* Lock Book Button */}
-              <button
-                onClick={handleLockBook}
-                className="p-1.5 sm:px-2.5 sm:py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/40 text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1.5 text-xs font-semibold cursor-pointer shadow-sm"
-                title="सुरक्षा लॉक सक्रिय करें (Lock Book Now)"
-              >
-                <Lock className="w-3.5 h-3.5 text-amber-400" />
-                <span className="hidden sm:inline">लॉक करें</span>
               </button>
             </>
           ) : null}
@@ -937,6 +916,7 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
 
           {/* Sub-Header Row 2: Dedicated Full-Width Scrollable Tabs Ribbon */}
           <div className="w-full bg-zinc-950 border-b border-inherit/40 px-2 sm:px-4 py-1.5 overflow-x-auto flex items-center gap-1.5 z-10 scrollbar-none scroll-smooth">
+            {/* Core Chapter Tabs */}
             <button
               onClick={() => setActiveTab('study-guide')}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
@@ -946,7 +926,7 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
               }`}
             >
               <BookOpen className="w-3.5 h-3.5" />
-              <span>अध्याय अध्ययन</span>
+              <span>📖 अध्याय अध्ययन</span>
             </button>
 
             <button
@@ -958,136 +938,7 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
               }`}
             >
               <Layers className="w-3.5 h-3.5 text-amber-400" />
-              <span>17-स्टेप रेसिपी</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setCurrentChapterNum(15);
-                setActiveTab('recipe-17');
-              }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
-                currentChapterNum === 15 && activeTab === 'recipe-17'
-                  ? 'bg-cyan-500 text-black font-bold shadow-sm shadow-cyan-500/20'
-                  : 'bg-cyan-950/50 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-800/60'
-              }`}
-              title="फाइटर एयरक्राफ्ट तकनीक निर्माण की संपूर्ण 17-चरणीय मास्टर रेसिपी (Mach 2+, Stealth, DFBW, GaN AESA)"
-            >
-              <span>✈️ फाइटर रेसिपी (Ch 15)</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setCurrentChapterNum(21);
-                setActiveTab('recipe-17');
-              }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
-                currentChapterNum === 21 && activeTab === 'recipe-17'
-                  ? 'bg-amber-500 text-black font-bold shadow-sm shadow-amber-500/20'
-                  : 'bg-amber-950/50 hover:bg-amber-900/60 text-amber-300 border border-amber-800/60'
-              }`}
-              title="फाइटर जेट इंजन तकनीक रेसिपी (Ch 21): टर्बोफैन ब्रेटन चक्र, सिंगल-क्रिस्टल ब्लेड्स, आफ्टरबर्नर व FADEC"
-            >
-              <span>🔥 जेट इंजन रेसिपी (Ch 21)</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setCurrentChapterNum(24);
-                setActiveTab('study-guide');
-              }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
-                currentChapterNum === 24
-                  ? 'bg-purple-500 text-black font-bold shadow-sm shadow-purple-500/20'
-                  : 'bg-purple-950/50 hover:bg-purple-900/60 text-purple-300 border border-purple-800/60'
-              }`}
-              title="5th व 6th जनरेशन फाइटर तकनीक: AMCA स्टेल्थ, MUM-T लॉयल विंगमैन ड्रोन्स, कॉग्निटिव EW और DEW लेजर वेपन्स"
-            >
-              <span>⚡ 5th/6th Gen AMCA (Ch 24)</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setCurrentChapterNum(43);
-                setActiveTab('recipe-17');
-              }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
-                currentChapterNum === 43 && activeTab === 'recipe-17'
-                  ? 'bg-red-500 text-black font-bold shadow-sm shadow-red-500/20'
-                  : 'bg-red-950/50 hover:bg-red-900/60 text-red-300 border border-red-800/60'
-              }`}
-              title="हाइपरसोनिक स्क्रैमजेट तकनीक (Ch 43): Mach 6+ HSTDV, UHTC 2500°C थर्मल बैरियर व सुपरसोनिक दहन रेसिपी"
-            >
-              <span>🚀 हाइपरसोनिक (Ch 43)</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setCurrentChapterNum(48);
-                setActiveTab('recipe-17');
-              }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
-                currentChapterNum === 48 && activeTab === 'recipe-17'
-                  ? 'bg-amber-500 text-black font-bold shadow-sm shadow-amber-500/20'
-                  : 'bg-amber-950/50 hover:bg-amber-900/60 text-amber-300 border border-amber-800/60'
-              }`}
-              title="डायरेक्टेड एनर्जी लेजर वेपन्स (Ch 48): 100 kW DURGA-II बीम-डायरेक्टर, एडाप्टिव ऑप्टिक्स व थर्मल एब्लेशन रेसिपी"
-            >
-              <span>⚡ 100 kW लेजर DEW (Ch 48)</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setCurrentChapterNum(47);
-                setActiveTab('recipe-17');
-              }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
-                currentChapterNum === 47 && activeTab === 'recipe-17'
-                  ? 'bg-cyan-500 text-black font-bold shadow-sm shadow-cyan-500/20'
-                  : 'bg-cyan-950/50 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-800/60'
-              }`}
-              title="क्वांटम रडार एवं QKD एनक्रिप्शन (Ch 47): उलझे हुए फोटॉन, क्वांटम डिस्कोर्ड व एंटी-स्टेल्थ पहचान रेसिपी"
-            >
-              <span>⚛️ क्वांटम रडार (Ch 47)</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setCurrentChapterNum(42);
-                setActiveTab('recipe-17');
-              }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
-                currentChapterNum === 42 && activeTab === 'recipe-17'
-                  ? 'bg-emerald-500 text-black font-bold shadow-sm shadow-emerald-500/20'
-                  : 'bg-emerald-950/50 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-800/60'
-              }`}
-              title="ऑटोनॉमस ड्रोन स्वॉर्म इंटेलिजेंस (Ch 42): CATS Warrior MUM-T, मेश MANET व रेनॉल्ड्स फ्लॉकिंग रेसिपी"
-            >
-              <span>🤖 स्वार्म MUM-T (Ch 42)</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('levels')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
-                activeTab === 'levels'
-                  ? 'bg-amber-500 text-black font-bold shadow-sm shadow-amber-500/20'
-                  : 'bg-zinc-900/60 hover:bg-zinc-800 text-zinc-300 border border-zinc-800/80'
-              }`}
-            >
-              <Zap className="w-3.5 h-3.5 text-cyan-400" />
-              <span>प्रोग्रेसिव लेवल्स (1-5)</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('case-study')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
-                activeTab === 'case-study'
-                  ? 'bg-amber-500 text-black font-bold shadow-sm shadow-amber-500/20'
-                  : 'bg-zinc-900/60 hover:bg-zinc-800 text-zinc-300 border border-zinc-800/80'
-              }`}
-            >
-              <Award className="w-3.5 h-3.5 text-emerald-400" />
-              <span>केस स्टडी (DRDO/HAL)</span>
+              <span>⚙️ 17-स्टेप रेसिपी</span>
             </button>
 
             <button
@@ -1099,19 +950,7 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
               }`}
             >
               <Cpu className="w-3.5 h-3.5 text-indigo-400" />
-              <span>प्रैक्टिकल लैब्स & सिमुलेटर</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('schematics')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
-                activeTab === 'schematics'
-                  ? 'bg-amber-500 text-black font-bold shadow-sm shadow-amber-500/20'
-                  : 'bg-zinc-900/60 hover:bg-zinc-800 text-zinc-300 border border-zinc-800/80'
-              }`}
-            >
-              <Compass className="w-3.5 h-3.5" />
-              <span>सिस्टम आर्किटेक्चर</span>
+              <span>🔬 प्रैक्टिकल लैब्स</span>
             </button>
 
             <button
@@ -1123,7 +962,43 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
               }`}
             >
               <HelpCircle className="w-3.5 h-3.5" />
-              <span>अभ्यास क्विज़</span>
+              <span>📝 अभ्यास क्विज़</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('levels')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                activeTab === 'levels'
+                  ? 'bg-amber-500 text-black font-bold shadow-sm shadow-amber-500/20'
+                  : 'bg-zinc-900/60 hover:bg-zinc-800 text-zinc-300 border border-zinc-800/80'
+              }`}
+            >
+              <Zap className="w-3.5 h-3.5 text-cyan-400" />
+              <span>📊 प्रोग्रेसिव लेवल्स</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('case-study')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                activeTab === 'case-study'
+                  ? 'bg-amber-500 text-black font-bold shadow-sm shadow-amber-500/20'
+                  : 'bg-zinc-900/60 hover:bg-zinc-800 text-zinc-300 border border-zinc-800/80'
+              }`}
+            >
+              <Award className="w-3.5 h-3.5 text-emerald-400" />
+              <span>🇮🇳 केस स्टडी (DRDO/HAL)</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('schematics')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                activeTab === 'schematics'
+                  ? 'bg-amber-500 text-black font-bold shadow-sm shadow-amber-500/20'
+                  : 'bg-zinc-900/60 hover:bg-zinc-800 text-zinc-300 border border-zinc-800/80'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5" />
+              <span>📐 आर्किटेक्चर</span>
             </button>
 
             <button
@@ -1135,7 +1010,7 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
               }`}
             >
               <FileCheck className="w-3.5 h-3.5" />
-              <span>शब्दावली</span>
+              <span>📚 शब्दावली</span>
             </button>
 
             <button
@@ -1147,7 +1022,106 @@ export const WeaponReaderModal: React.FC<WeaponReaderModalProps> = ({
               }`}
             >
               <Key className="w-3.5 h-3.5" />
-              <span>सुरक्षा व ऑडिट</span>
+              <span>🔒 सुरक्षा व पासवर्ड</span>
+            </button>
+
+            {/* Separator */}
+            <div className="h-4 w-px bg-zinc-800 flex-shrink-0 mx-1" />
+
+            {/* Highlights Header */}
+            <span className="text-[10px] font-mono text-zinc-500 uppercase flex-shrink-0 px-1 hidden xs:inline">
+              विशेष:
+            </span>
+
+            {/* Key Aircraft & Weapon Jump Shortcuts */}
+            <button
+              onClick={() => {
+                setCurrentChapterNum(15);
+                setActiveTab('recipe-17');
+              }}
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 15 && activeTab === 'recipe-17'
+                  ? 'bg-cyan-500 text-black font-bold'
+                  : 'bg-cyan-950/40 hover:bg-cyan-900/50 text-cyan-300 border border-cyan-800/50'
+              }`}
+              title="फाइटर एयरक्राफ्ट (Mach 2+, Stealth, DFBW, GaN AESA)"
+            >
+              <span>✈️ फाइटर (Ch 15)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setCurrentChapterNum(21);
+                setActiveTab('recipe-17');
+              }}
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 21 && activeTab === 'recipe-17'
+                  ? 'bg-amber-500 text-black font-bold'
+                  : 'bg-amber-950/40 hover:bg-amber-900/50 text-amber-300 border border-amber-800/50'
+              }`}
+              title="जेट इंजन रेसिपी (टर्बोफैन ब्रेटन चक्र, सिंगल-क्रिस्टल ब्लेड्स)"
+            >
+              <span>🔥 जेट इंजन (Ch 21)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setCurrentChapterNum(24);
+                setActiveTab('study-guide');
+              }}
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 24
+                  ? 'bg-purple-500 text-black font-bold'
+                  : 'bg-purple-950/40 hover:bg-purple-900/50 text-purple-300 border border-purple-800/50'
+              }`}
+              title="5th/6th Gen AMCA स्टेल्थ व MUM-T"
+            >
+              <span>⚡ AMCA (Ch 24)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setCurrentChapterNum(43);
+                setActiveTab('recipe-17');
+              }}
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 43 && activeTab === 'recipe-17'
+                  ? 'bg-red-500 text-black font-bold'
+                  : 'bg-red-950/40 hover:bg-red-900/50 text-red-300 border border-red-800/50'
+              }`}
+              title="हाइपरसोनिक स्क्रैमजेट (Mach 6+ HSTDV)"
+            >
+              <span>🚀 हाइपरसोनिक (Ch 43)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setCurrentChapterNum(48);
+                setActiveTab('recipe-17');
+              }}
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 48 && activeTab === 'recipe-17'
+                  ? 'bg-amber-500 text-black font-bold'
+                  : 'bg-amber-950/40 hover:bg-amber-900/50 text-amber-300 border border-amber-800/50'
+              }`}
+              title="डायरेक्टेड एनर्जी लेजर वेपन्स (DURGA-II 100 kW)"
+            >
+              <span>⚡ लेजर DEW (Ch 48)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setCurrentChapterNum(42);
+                setActiveTab('recipe-17');
+              }}
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1 whitespace-nowrap flex-shrink-0 cursor-pointer ${
+                currentChapterNum === 42 && activeTab === 'recipe-17'
+                  ? 'bg-emerald-500 text-black font-bold'
+                  : 'bg-emerald-950/40 hover:bg-emerald-900/50 text-emerald-300 border border-emerald-800/50'
+              }`}
+              title="CATS Warrior ऑटोनॉमस ड्रोन स्वार्म"
+            >
+              <span>🤖 स्वार्म (Ch 42)</span>
             </button>
           </div>
 
