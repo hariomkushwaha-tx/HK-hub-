@@ -1,5 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
+import { Logo } from './Logo';
 import { 
   Heart, 
   ShieldCheck, 
@@ -31,13 +32,8 @@ export const Footer: React.FC = () => {
           
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-500 flex items-center justify-center text-white shadow-sm">
-                <span className="font-extrabold text-sm tracking-tight">HK</span>
-              </div>
-              <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent">
-                HK VELORA
-              </span>
+            <div className="flex items-center">
+              <Logo size="lg" />
             </div>
             
             <p className="text-sm leading-relaxed max-w-sm text-slate-600 dark:text-slate-400">

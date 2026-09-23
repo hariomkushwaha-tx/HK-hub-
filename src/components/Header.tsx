@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { NavigationTab } from '../types';
 import { getLanguageMeta } from '../utils/translations';
+import { Logo } from './Logo';
 import { 
   Terminal, 
   Search, 
@@ -90,66 +91,31 @@ export const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-2">
           
-          {/* Brand Identity */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Brand Identity - Zone 1 */}
+          <div className="flex items-center shrink-0">
             <button
               id="brand-home-btn"
               onClick={() => handleNavClick('home')}
-              className="flex items-center gap-2 sm:gap-2.5 text-left focus:outline-none group"
+              className="flex items-center text-left focus:outline-none group transition-opacity hover:opacity-95"
+              aria-label="HK VELORA Home"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-200 shrink-0">
-                <span className="font-extrabold text-sm sm:text-base tracking-tight">HK</span>
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-base sm:text-lg tracking-tight bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 dark:from-indigo-400 dark:via-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
-                    HK VELORA
-                  </span>
-                  <span className="hidden sm:inline-flex px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
-                    Velora
-                  </span>
-                </div>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 hidden md:block font-medium">
-                  {t('brand.slogan')}
-                </p>
-              </div>
+              <Logo size="md" />
             </button>
           </div>
 
-          {/* Search Trigger Button */}
-          <div className="flex-1 max-w-md mx-2 hidden md:block">
-            <button
-              id="header-search-bar-btn"
-              onClick={() => setGlobalSearchOpen(true)}
-              className={`w-full flex items-center justify-between px-3.5 py-2 rounded-lg text-sm border transition-all duration-150 ${
-                theme === 'dark'
-                  ? 'bg-slate-900/90 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
-                  : 'bg-slate-100 border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-700'
-              }`}
-            >
-              <div className="flex items-center gap-2.5 truncate">
-                <Search className="w-4 h-4 shrink-0 text-indigo-500" />
-                <span className="truncate">{t('search.placeholder')}</span>
-              </div>
-              <div className="flex items-center gap-1 text-[11px] font-mono px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/60 text-slate-600 dark:text-slate-400">
-                <kbd>Ctrl</kbd>+<kbd>K</kbd>
-              </div>
-            </button>
-          </div>
-
-          {/* Desktop Nav Links */}
-          <nav className="hidden lg:flex items-center gap-1 py-1">
+          {/* Desktop Nav Links - Zone 2 */}
+          <nav className="hidden lg:flex items-center gap-1.5 py-1">
             {primaryDesktopLinks.map((item) => (
               <button
                 key={item.id}
                 id={`nav-link-${item.id}`}
                 onClick={() => handleNavClick(item.id)}
-                className={`flex items-center gap-1.5 px-2.5 xl:px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors shrink-0 ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all shrink-0 ${
                   activeTab === item.id
-                    ? 'bg-indigo-50 dark:bg-indigo-600/15 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/30'
+                    ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20'
                     : theme === 'dark'
-                      ? 'text-slate-300 hover:text-white hover:bg-slate-800'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                      ? 'text-slate-300 hover:text-white hover:bg-slate-800/80 border border-transparent'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent'
                 }`}
               >
                 {item.icon}
@@ -157,44 +123,44 @@ export const Header: React.FC = () => {
               </button>
             ))}
 
-            {/* "More" Section Dropdown for Coding, Guides, Updates, Projects */}
+            {/* "More" Section Dropdown */}
             <div className="relative" ref={moreDropdownRef}>
               <button
                 id="header-more-dropdown-btn"
                 onClick={() => setMoreDropdownOpen(prev => !prev)}
-                className={`flex items-center gap-1 px-2.5 xl:px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
+                className={`flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
                   isSecondaryActive || moreDropdownOpen
-                    ? 'bg-indigo-50 dark:bg-indigo-600/15 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/30'
+                    ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20'
                     : theme === 'dark'
-                      ? 'text-slate-300 hover:text-white hover:bg-slate-800'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                      ? 'text-slate-300 hover:text-white hover:bg-slate-800/80 border border-transparent'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent'
                 }`}
                 aria-expanded={moreDropdownOpen}
                 aria-label="More sections menu"
               >
                 <span>{t('nav.more')}</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${moreDropdownOpen ? 'rotate-180 text-indigo-400' : ''}`} />
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${moreDropdownOpen ? 'rotate-180 text-blue-400' : ''}`} />
               </button>
 
               {moreDropdownOpen && (
                 <div 
-                  className={`absolute top-full right-0 mt-2 w-48 rounded-2xl p-2 border shadow-2xl z-50 animate-fade-in ${
+                  className={`absolute top-full right-0 mt-2 w-52 rounded-xl p-1.5 border shadow-xl z-50 animate-fade-in ${
                     theme === 'dark'
-                      ? 'bg-slate-900 border-slate-800 text-slate-200'
-                      : 'bg-white border-slate-200 text-slate-800'
+                      ? 'bg-slate-900 border-slate-800 text-slate-200 shadow-black/60'
+                      : 'bg-white border-slate-200 text-slate-800 shadow-slate-200/80'
                   }`}
                 >
-                  <div className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 text-slate-500">
-                    Additional Sections
+                  <div className="text-[10px] font-mono uppercase tracking-wider px-3 py-1 text-slate-400">
+                    Directory
                   </div>
                   {secondaryDesktopLinks.map((item) => (
                     <button
                       key={item.id}
                       id={`more-dropdown-link-${item.id}`}
                       onClick={() => handleNavClick(item.id)}
-                      className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-xl transition-colors ${
+                      className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg transition-colors ${
                         activeTab === item.id
-                          ? 'bg-indigo-600 text-white shadow-xs'
+                          ? 'bg-blue-600 text-white font-semibold'
                           : theme === 'dark'
                             ? 'text-slate-300 hover:text-white hover:bg-slate-800'
                             : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
@@ -209,90 +175,89 @@ export const Header: React.FC = () => {
             </div>
           </nav>
 
-          {/* Right Action Icons */}
-          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-            {/* Quick search icon for mobile/tablet */}
+          {/* Right Action Icons - Zone 3 */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {/* Search Trigger Button (icon-only on mobile, full on tablet/desktop) */}
             <button
-              id="mobile-search-btn"
+              id="header-search-bar-btn"
               onClick={() => setGlobalSearchOpen(true)}
-              className="p-1.5 sm:p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 md:hidden transition-colors"
-              aria-label="Open search"
+              className={`flex items-center gap-2 p-2 sm:px-3 sm:py-1.5 rounded-lg text-xs font-medium border transition-all ${
+                theme === 'dark'
+                  ? 'bg-slate-900/90 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                  : 'bg-slate-100 border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-800'
+              }`}
+              title="खोजें / Search (⌘K)"
+              aria-label="Search"
             >
-              <Search className="w-5 h-5" />
+              <Search className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+              <span className="hidden sm:inline">{t('search.placeholder')}</span>
+              <kbd className="hidden md:inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                ⌘K
+              </kbd>
             </button>
-
-            {/* 100% Free Open Education Badge */}
-            <div
-              id="header-free-access-badge"
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-extrabold bg-gradient-to-r from-emerald-500/15 via-teal-500/15 to-indigo-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 shadow-xs shrink-0"
-              title="HK VELORA is 100% Free & Open Access for all learners"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-              <span>100% Free Library</span>
-            </div>
 
             {/* Language Selector Button */}
             <button
               id="header-language-btn"
               onClick={() => setLanguageModalOpen(true)}
-              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-xl text-xs font-semibold border transition-all shrink-0 ${
+              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all shrink-0 ${
                 theme === 'dark'
-                  ? 'bg-slate-900 border-slate-800 text-slate-200 hover:border-indigo-500/60 hover:bg-slate-800'
-                  : 'bg-slate-100 border-slate-200 text-slate-800 hover:border-indigo-400 hover:bg-slate-200'
+                  ? 'bg-slate-900 border-slate-800 text-slate-200 hover:border-slate-700 hover:bg-slate-800'
+                  : 'bg-slate-100 border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-200'
               }`}
-              title="Change Language / भाषा बदलें"
+              title="भाषा चुनें / Select Language"
               aria-label="Choose Language"
             >
-              <span className="text-sm" role="img" aria-hidden="true">{currentMeta.flag}</span>
-              <span className="hidden sm:inline font-bold">{currentMeta.nativeName}</span>
-              <Languages className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+              <span className="text-sm leading-none" role="img" aria-hidden="true">{currentMeta.flag}</span>
+              <span className="hidden sm:inline">{currentMeta.nativeName}</span>
+              <Languages className="w-3.5 h-3.5 text-slate-400 shrink-0 hidden xs:block" />
             </button>
 
             {/* Theme Toggle */}
             <button
               id="theme-toggle-btn"
               onClick={toggleTheme}
-              className={`p-1.5 sm:p-2 rounded-xl transition-colors shrink-0 ${
+              className={`p-2 rounded-lg border transition-colors shrink-0 ${
                 theme === 'dark'
-                  ? 'text-amber-400 hover:bg-slate-800'
-                  : 'text-slate-700 hover:bg-slate-200'
+                  ? 'bg-slate-900 border-slate-800 text-amber-400 hover:bg-slate-800 hover:border-slate-700'
+                  : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200 hover:border-slate-300'
               }`}
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               aria-label="Toggle theme"
             >
-              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {theme === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
             </button>
 
-            {/* My Space Shortcut (Desktop & Tablet only to guarantee mobile hamburger never overflows) */}
+            {/* My Space / Account Shortcut */}
             <button
               id="header-myspace-btn"
               onClick={() => handleNavClick('myspace')}
-              className={`hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold border transition-all shrink-0 ${
+              className={`hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shrink-0 ${
                 activeTab === 'myspace'
-                  ? 'bg-indigo-600 text-white border-indigo-500 shadow-xs'
+                  ? 'bg-blue-600 text-white shadow-sm'
                   : theme === 'dark'
-                    ? 'bg-slate-900 border-slate-800 text-slate-200 hover:border-slate-700'
-                    : 'bg-slate-100 border-slate-200 text-slate-800 hover:bg-slate-200'
+                    ? 'bg-slate-900 border border-slate-800 text-slate-200 hover:border-slate-700 hover:bg-slate-800'
+                    : 'bg-slate-100 border border-slate-200 text-slate-800 hover:bg-slate-200'
               }`}
             >
-              <UserCircle className="w-4 h-4 text-indigo-400" />
+              <UserCircle className="w-4 h-4 text-blue-400" />
               <span>{userProfile.username ? `@${userProfile.username}` : t('nav.myspace')}</span>
             </button>
 
-            {/* Mobile Menu Hamburger - Always strictly visible on mobile screens */}
+            {/* Mobile Menu Hamburger */}
             <button
               id="mobile-menu-toggle-btn"
               onClick={() => setMobileMenuOpen(prev => !prev)}
-              className={`p-2 rounded-xl border transition-all lg:hidden flex items-center justify-center shrink-0 ${
+              className={`p-2 rounded-lg border transition-all lg:hidden flex items-center justify-center shrink-0 ${
                 mobileMenuOpen
-                  ? 'bg-indigo-600 text-white border-indigo-500 shadow-md ring-2 ring-indigo-500/40'
+                  ? 'bg-blue-600 text-white border-blue-500 shadow-sm'
                   : theme === 'dark'
-                    ? 'bg-slate-900 border-slate-800 text-slate-200 hover:border-indigo-500/60 hover:bg-slate-800'
+                    ? 'bg-slate-900 border-slate-800 text-slate-200 hover:bg-slate-800'
                     : 'bg-slate-100 border-slate-200 text-slate-800 hover:bg-slate-200'
               }`}
               aria-label="Toggle Navigation Menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-4 h-4 text-white" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
         </div>

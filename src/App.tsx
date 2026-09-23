@@ -17,7 +17,6 @@ import { GlobalSearchModal } from './components/GlobalSearchModal';
 import { LegalModals } from './components/compliance/LegalModals';
 import { UserProfileModal } from './components/profile/UserProfileModal';
 import { LanguageModal } from './components/LanguageModal';
-import { FloatingLanguageWidget } from './components/FloatingLanguageWidget';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { motion } from 'motion/react';
 
@@ -59,9 +58,6 @@ const MainContent: React.FC = () => {
 
       {/* Native Mobile Bottom Navigation */}
       <MobileBottomNav />
-
-      {/* Floating Language Quick Switcher */}
-      <FloatingLanguageWidget />
 
       {/* Global Modals & Overlays */}
       <LanguageModal />
