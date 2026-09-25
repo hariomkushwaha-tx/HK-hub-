@@ -4,6 +4,9 @@ import { ALL_TOOLS } from '../data/toolsData';
 import { TECH_CATEGORIES } from '../data/categoriesData';
 import { COMPREHENSIVE_GUIDES } from '../data/guidesData';
 import { EBOOKS_DATA } from '../data/ebooksData';
+import heroTechPlatformImg from '../assets/images/hero_tech_platform_1790180847323.jpg';
+import defenceCurriculumImg from '../assets/images/defence_curriculum_card_1790180858306.jpg';
+import developerLabImg from '../assets/images/developer_lab_card_1790180868998.jpg';
 import { 
   Search, 
   ArrowRight, 
@@ -87,16 +90,21 @@ export const Home: React.FC = () => {
           </div>
 
           {/* Editorial Photographic Focal Carrier */}
-          <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800/80 shadow-md bg-slate-950 aspect-[16/9] max-h-[440px] w-full">
+          <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800/80 shadow-md bg-slate-950 min-h-[300px] sm:min-h-[360px] md:aspect-[16/9] max-h-[440px] w-full flex flex-col justify-end">
             <img 
-              src="/src/assets/images/hero_tech_platform_1790180847323.jpg" 
+              src={heroTechPlatformImg} 
               alt="HK VELORA Modern Technology & Engineering Laboratory"
-              className="w-full h-full object-cover object-center brightness-90 contrast-105"
+              className="absolute inset-0 w-full h-full object-cover object-center brightness-90 contrast-105"
               loading="eager"
-              referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (target.src !== window.location.origin + '/assets/images/hero_tech_platform_1790180847323.jpg') {
+                  target.src = '/assets/images/hero_tech_platform_1790180847323.jpg';
+                }
+              }}
             />
             {/* Measured Bottom Contrast Scrim */}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-5 sm:p-8">
+            <div className="relative z-10 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent flex flex-col justify-end p-5 sm:p-8 pt-14">
               <div className="max-w-2xl space-y-2">
                 <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-blue-400">
                   <span>Architecture Spotlight</span>
@@ -169,11 +177,16 @@ export const Home: React.FC = () => {
             <div className="space-y-4">
               <div className="rounded-xl overflow-hidden aspect-[16/9] border border-slate-100 dark:border-slate-800 relative bg-slate-950">
                 <img 
-                  src="/src/assets/images/defence_curriculum_card_1790180858306.jpg" 
+                  src={defenceCurriculumImg} 
                   alt="Aerospace Defense Technology Engineering"
                   className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
                   loading="lazy"
-                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (target.src !== window.location.origin + '/assets/images/defence_curriculum_card_1790180858306.jpg') {
+                      target.src = '/assets/images/defence_curriculum_card_1790180858306.jpg';
+                    }
+                  }}
                 />
               </div>
 
@@ -214,11 +227,16 @@ export const Home: React.FC = () => {
               <div className="space-y-3">
                 <div className="rounded-xl overflow-hidden aspect-[2/1] border border-slate-100 dark:border-slate-800 relative bg-slate-950">
                   <img 
-                    src="/src/assets/images/developer_lab_card_1790180868998.jpg" 
+                    src={developerLabImg} 
                     alt="Developer Workspace and Utilities"
                     className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
                     loading="lazy"
-                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src !== window.location.origin + '/assets/images/developer_lab_card_1790180868998.jpg') {
+                        target.src = '/assets/images/developer_lab_card_1790180868998.jpg';
+                      }
+                    }}
                   />
                 </div>
 
