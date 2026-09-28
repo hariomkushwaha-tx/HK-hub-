@@ -22,6 +22,11 @@ import { MEGA_CATALOG_PART1_DATA } from './megaCatalogPart1Data';
 import { MEGA_CATALOG_EXTENDED_DATA } from './megaCatalogExtendedData';
 import { MEGA_CATALOG_PART3_DATA } from './megaCatalogPart3Data';
 import { MEGA_CATALOG_PART4_DATA } from './megaCatalogPart4Data';
+import { MEGA_CATALOG_PART5_DATA } from './megaCatalogPart5Data';
+import { MEGA_CATALOG_PART6_DATA } from './megaCatalogPart6Data';
+import { MEGA_CATALOG_PART7_DATA } from './megaCatalogPart7Data';
+import { MEGA_CATALOG_PART8_DATA } from './megaCatalogPart8Data';
+import { MODERN_2026_BOOKS_DATA } from './modern2026BooksData';
 
 const CORE_TECH_EBOOKS: EBookItem[] = [
   {
@@ -1204,6 +1209,7 @@ CMD ["node", "dist/server.cjs"]`
 ];
 
 const RAW_EBOOKS_DATA: EBookItem[] = [
+  ...MODERN_2026_BOOKS_DATA,
   WEAPON_EBOOK_ITEM,
   BHARATVARSH_EBOOK_ITEM,
   ...CORE_TECH_EBOOKS,
@@ -1227,7 +1233,11 @@ const RAW_EBOOKS_DATA: EBookItem[] = [
   ...MEGA_CATALOG_PART1_DATA,
   ...MEGA_CATALOG_EXTENDED_DATA,
   ...MEGA_CATALOG_PART3_DATA,
-  ...MEGA_CATALOG_PART4_DATA
+  ...MEGA_CATALOG_PART4_DATA,
+  ...MEGA_CATALOG_PART5_DATA,
+  ...MEGA_CATALOG_PART6_DATA,
+  ...MEGA_CATALOG_PART7_DATA,
+  ...MEGA_CATALOG_PART8_DATA
 ];
 
 export const EBOOKS_DATA: EBookItem[] = RAW_EBOOKS_DATA.map(b => {

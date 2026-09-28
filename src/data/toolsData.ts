@@ -114,6 +114,26 @@ export const ALL_TOOLS: ToolItem[] = [
     iconName: 'Code',
     tags: ['beautify', 'html', 'css', 'javascript', 'indent']
   },
+  {
+    id: 'devops-generator',
+    name: 'DevOps & Docker Config Generator',
+    description: 'Generate multi-stage Dockerfiles, docker-compose full-stack clusters, Nginx reverse proxy configs, and GitHub Actions CI/CD workflows.',
+    category: 'developer',
+    iconName: 'Terminal',
+    isPopular: true,
+    isStudentPick: true,
+    tags: ['docker', 'devops', 'compose', 'nginx', 'ci/cd', 'github actions', 'cloud']
+  },
+  {
+    id: 'ai-engineering-hub',
+    name: 'AI & Prompt Engineering Hub',
+    description: 'Production system prompts for code review & SQL optimization, live LLM token cost calculators for Gemini & GPT-4o, and RAG architecture blueprints.',
+    category: 'developer',
+    iconName: 'Bot',
+    isPopular: true,
+    isStudentPick: true,
+    tags: ['ai', 'prompts', 'tokens', 'cost calculator', 'rag', 'llm', 'gemini', 'gpt-4o']
+  },
 
   // Calculator Tools
   {

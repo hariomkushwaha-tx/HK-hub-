@@ -16,6 +16,7 @@ import { SchoolLibraryView } from './SchoolLibraryView';
 import { StoriesLibraryView } from './StoriesLibraryView';
 import { PuzzlesLibraryView } from './PuzzlesLibraryView';
 import { MyReadingDeskView } from './MyReadingDeskView';
+import { ModernTechLibraryView } from './ModernTechLibraryView';
 import { 
   BookOpen, 
   Search, 
@@ -38,7 +39,9 @@ import {
   Percent,
   Play,
   Feather,
-  Puzzle
+  Puzzle,
+  Cpu,
+  Zap
 } from 'lucide-react';
 
 export const EBooksHub: React.FC = () => {
@@ -50,7 +53,7 @@ export const EBooksHub: React.FC = () => {
   } = useApp();
 
   // Primary Ecosystem View Tab (Section 74, 84, 87, 101, 102)
-  type LibraryViewTab = 'catalog' | 'school' | 'stories' | 'puzzles' | 'desk';
+  type LibraryViewTab = 'tech2026' | 'catalog' | 'school' | 'stories' | 'puzzles' | 'desk';
   const [currentViewTab, setCurrentViewTab] = useState<LibraryViewTab>('catalog');
 
   // Local state for books list (supports admin updates & new submissions)
@@ -63,6 +66,7 @@ export const EBooksHub: React.FC = () => {
   const [selectedPriceFilter, setSelectedPriceFilter] = useState<'all' | 'free' | 'paid' | 'under99' | '100to499' | 'deals'>('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('All');
   const [sortBy, setSortBy] = useState<'rating' | 'popular' | 'price-asc' | 'price-desc' | 'title'>('rating');
+  const [visibleCount, setVisibleCount] = useState<number>(32);
 
   // Modals state
   const [selectedBookForDetails, setSelectedBookForDetails] = useState<EBookItem | null>(null);
@@ -182,6 +186,9 @@ export const EBooksHub: React.FC = () => {
   const aiBooks = useMemo(() => booksList.filter(b => b.category === 'Artificial Intelligence'), [booksList]);
   const codingBooks = useMemo(() => booksList.filter(b => b.category === 'Coding & Programming'), [booksList]);
   const dealsBooks = useMemo(() => booksList.filter(b => (b.discountPercentage || 0) > 0), [booksList]);
+  const modern2026Books = useMemo(() => {
+    return booksList.filter(b => b.yearPublished?.includes('2026') || b.id.startsWith('modern-') || b.badge?.includes('2026'));
+  }, [booksList]);
 
   const handleResetFilters = () => {
     setSearchQuery('');
@@ -190,6 +197,7 @@ export const EBooksHub: React.FC = () => {
     setSelectedPriceFilter('all');
     setSelectedDifficulty('All');
     setSortBy('rating');
+    setVisibleCount(32);
   };
 
   const handleUpdateBook = (updated: EBookItem) => {
@@ -219,7 +227,7 @@ export const EBooksHub: React.FC = () => {
             </h1>
 
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              Complete, deeply explained handbooks written by <strong>Hariom Kushwaha (HK Tech World)</strong> & Academic Experts. Over 500+ comprehensive books spanning Technology, School (Classes 6–12), College Engineering, Competitive Exams, Literature, and Brain Puzzles.
+              Complete, deeply explained handbooks written by <strong>Hariom Kushwaha (HK Tech World)</strong> & Academic Experts. Over 1,500+ comprehensive books spanning Technology, School (Classes 6–12), College Engineering, Competitive Exams, Literature, and Brain Puzzles.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-1 text-xs font-medium text-slate-400">
@@ -271,6 +279,36 @@ export const EBooksHub: React.FC = () => {
       {/* 2. Top-Level Library Ecosystem Navigation Tabs */}
       <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-x-auto scrollbar-none shadow-xs">
         <button
+          onClick={() => setCurrentViewTab('tech2026')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
+            currentViewTab === 'tech2026'
+              ? 'bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/25'
+              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
+          }`}
+        >
+          <Cpu className="w-4 h-4 text-violet-400 dark:text-violet-300" />
+          <span>Modern Tech & 2026 Editions</span>
+          <span className="px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-amber-500/20 text-amber-500 dark:text-amber-300 border border-amber-400/30">
+            🔥 12 New
+          </span>
+        </button>
+
+        <button
+          onClick={() => setCurrentViewTab('catalog')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
+            currentViewTab === 'catalog'
+              ? 'bg-indigo-600 text-white shadow-md'
+              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
+          }`}
+        >
+          <BookOpen className="w-4 h-4" />
+          <span>All Books & Vault</span>
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-white/20 text-white">
+            {booksList.length} Books
+          </span>
+        </button>
+
+        <button
           onClick={() => setCurrentViewTab('school')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
             currentViewTab === 'school'
@@ -310,21 +348,6 @@ export const EBooksHub: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setCurrentViewTab('catalog')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
-            currentViewTab === 'catalog'
-              ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
-          }`}
-        >
-          <BookOpen className="w-4 h-4" />
-          <span>All Books & Tech Vault</span>
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-white/20 text-white">
-            {booksList.length} Books
-          </span>
-        </button>
-
-        <button
           onClick={() => setCurrentViewTab('desk')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all ${
             currentViewTab === 'desk'
@@ -343,6 +366,15 @@ export const EBooksHub: React.FC = () => {
       </div>
 
       {/* Subview Renders */}
+      {currentViewTab === 'tech2026' && (
+        <ModernTechLibraryView
+          books={booksList}
+          onOpenDetails={(b) => setSelectedBookForDetails(b)}
+          onStartReading={(b) => setActiveReadingBook(b)}
+          onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
+        />
+      )}
+
       {currentViewTab === 'school' && (
         <SchoolLibraryView
           books={booksList}
@@ -545,6 +577,95 @@ export const EBooksHub: React.FC = () => {
         </div>
       )}
 
+      {/* 2026 Modern Tech & AI Flagship Showcase */}
+      {!isFilteringActive && modern2026Books.length > 0 && (
+        <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-violet-950/80 via-slate-900 to-slate-950 border border-violet-500/40 shadow-2xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 space-y-5">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="px-3 py-1 rounded-full text-[11px] font-black bg-gradient-to-r from-violet-500 to-indigo-500 text-white uppercase tracking-wider flex items-center gap-1.5 shadow-md">
+                    <Zap className="w-3.5 h-3.5 text-amber-300" /> 2026 Modern Tech Flagships
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800">
+                    100% Free Open Academic Edition
+                  </span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  🚀 GenAI, System Design, DevOps & 14 DSA Patterns
+                </h3>
+                <p className="text-xs text-slate-300">
+                  Comprehensive 2026 master handbooks authored by Hariom Kushwaha (HK Tech World) for engineering students and developers.
+                </p>
+              </div>
+
+              <button
+                onClick={() => setCurrentViewTab('tech2026')}
+                className="px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs shadow-md shadow-violet-600/30 flex items-center gap-2 transition-all shrink-0"
+              >
+                <Cpu className="w-4 h-4" />
+                <span>Explore Modern Tech Vault ({modern2026Books.length})</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {modern2026Books.slice(0, 4).map(book => (
+                <div
+                  key={book.id}
+                  onClick={() => setSelectedBookForDetails(book)}
+                  className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-violet-500/50 transition-all cursor-pointer flex flex-col justify-between group/card shadow-sm hover:shadow-violet-950/20"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-violet-500/20 text-violet-300 border border-violet-500/30 uppercase">
+                        {book.badge || '2026 Edition'}
+                      </span>
+                      <span className="text-[10px] text-amber-300 font-bold flex items-center gap-0.5">
+                        ★ {book.rating}
+                      </span>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className={`w-12 h-16 rounded-xl bg-gradient-to-br ${book.coverGradient} shrink-0 p-1 flex flex-col justify-between text-white shadow-xs`}>
+                        <span className="text-[7px] font-bold uppercase">{book.bookType || 'Book'}</span>
+                        <span className="text-[8px] font-mono">{book.pages}p</span>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h4 className="font-bold text-xs text-white group-hover/card:text-violet-300 transition-colors line-clamp-2 leading-snug">
+                          {book.title}
+                        </h4>
+                        <p className="text-[10px] text-slate-400 mt-1 line-clamp-2">
+                          {book.subtitle || book.shortDescription}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-3 mt-3 border-t border-slate-800/80 text-[11px]">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveReadingBook(book);
+                      }}
+                      className="text-violet-400 hover:text-violet-300 font-bold flex items-center gap-1"
+                    >
+                      <BookOpen className="w-3.5 h-3.5" />
+                      <span>Read Free</span>
+                    </button>
+
+                    <span className="text-[10px] text-slate-500">
+                      {book.audioDuration ? `🎧 ${book.audioDuration}` : `${book.pages} pages`}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 3. Search Bar & Multi-Filter Control Panel */}
       <div className="space-y-4">
         {/* Search & Sort Row */}
@@ -667,18 +788,37 @@ export const EBooksHub: React.FC = () => {
           </div>
 
           {filteredBooks.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredBooks.map(book => (
-                <BookCard
-                  key={book.id}
-                  book={book}
-                  onOpenDetails={(b) => setSelectedBookForDetails(b)}
-                  onStartReading={(b) => setActiveReadingBook(b)}
-                  onOpenCheckout={(b) => setActiveReadingBook(b)}
-                  onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
-                />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredBooks.slice(0, visibleCount).map(book => (
+                  <BookCard
+                    key={book.id}
+                    book={book}
+                    onOpenDetails={(b) => setSelectedBookForDetails(b)}
+                    onStartReading={(b) => setActiveReadingBook(b)}
+                    onOpenCheckout={(b) => setActiveReadingBook(b)}
+                    onOpenAuthor={(aId) => setSelectedAuthorId(aId)}
+                  />
+                ))}
+              </div>
+
+              {filteredBooks.length > visibleCount && (
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-6 pb-2">
+                  <button
+                    onClick={() => setVisibleCount(prev => prev + 32)}
+                    className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs sm:text-sm transition-all shadow-md shadow-indigo-600/20 active:scale-95"
+                  >
+                    और किताबें देखें (+32 Books) • Showing {Math.min(visibleCount, filteredBooks.length)} of {filteredBooks.length}
+                  </button>
+                  <button
+                    onClick={() => setVisibleCount(filteredBooks.length)}
+                    className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs transition-colors"
+                  >
+                    सभी {filteredBooks.length} किताबें देखें
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <div className="p-12 text-center rounded-3xl bg-slate-900/60 border border-slate-800 space-y-4">
               <div className="w-16 h-16 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center mx-auto">

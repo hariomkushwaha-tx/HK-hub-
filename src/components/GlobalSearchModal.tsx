@@ -161,6 +161,46 @@ export const GlobalSearchModal: React.FC = () => {
 
     // Students
     if (filter === 'all' || filter === 'students') {
+      const studentZones = [
+        {
+          id: 'student-dsa',
+          title: '14 Master DSA Patterns & Algorithm Templates',
+          subtitle: 'Sliding window, two pointers, monotonic stack, intervals, and two heaps LeetCode templates',
+          category: 'Student Zone • Algorithms',
+          tags: ['dsa', 'leetcode', 'patterns', 'sliding window', 'two pointers', 'algorithms', 'trees']
+        },
+        {
+          id: 'student-sysdesign',
+          title: 'System Design Architecture Blueprints',
+          subtitle: 'High-scale URL shortener, real-time chat, rate limiter, and video streaming CDN architecture',
+          category: 'Student Zone • System Design',
+          tags: ['system design', 'architecture', 'bitly', 'whatsapp', 'rate limiter', 'microservices', 'kafka']
+        },
+        {
+          id: 'student-job-tracker',
+          title: 'Internship & Job Application Kanban Tracker',
+          subtitle: 'Track off-campus technical applications, OAs, and generate recruiter cold outreach emails',
+          category: 'Student Zone • Career',
+          tags: ['internship', 'jobs', 'kanban', 'tracker', 'cold email', 'outreach', 'referral']
+        }
+      ];
+
+      studentZones.forEach(sz => {
+        if (!q || sz.title.toLowerCase().includes(q) || sz.subtitle.toLowerCase().includes(q) || sz.tags.some(t => t.includes(q))) {
+          list.push({
+            id: sz.id,
+            title: sz.title,
+            subtitle: sz.subtitle,
+            category: sz.category,
+            type: 'student',
+            action: () => {
+              setActiveTab('students');
+              setGlobalSearchOpen(false);
+            }
+          });
+        }
+      });
+
       STUDENT_PROJECT_IDEAS.forEach((idea, idx) => {
         if (!q || idea.title.toLowerCase().includes(q) || idea.description.toLowerCase().includes(q)) {
           list.push({

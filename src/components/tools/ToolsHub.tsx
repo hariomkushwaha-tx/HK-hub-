@@ -8,6 +8,8 @@ import { CalculatorTools } from './subtools/CalculatorTools';
 import { UtilityTools } from './subtools/UtilityTools';
 import { ImageTools } from './subtools/ImageTools';
 import { PdfTools } from './subtools/PdfTools';
+import { DevOpsGenerator } from './subtools/DevOpsGenerator';
+import { AiEngineeringHub } from './subtools/AiEngineeringHub';
 import { 
   Search, 
   Sparkles, 
@@ -103,12 +105,18 @@ export const ToolsHub: React.FC = () => {
 
           {/* Active Tool Rendering Surface */}
           <div className="p-6 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-xl">
-            {activeTool.category === 'text' && <TextTools toolId={activeTool.id} />}
-            {activeTool.category === 'developer' && <DeveloperTools toolId={activeTool.id} />}
-            {activeTool.category === 'calculator' && <CalculatorTools toolId={activeTool.id} />}
-            {activeTool.category === 'utility' && <UtilityTools toolId={activeTool.id} />}
-            {activeTool.category === 'image' && <ImageTools toolId={activeTool.id} />}
-            {activeTool.category === 'pdf' && <PdfTools toolId={activeTool.id} />}
+            {activeTool.id === 'devops-generator' && <DevOpsGenerator />}
+            {activeTool.id === 'ai-engineering-hub' && <AiEngineeringHub />}
+            {activeTool.id !== 'devops-generator' && activeTool.id !== 'ai-engineering-hub' && (
+              <>
+                {activeTool.category === 'text' && <TextTools toolId={activeTool.id} />}
+                {activeTool.category === 'developer' && <DeveloperTools toolId={activeTool.id} />}
+                {activeTool.category === 'calculator' && <CalculatorTools toolId={activeTool.id} />}
+                {activeTool.category === 'utility' && <UtilityTools toolId={activeTool.id} />}
+                {activeTool.category === 'image' && <ImageTools toolId={activeTool.id} />}
+                {activeTool.category === 'pdf' && <PdfTools toolId={activeTool.id} />}
+              </>
+            )}
           </div>
         </div>
       ) : (
