@@ -51,20 +51,20 @@ export const Home: React.FC = () => {
           
           {/* Subtle Editorial Top Tagline */}
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-slate-500 dark:text-slate-400">
-            <span>Engineering Architecture</span>
+            <span>{t('hero.tagline_arch')}</span>
             <span aria-hidden="true" className="text-slate-400 dark:text-slate-600">·</span>
-            <span>Developer Utilities</span>
+            <span>{t('hero.tagline_utils')}</span>
             <span aria-hidden="true" className="text-slate-400 dark:text-slate-600">·</span>
-            <span className="text-blue-600 dark:text-blue-400 font-semibold">100% Open Access Library</span>
+            <span className="text-blue-600 dark:text-blue-400 font-semibold">{t('hero.tagline_library')}</span>
           </div>
 
           {/* High-Character Balanced Headline */}
           <div className="space-y-4 max-w-4xl">
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-slate-50 leading-[1.12]" style={{ textWrap: 'balance' }}>
-              Next-generation technology ecosystem for builders, engineers, and students.
+              {t('hero.headline')}
             </h1>
             <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed font-normal">
-              An authoritative digital platform unifying in-depth engineering textbooks, high-utility developer tools, AI research architectures, and academic student accelerators.
+              {t('hero.headline_desc')}
             </p>
           </div>
 
@@ -112,24 +112,24 @@ export const Home: React.FC = () => {
                   <span>Research &amp; Open Systems</span>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                  Comprehensive Defence &amp; Aerospace Engineering Curriculum
+                  {t('hero.defence_title')}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 line-clamp-2 leading-relaxed">
-                  Explore 75 chapters of rigorous aerodynamic formulas, supersonic propulsion, radar cross-section stealth physics, and autonomous MUM-T swarm architectures.
+                  {t('hero.defence_desc')}
                 </p>
                 <div className="pt-2 flex items-center gap-3">
                   <button
                     onClick={() => openBook('hk-weapon')}
                     className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
                   >
-                    <span>Read Aerospace Masterwork</span>
+                    <span>{t('hero.read_aerospace')}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={() => setActiveTab('tools')}
                     className="px-4 py-2 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-200 text-xs font-semibold border border-slate-700/80 flex items-center gap-1.5 transition-colors"
                   >
-                    <span>Explore 30+ Tools</span>
+                    <span>{t('hero.explore_tools')}</span>
                   </button>
                 </div>
               </div>
@@ -140,15 +140,15 @@ export const Home: React.FC = () => {
           <div className="flex flex-wrap items-center justify-between gap-4 pt-2 text-xs text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800/80">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
-              <span className="font-semibold text-slate-800 dark:text-slate-200">100% Free Open Education</span>
-              <span className="text-slate-400 dark:text-slate-500">· No paywalls, subscriptions, or hidden locks</span>
+              <span className="font-semibold text-slate-800 dark:text-slate-200">{t('hero.free_education')}</span>
+              <span className="text-slate-400 dark:text-slate-500">· {t('hero.no_paywalls')}</span>
             </div>
             <div className="flex items-center gap-4 text-xs font-mono">
               <span>75 Defence Chapters</span>
               <span aria-hidden="true">·</span>
-              <span>30+ Live Utilities</span>
+              <span>40+ Live Utilities</span>
               <span aria-hidden="true">·</span>
-              <span>6 Technology Pillars</span>
+              <span>1,530+ Books</span>
             </div>
           </div>
 
@@ -160,10 +160,10 @@ export const Home: React.FC = () => {
         <div className="flex items-end justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
           <div>
             <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
-              Curated Masterworks &amp; Toolkits
+              {t('sec.curated_masterworks')}
             </span>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 mt-0.5">
-              Core Engineering Platforms
+              {t('sec.core_platforms')}
             </h2>
           </div>
         </div>
@@ -199,10 +199,10 @@ export const Home: React.FC = () => {
                   <span>Hariom Kushwaha</span>
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                  आधुनिक रक्षा तकनीक एवं वैमानिकी प्रणालियां (Master Guide)
+                  {t('hero.defence_title')}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Stealth aerodynamics, GaN AESA radar equations, Brayton cycle jet engines, scramjets, and autonomous drone swarm algorithms compiled for serious students and aerospace aspirants.
+                  {t('hero.defence_desc')}
                 </p>
               </div>
             </div>
@@ -210,7 +210,7 @@ export const Home: React.FC = () => {
             <div className="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-semibold text-blue-600 dark:text-blue-400">
               <span className="flex items-center gap-1.5">
                 <BookMarked className="w-4 h-4" />
-                <span>Open Digital Reader (Full 75 Chapters)</span>
+                <span>{t('action.read_now')} (75 Chapters)</span>
               </span>
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
@@ -247,7 +247,7 @@ export const Home: React.FC = () => {
                     <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Client-Side &amp; Fast</span>
                   </div>
                   <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    Developer Workspace &amp; Tooling Suite
+                    {t('sec.dev_workspace')}
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                     JSON parsers, Regex debuggers, Base64 enc/dec, UUID generators, and code minifiers running securely on your machine.
@@ -256,7 +256,7 @@ export const Home: React.FC = () => {
               </div>
 
               <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-semibold text-blue-600 dark:text-blue-400">
-                <span>Launch Tooling Hub</span>
+                <span>{t('sec.launch_workspace')}</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -272,15 +272,15 @@ export const Home: React.FC = () => {
                 </div>
                 <div className="space-y-0.5">
                   <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
-                    Academic Student Hub
+                    {t('sec.student_accelerator')}
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    GPA/CGPA calculators, engineering laptop spec guides, and free student dev resources.
+                    GPA/CGPA calculators, engineering laptop spec guides, formula sheets, and study notes.
                   </p>
                 </div>
               </div>
               <div className="text-xs font-semibold text-cyan-600 dark:text-cyan-400 flex items-center justify-between pt-1">
-                <span>View Student Tools</span>
+                <span>{t('sec.open_student_zone')}</span>
                 <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -294,17 +294,17 @@ export const Home: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-3 border-b border-slate-200 dark:border-slate-800">
           <div>
             <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
-              Immediate Utilities
+              {t('sec.popular_tools_tag')}
             </span>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 mt-0.5">
-              Popular Developer Tools
+              {t('sec.popular_tools_heading')}
             </h2>
           </div>
           <button
             onClick={() => setActiveTab('tools')}
             className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-500 flex items-center gap-1 self-start sm:self-auto"
           >
-            <span>View All Tools</span>
+            <span>{t('sec.view_all_tools')}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -330,7 +330,7 @@ export const Home: React.FC = () => {
               </div>
 
               <div className="pt-2 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between text-xs font-medium text-blue-600 dark:text-blue-400">
-                <span>Launch</span>
+                <span>{t('action.explore')}</span>
                 <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -343,17 +343,17 @@ export const Home: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-3 border-b border-slate-200 dark:border-slate-800">
           <div>
             <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
-              Deep Curriculum
+              {t('sec.radar_tag')}
             </span>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 mt-0.5">
-              Knowledge Domains
+              {t('sec.radar_heading')}
             </h2>
           </div>
           <button
             onClick={() => setActiveTab('tech')}
             className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-500 flex items-center gap-1 self-start sm:self-auto"
           >
-            <span>Browse All Domains</span>
+            <span>{t('sec.explore_all_radar')}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -393,17 +393,17 @@ export const Home: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-3 border-b border-slate-200 dark:border-slate-800">
           <div>
             <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
-              Free Academic Library
+              {t('sec.ebooks_tag')}
             </span>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 mt-0.5">
-              Featured E-Books &amp; Research Manuals
+              {t('sec.library_heading')}
             </h2>
           </div>
           <button
             onClick={() => setActiveTab('ebooks')}
             className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-500 flex items-center gap-1 self-start sm:self-auto"
           >
-            <span>Explore All {EBOOKS_DATA.length} Books</span>
+            <span>{t('sec.open_library')} ({EBOOKS_DATA.length}+)</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>

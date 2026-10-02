@@ -49,8 +49,13 @@ export const EBooksHub: React.FC = () => {
     readingProgressMap, 
     isBookUnlocked, 
     activeBookId, 
-    setActiveBookId
+    setActiveBookId,
+    currentLanguage,
+    t
   } = useApp();
+
+  const isHindi = currentLanguage === 'hi';
+  const isHinglish = currentLanguage === 'hinglish';
 
   // Primary Ecosystem View Tab (Section 74, 84, 87, 101, 102)
   type LibraryViewTab = 'tech2026' | 'catalog' | 'school' | 'stories' | 'puzzles' | 'desk';
@@ -219,33 +224,33 @@ export const EBooksHub: React.FC = () => {
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 text-xs font-semibold">
               <BookMarked className="w-4 h-4" />
-              <span>HK Tech World Original Publications • Authored by Hariom Kushwaha</span>
+              <span>{t('vault.tagline')}</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-100 tracking-tight leading-tight">
-              📚 HK VELORA Knowledge Vault
+              {t('vault.title')}
             </h1>
 
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              Complete, deeply explained handbooks written by <strong>Hariom Kushwaha (HK Tech World)</strong> & Academic Experts. Over 1,500+ comprehensive books spanning Technology, School (Classes 6–12), College Engineering, Competitive Exams, Literature, and Brain Puzzles.
+              {t('vault.desc')}
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-1 text-xs font-medium text-slate-400">
               <span className="flex items-center gap-1.5 text-amber-400 font-bold">
                 <BookOpen className="w-4 h-4" />
-                {booksList.length}+ Total Books in Library
+                {booksList.length}+ {t('vault.total_books')}
               </span>
               <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
                 <CheckCircle2 className="w-4 h-4" />
-                School & Heritage (100% Free)
+                {t('vault.school_free')}
               </span>
               <span className="flex items-center gap-1.5 text-indigo-300 font-semibold">
                 <Sparkles className="w-4 h-4 text-indigo-400" />
-                Tech & Engineering (100% Free)
+                {t('vault.tech_free')}
               </span>
               <span className="flex items-center gap-1.5 text-cyan-400">
                 <Headphones className="w-4 h-4" />
-                Audio Book Narrations
+                {t('vault.audio_narrations')}
               </span>
             </div>
           </div>
@@ -254,7 +259,7 @@ export const EBooksHub: React.FC = () => {
           <div className="flex flex-col sm:flex-row md:flex-col gap-2.5 shrink-0 w-full sm:w-auto">
             <div className="py-2.5 px-4 rounded-2xl bg-gradient-to-r from-emerald-500/15 via-teal-500/15 to-indigo-500/15 border border-emerald-500/30 text-emerald-300 font-extrabold text-xs flex items-center justify-center gap-2 shadow-sm">
               <Sparkles className="w-4 h-4 text-emerald-400" />
-              <span>100% Free Open Education</span>
+              <span>{t('vault.open_education')}</span>
             </div>
 
             <button
@@ -262,7 +267,7 @@ export const EBooksHub: React.FC = () => {
               className="py-2.5 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md shadow-indigo-500/20 flex items-center justify-center gap-2 transition-all"
             >
               <UploadCloud className="w-4 h-4" />
-              <span>Submit Book / Guide</span>
+              <span>{t('vault.submit_book')}</span>
             </button>
 
             <button
@@ -270,7 +275,7 @@ export const EBooksHub: React.FC = () => {
               className="py-2.5 px-4 rounded-2xl bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80 font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
             >
               <Settings2 className="w-4 h-4" />
-              <span>Library Admin</span>
+              <span>{t('vault.admin')}</span>
             </button>
           </div>
         </div>
@@ -287,7 +292,7 @@ export const EBooksHub: React.FC = () => {
           }`}
         >
           <Cpu className="w-4 h-4 text-violet-400 dark:text-violet-300" />
-          <span>Modern Tech & 2026 Editions</span>
+          <span>{t('vault.tab_tech')}</span>
           <span className="px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-amber-500/20 text-amber-500 dark:text-amber-300 border border-amber-400/30">
             🔥 12 New
           </span>
@@ -302,7 +307,7 @@ export const EBooksHub: React.FC = () => {
           }`}
         >
           <BookOpen className="w-4 h-4" />
-          <span>All Books & Vault</span>
+          <span>{t('vault.tab_catalog')}</span>
           <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-white/20 text-white">
             {booksList.length} Books
           </span>
@@ -317,9 +322,9 @@ export const EBooksHub: React.FC = () => {
           }`}
         >
           <GraduationCap className="w-4 h-4 text-indigo-400 dark:text-indigo-300" />
-          <span>School Library</span>
+          <span>{t('vault.tab_school')}</span>
           <span className="px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-indigo-500/20 text-indigo-600 dark:text-indigo-200 border border-indigo-400/30">
-            Class 9–12
+            Class 6–12
           </span>
         </button>
 
@@ -332,7 +337,7 @@ export const EBooksHub: React.FC = () => {
           }`}
         >
           <Feather className="w-4 h-4 text-amber-500 dark:text-amber-300" />
-          <span>Stories & Literature</span>
+          <span>{t('vault.tab_stories')}</span>
         </button>
 
         <button
@@ -344,7 +349,7 @@ export const EBooksHub: React.FC = () => {
           }`}
         >
           <Puzzle className="w-4 h-4 text-purple-500 dark:text-purple-300" />
-          <span>Puzzles & Brain Gym</span>
+          <span>{t('vault.tab_puzzles')}</span>
         </button>
 
         <button
@@ -356,7 +361,7 @@ export const EBooksHub: React.FC = () => {
           }`}
         >
           <Bookmark className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
-          <span>My Reading Desk</span>
+          <span>{t('vault.tab_desk')}</span>
           {continueReadingBooks.length > 0 && (
             <span className="px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-cyan-500/20 text-cyan-600 dark:text-cyan-300">
               {continueReadingBooks.length}

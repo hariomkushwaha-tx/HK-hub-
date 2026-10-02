@@ -28,6 +28,7 @@ export const LanguageModal: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeRegionTab, setActiveRegionTab] = useState<'all' | 'India' | 'Global'>('all');
   const [speakingCode, setSpeakingCode] = useState<string | null>(null);
+  const [successToast, setSuccessToast] = useState<string | null>(null);
 
   const filteredLanguages = useMemo(() => {
     return LANGUAGES_LIST.filter((lang) => {
@@ -43,7 +44,12 @@ export const LanguageModal: React.FC = () => {
 
   const handleSelectLanguage = (code: SupportedLanguage) => {
     setLanguage(code);
-    setLanguageModalOpen(false);
+    const meta = getLanguageMeta(code);
+    setSuccessToast(`✓ भाषा चुन ली गई: ${meta.nativeName} (${meta.name})`);
+    setTimeout(() => {
+      setLanguageModalOpen(false);
+      setSuccessToast(null);
+    }, 350);
   };
 
   const handleSpeakGreeting = (e: React.MouseEvent, text: string, code: string) => {
@@ -103,13 +109,20 @@ export const LanguageModal: React.FC = () => {
           </button>
         </div>
 
-        {/* Public Help Banner */}
-        <div className="px-5 py-3 bg-indigo-50/70 dark:bg-indigo-950/30 border-b border-indigo-100 dark:border-indigo-900/40 flex items-center gap-2.5 text-xs text-indigo-900 dark:text-indigo-200">
-          <Info className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
-          <span>
-            <strong>जनता और विद्यार्थियों के लिए:</strong> आप अपनी पसंदीदा भाषा (हिंदी, हिंग्लिश, बंगाली, मराठी, गुजराती आदि) में वेबसाइट का आनंद ले सकते हैं।
-          </span>
-        </div>
+        {/* Public Help Banner or Success Toast */}
+        {successToast ? (
+          <div className="px-5 py-3 bg-emerald-50 dark:bg-emerald-950/60 border-b border-emerald-200 dark:border-emerald-800 flex items-center gap-2.5 text-xs text-emerald-900 dark:text-emerald-200 font-semibold animate-pulse">
+            <Check className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
+            <span>{successToast}</span>
+          </div>
+        ) : (
+          <div className="px-5 py-3 bg-indigo-50/70 dark:bg-indigo-950/30 border-b border-indigo-100 dark:border-indigo-900/40 flex items-center gap-2.5 text-xs text-indigo-900 dark:text-indigo-200">
+            <Info className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
+            <span>
+              <strong>जनता और विद्यार्थियों के लिए:</strong> आप अपनी पसंदीदा भाषा (हिंदी, हिंग्लिश, बंगाली, मराठी, गुजराती आदि) में वेबसाइट का आनंद ले सकते हैं।
+            </span>
+          </div>
+        )}
 
         {/* Search & Tabs */}
         <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 space-y-3 bg-slate-50/60 dark:bg-slate-900/60">
@@ -276,7 +289,10 @@ export const LanguageModal: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <div id="google_translate_element" className="scale-90 origin-right"></div>
+            <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 text-[11px] font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              Universal Engine Active
+            </span>
             <button
               onClick={() => handleSelectLanguage('en')}
               className="text-xs font-semibold px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors"

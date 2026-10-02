@@ -4,6 +4,7 @@ import { INITIAL_PROJECTS } from '../data/sampleProjects';
 import { EBOOKS_DATA } from '../data/ebooksData';
 import { t as translateFn } from '../utils/translations';
 import { initGoogleTranslate, triggerGoogleTranslate, resetGoogleTranslate } from '../utils/googleTranslate';
+import { applyDomTranslation } from '../utils/domTranslator';
 
 interface AppContextType {
   activeTab: NavigationTab;
@@ -181,6 +182,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       localStorage.setItem('hkhub_language', lang);
     } catch (e) {}
 
+    // Apply high-speed client-side DOM translation
+    applyDomTranslation(lang);
+
     // Synchronize Google Translate if active
     if (fullPageTranslateActive || lang !== 'en') {
       triggerGoogleTranslate(lang);
@@ -190,6 +194,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [fullPageTranslateActive]);
 
   useEffect(() => {
+    // Run DOM translator whenever language changes
+    applyDomTranslation(currentLanguage);
+
     try {
       localStorage.setItem('hkhub_fullpage_translate', fullPageTranslateActive ? 'true' : 'false');
     } catch (e) {}

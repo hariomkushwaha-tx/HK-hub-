@@ -15,8 +15,10 @@ import { MySpaceHub } from './components/myspace/MySpaceHub';
 import { EBooksHub } from './components/ebooks/EBooksHub';
 import { GlobalSearchModal } from './components/GlobalSearchModal';
 import { LegalModals } from './components/compliance/LegalModals';
+import { CookieConsentBanner } from './components/compliance/CookieConsentBanner';
 import { UserProfileModal } from './components/profile/UserProfileModal';
 import { LanguageModal } from './components/LanguageModal';
+import { FloatingLanguageWidget } from './components/FloatingLanguageWidget';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { motion } from 'motion/react';
 
@@ -61,6 +63,8 @@ const MainContent: React.FC = () => {
 
       {/* Global Modals & Overlays */}
       <LanguageModal />
+      <FloatingLanguageWidget />
+      <CookieConsentBanner />
       <GlobalSearchModal />
       <LegalModals />
       <UserProfileModal />

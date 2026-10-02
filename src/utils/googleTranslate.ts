@@ -132,24 +132,46 @@ function injectCleanTranslateStyles(): void {
 /**
  * Triggers full page translation into the target language code
  */
-export function triggerGoogleTranslate(targetLangCode: string): void {
+export function triggerGoogleTranslate(targetLangCode: string, attempt = 0): void {
   if (typeof window === 'undefined') return;
 
   const mapped = GOOGLE_TRANSLATE_LANG_MAP[targetLangCode] || targetLangCode;
 
-  // Set the cookie used by Google Translate: /en/${mapped}
-  const domain = window.location.hostname;
-  document.cookie = `googtrans=/en/${mapped}; path=/; domain=${domain};`;
-  document.cookie = `googtrans=/en/${mapped}; path=/;`;
+  try {
+    // Set the cookies used by Google Translate: /en/${mapped}
+    const domain = window.location.hostname;
+    document.cookie = `googtrans=/en/${mapped}; path=/; domain=${domain};`;
+    document.cookie = `googtrans=/en/${mapped}; path=/;`;
+    
+    // Also try without domain for localhost/port
+    if (domain.includes('.')) {
+      const parts = domain.split('.');
+      if (parts.length >= 2) {
+        const rootDomain = parts.slice(-2).join('.');
+        document.cookie = `googtrans=/en/${mapped}; path=/; domain=.${rootDomain};`;
+      }
+    }
+  } catch (e) {
+    // Cookie error safe ignore
+  }
 
   // If google combo box exists on page, select it
   const selectElem = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
   if (selectElem) {
-    selectElem.value = mapped;
-    selectElem.dispatchEvent(new Event('change'));
+    if (selectElem.value !== mapped) {
+      selectElem.value = mapped;
+      selectElem.dispatchEvent(new Event('change'));
+    }
   } else {
-    // If not yet present, ensure script is initialized
+    // Ensure script is initialized
     initGoogleTranslate();
+    
+    // Retry up to 12 times (about 3.6 seconds) if script is still loading
+    if (attempt < 12) {
+      setTimeout(() => {
+        triggerGoogleTranslate(targetLangCode, attempt + 1);
+      }, 300);
+    }
   }
 }
 

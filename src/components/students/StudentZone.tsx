@@ -36,26 +36,29 @@ import {
 } from 'lucide-react';
 
 export const StudentZone: React.FC = () => {
-  const { setActiveTab: setGlobalTab } = useApp();
+  const { setActiveTab: setGlobalTab, currentLanguage } = useApp();
   const [activeTab, setActiveTab] = useState<
     'revision' | 'dsa-patterns' | 'sysdesign' | 'job-tracker' | 'gpa-calc' | 'project-generator' | 'roadmap' | 'pomodoro' | 'resume' | 'discounts' | 'laptop' | 'ebooks-shelf'
   >('revision');
 
   const [activeReadingBook, setActiveReadingBook] = useState<EBookItem | null>(null);
 
+  const isHindi = currentLanguage === 'hi';
+  const isHinglish = currentLanguage === 'hinglish';
+
   const TABS = [
-    { id: 'revision', label: 'Exam Revision Hub', icon: <BookOpen className="w-4 h-4" /> },
-    { id: 'dsa-patterns', label: '14 DSA Patterns', icon: <Code2 className="w-4 h-4" /> },
-    { id: 'sysdesign', label: 'System Design', icon: <Boxes className="w-4 h-4" /> },
-    { id: 'job-tracker', label: 'Internship & Job Tracker', icon: <Briefcase className="w-4 h-4" /> },
-    { id: 'gpa-calc', label: 'GPA & Target Planner', icon: <Calculator className="w-4 h-4" /> },
-    { id: 'project-generator', label: 'College Project Architect', icon: <Sparkles className="w-4 h-4" /> },
-    { id: 'roadmap', label: '4-Year Career Roadmap', icon: <Compass className="w-4 h-4" /> },
-    { id: 'pomodoro', label: 'Focus Study Timer', icon: <Clock className="w-4 h-4" /> },
-    { id: 'resume', label: 'ATS Resume Builder', icon: <FileText className="w-4 h-4" /> },
-    { id: 'discounts', label: 'Free Student Packs', icon: <Award className="w-4 h-4" /> },
-    { id: 'laptop', label: 'Laptop Specs Guide', icon: <Laptop className="w-4 h-4" /> },
-    { id: 'ebooks-shelf', label: 'Textbooks Shelf', icon: <BookMarked className="w-4 h-4" /> },
+    { id: 'revision', label: isHindi ? 'परीक्षा रिवीजन हब' : isHinglish ? 'Exam Revision Hub' : 'Exam Revision Hub', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'dsa-patterns', label: isHindi ? '14 DSA पैटर्न्स' : '14 DSA Patterns', icon: <Code2 className="w-4 h-4" /> },
+    { id: 'sysdesign', label: isHindi ? 'सिस्टम डिज़ाइन' : 'System Design', icon: <Boxes className="w-4 h-4" /> },
+    { id: 'job-tracker', label: isHindi ? 'इंटर्नशिप व जॉब ट्रैकर' : isHinglish ? 'Job & Internship Tracker' : 'Internship & Job Tracker', icon: <Briefcase className="w-4 h-4" /> },
+    { id: 'gpa-calc', label: isHindi ? 'GPA कैलकुलेटर' : 'GPA & Target Planner', icon: <Calculator className="w-4 h-4" /> },
+    { id: 'project-generator', label: isHindi ? 'कॉलेज प्रोजेक्ट आर्किटेक्ट' : isHinglish ? 'College Project Architect' : 'College Project Architect', icon: <Sparkles className="w-4 h-4" /> },
+    { id: 'roadmap', label: isHindi ? '4-वर्षीय करियर रोडमैप' : '4-Year Career Roadmap', icon: <Compass className="w-4 h-4" /> },
+    { id: 'pomodoro', label: isHindi ? 'फोकस स्टडी टाइमर' : 'Focus Study Timer', icon: <Clock className="w-4 h-4" /> },
+    { id: 'resume', label: isHindi ? 'ATS रेज़्यूमे बिल्डर' : 'ATS Resume Builder', icon: <FileText className="w-4 h-4" /> },
+    { id: 'discounts', label: isHindi ? 'मुफ़्त स्टूडेंट पैक्स' : isHinglish ? 'Free Student Packs' : 'Free Student Packs', icon: <Award className="w-4 h-4" /> },
+    { id: 'laptop', label: isHindi ? 'लैपटॉप बाइंग गाइड' : 'Laptop Specs Guide', icon: <Laptop className="w-4 h-4" /> },
+    { id: 'ebooks-shelf', label: isHindi ? 'टेक्स्टबुक्स शेल्फ' : 'Textbooks Shelf', icon: <BookMarked className="w-4 h-4" /> },
   ] as const;
 
   return (
@@ -64,15 +67,20 @@ export const StudentZone: React.FC = () => {
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="flex items-center justify-center gap-2 text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
           <GraduationCap className="w-4 h-4" />
-          <span>Student Digital &amp; Academic Accelerator</span>
+          <span>{isHindi ? 'विद्यार्थी डिजिटल एवं शैक्षणिक एक्सेलरेटर' : 'Student Digital & Academic Accelerator'}</span>
         </div>
 
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
-          Student Tech &amp; Academic Zone
+          {isHindi ? 'विद्यार्थी टेक एवं अध्ययन ज़ोन' : isHinglish ? 'Student Tech & Study Zone' : 'Student Tech & Academic Zone'}
         </h1>
 
         <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-          High-yield exam cheatsheets, credit-weighted SGPA &amp; target CGPA forecasters, capstone project blueprints, 4-year engineering roadmaps, and free student developer licenses.
+          {isHindi 
+            ? 'कक्षा 6 से 12 तक के नोट्स, 14 DSA मास्टर पैटर्न्स, सिस्टम डिज़ाइन, 4-वर्षीय इंजीनियरिंग करियर रोडमैप, क्रेडिट-वेटेड GPA कैलकुलेटर और 1,530+ मुफ़्त किताबें।'
+            : isHinglish
+            ? 'Class 6-12 revision notes, 14 DSA master patterns, system design, 4-year engineering roadmap, GPA calculator aur 1,530+ free books.'
+            : 'High-yield exam cheatsheets, credit-weighted SGPA & target CGPA forecasters, capstone project blueprints, 4-year engineering roadmaps, and free student developer licenses.'
+          }
         </p>
       </div>
 

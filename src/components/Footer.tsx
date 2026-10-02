@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { setActiveTab, setActiveComplianceModal, openTechCategory, theme } = useApp();
+  const { setActiveTab, setActiveComplianceModal, openTechCategory, theme, t } = useApp();
 
   const handleTabClick = (tab: any) => {
     setActiveTab(tab);
@@ -37,8 +37,8 @@ export const Footer: React.FC = () => {
             </div>
             
             <p className="text-sm leading-relaxed max-w-sm text-slate-600 dark:text-slate-400">
-              <strong className="text-slate-900 dark:text-slate-200 block font-semibold">Everything Technology. One Smart Hub.</strong>
-              A next-generation platform for students, developers, and technology learners. Learn coding, explore practical AI, use 30+ free browser tools, and build digital knowledge without paywalls.
+              <strong className="text-slate-900 dark:text-slate-200 block font-semibold">{t('brand.slogan')}</strong>
+              {t('hero.desc')}
             </p>
 
             <div className="flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
           {/* Column 1: Technology */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-200 mb-3">
-              Technology
+              {t('nav.technology')}
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
@@ -117,7 +117,7 @@ export const Footer: React.FC = () => {
           {/* Column 2: Free Tools & Student Zone */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-200 mb-3">
-              Tools & Learning
+              {t('nav.tools')} &amp; {t('nav.students')}
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
